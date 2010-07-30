@@ -7,11 +7,26 @@
 </head>
 <body>
     <h1>Test dialog mod</h1>
-    
+    <input type="button" value="create a dialog" id="create"/> 
+    <input type="button" value="open a dialog" id="open"/> 
+    <input type="button" value="close a dialog" id="close"/> 
+    <input type="button" value="destroy a dialog" id="destroy"/> 
     <script>
         HN.openDevMode();
         HN.go('jquery, dialog', function() {
-            HN.dialog.open('xxxx');    
+            
+            $('#create').click(function() {
+                HN.dialog.open({
+                    title: '测试dialog',
+                    body: '里面的内容',
+                    foot: '<input type="button" value="close" />'
+                });
+            });
+
+            $('#open').click(HN.dialog.open);
+            $('#close').click(HN.dialog.close);
+            $('#destroy').click(HN.dialog.destroy);
+
         });    
     </script>
 </body>

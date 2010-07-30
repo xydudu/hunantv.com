@@ -3,9 +3,10 @@
 //need HN, jQuery
 //need CSS dialog.css
 
-HN && jQuery && (HN.dialog = function() {
+HN && jQuery && (HN.dialog = function(window, undefined) {
     
     var 
+    wrapper = head = body = foot = 0,
     options = {
         title: 'This is a dialog',
         body: '',
@@ -26,35 +27,42 @@ HN && jQuery && (HN.dialog = function() {
     function createBox() {
         !$('#hn-dialog').length && $('body').append(box);   
 
-        return [$('#hn-dialog'), $('#hn-dialog-head'), $('#hn-dialog-body'), $('#hn-dialog-foot')];
+        wrapper = $('#hn-dialog');
+        head = $('#hn-dialog-head');
+        body = $('#hn-dialog-body');
+        foot = $('#hn-dialog-foot');
     }
     
     return {
         open: function($options) {
-            
-            var
-            o = createBox(),
-            wrapper = o[0],
-            head = o[1],
-            body = o[2],
-            foot = o[3];
+            //如果类似 click(open) 会默认传入第一个参数
+            ($options && $options.type) && ($options = undefined);
+            if ($options === undefined) {
+                // 直接调用 HN.dialog.open(); 
+                // 打开原来创建的 dialog
+                wrapper && wrapper.show();    
+            } else {
+                //创建html
+                wrapper ? wrapper.show() : createBox();
 
-            HN.isString($options) && ($options = {body: $options});
-            $.extend(options, $options);
+                HN.isString($options) && ($options = {body: $options});
+                $.extend(options, $options);
 
-            HN.debug(options);
-            body.html(options.body);
-
+                head.html(options.title);
+                body.html(options.body);
+            }
             
         },
 
         close: function() {
-            
+            wrapper && wrapper.hide();     
         },
 
         destroy: function() {
-            
+            wrapper && wrapper.remove();     
+            wrapper = head = body = foot = 0;
         }
     };
     
-}());
+}(window));
+

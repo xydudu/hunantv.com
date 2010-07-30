@@ -53,8 +53,25 @@ HN = function() {
                 return false;
             }
         },
+        //
+        //动态加载CSS
+        //based from http://cse-mjmcl.cse.bris.ac.uk/blog/2005/08/18/1124396539593.html
+        loadCSS: function($css) {
 
-        loadCSS: function() {
+            //
+            // go on next week...
+            //
+            if(document.createStyleSheet) {
+                document.createStyleSheet($css);
+            } else {
+
+                var styles = "@import url('"+ $css +"');";
+                var newSS=document.createElement('link');
+                newSS.rel='stylesheet';
+                newSS.href='data:text/css,'+escape(styles);
+                document.getElementsByTagName("head")[0].appendChild(newSS);
+
+            }
             
         },
         // add a module       

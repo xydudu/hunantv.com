@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="http://jsdev.hunantv.com/hn.source.js"></script>
+    <title>Test-mod-ajax</title>
+</head>
+<body>
+    <h1>Test ajax module</h1> 
+    <p>
+        test ajax post 
+        <input id="post" type="button" value="go" />
+    </p>
+    <p>
+        test ajax get 
+        <input id="get" type="button" value="go" />
+    </p>
+    <p>
+        test ajax post to other domain
+        <input id="xpost" type="button" value="go" />
+    </p>
+    <script>
+        HN.openDevMode();
+        HN.go('jquery, ajax', function() {
+            
+            $('#post').click(function() {
+                var 
+                o = $(this),
+                data = {data: 'this is from html'},
+                url = 'test-mod-ajax-post.php';
+                HN.ajax.post(url, data, function($data) {
+                    HN.debug($data); 
+                    o.parent().append($data +'<span>-------------OK</span>'); 
+                });
+            });
+
+            $('#get').click(function() {
+                var 
+                o = $(this),
+                data = {data: 'this is from html'},
+                url = 'test-mod-ajax-get.php';
+                HN.ajax.get(url, data, function($data) {
+                    HN.debug($data); 
+                    o.parent().append($data +'<span>-------------OK</span>'); 
+                });
+            });
+
+            $('#xpost').click(function() {
+                var 
+                o = $(this),
+                data = {data: 'this is from html'},
+                url = 'http://test.localhost/test-xpost.php';
+                HN.ajax.xPost(url, data, function($data) {
+                    HN.debug($data); 
+                    o.parent().append($data +'<span>-------------OK</span>'); 
+                });
+            });
+        }); 
+    </script>
+</body>
+</html>

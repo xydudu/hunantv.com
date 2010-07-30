@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="http://jsdev.hunantv.com/hn.source.js"></script>
+    <title>Test-mod-cookie</title>
+</head>
+<body>
+    <h1>Test cookie mod</h1>
+    <input type="button" value="set" id="set" />
+    <input type="button" value="get" id="get" />
+    <input type="button" value="del" id="del" />
+    
+    <script>
+        HN.openDevMode();
+        HN.go('cookie', function() {
+            document.getElementById('set').onclick = function() {
+                HN.cookie.set('name', 1);
+            };
+
+            document.getElementById('get').onclick = function() {
+                var v = HN.cookie.get('name');
+                alert(v);
+                HN.debug(v);
+            };
+
+            document.getElementById('del').onclick = function() {
+                HN.cookie.remove('name'); 
+            }
+        });    
+    </script>
+</body>
+</html>

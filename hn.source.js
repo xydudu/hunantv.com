@@ -7,6 +7,7 @@ HN = function() {
     var 
     modData = {},
     jsLoaded =[],
+    cssLoaded = [],
     jsurl = 'http://jsdev.hunantv.com/', 
     isDev = 0;
 
@@ -57,14 +58,11 @@ HN = function() {
         //动态加载CSS
         //based from http://cse-mjmcl.cse.bris.ac.uk/blog/2005/08/18/1124396539593.html
         loadCSS: function($css) {
-
-            //
-            // go on next week...
-            //
+            if (cssLoaded[$css])
+                return false;
             if(document.createStyleSheet) {
                 document.createStyleSheet($css);
             } else {
-
                 var styles = "@import url('"+ $css +"');";
                 var newSS=document.createElement('link');
                 newSS.rel='stylesheet';
@@ -72,7 +70,8 @@ HN = function() {
                 document.getElementsByTagName("head")[0].appendChild(newSS);
 
             }
-            
+            HN.debug($css +' is loaded');
+            cssLoaded[$css] = true;
         },
         // add a module       
         add: function($modId, $fun) {

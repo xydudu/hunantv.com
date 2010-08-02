@@ -6,8 +6,8 @@ VERSION = 20100721,
 HN = function() {
     var 
     modData = {},
-    jsLoaded =[],
-    cssLoaded = [],
+    jsLoaded = {},
+    cssLoaded = {},
     jsurl = 'http://jsdev.hunantv.com/', 
     isDev = 0;
 
@@ -160,6 +160,10 @@ HN = function() {
 
         isString: function($o) {
             return typeof $o === 'string'; 
+        },
+
+        ie6: function() {
+            return (!$.support.opacity && $.browser.version.substr(0,1) < 7);    
         }
     }; 
 }();

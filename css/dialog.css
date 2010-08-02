@@ -5,8 +5,25 @@
  * */
 
 #hn-dialog {
-    
-    color: red;
-
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    background-color: gray;
+    padding: 10px;
+    color: #fff; 
+    z-index: 999;
 }
 
+#hn-dialog-overlay {
+    background-color: gray;
+    z-index: 998;
+}
+#hn-dialog-bgframe {
+    z-index: 997;
+}
+#hn-dialog-overlay, #hn-dialog-bgframe {
+    position: fixed;
+    left: 0;
+    border: none;
+    top: 0;
+}

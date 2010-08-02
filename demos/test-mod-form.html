@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>test.mod.form</title>
+<script src="../hn.source.js"></script>
+<style>
+.iw {border:2px solid #F99}
+.errClass {font-size:12px; color:#C30;	background:#eee;	padding:0 5px;}
+.err {color:#F66;}
+</style>
+</head>
+
+<body>
+<form id="test" action="http://www.baidu.com" method="post">
+	<input type="text" alt="text,1" />
+    <textarea></textarea>
+    <input type="submit" value="submit" />
+</form>
+</body>
+</html>
+<script type="text/javascript">
+HN.openDevMode();
+HN.go('jquery,form',function(){
+	$('#test').vForm({errBoxClass:'err',inputErrClass:'iw'});
+});
+</script>

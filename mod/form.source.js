@@ -224,7 +224,6 @@ jQuery.fn.extend({
 					return true;
 				}
 			});	
-			HN.debug(re);
 			return Boolean(re);			
 		}
 	}

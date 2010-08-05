@@ -6,7 +6,8 @@ VERSION = 20100721,
 HN = function() {
     var 
     modData = {},
-    jsLoaded =[],
+    jsLoaded = {},
+    cssLoaded = {},
     jsurl = 'http://jsdev.hunantv.com/', 
     isDev = 0;
 
@@ -27,7 +28,7 @@ HN = function() {
                     s.onload = s.onreadystatechange = null;
                 } else {             
                     src = items[n];
-                        HN.debug(src +'is loaded -------- OK');
+                        HN.debug(src +' is loaded -------- OK');
                     if (jsLoaded[src]) {
                         n ++;
                         process();
@@ -53,9 +54,24 @@ HN = function() {
                 return false;
             }
         },
+        //
+        //动态加载CSS
+        //based from http://cse-mjmcl.cse.bris.ac.uk/blog/2005/08/18/1124396539593.html
+        loadCSS: function($css) {
+            if (cssLoaded[$css])
+                return false;
+            if(document.createStyleSheet) {
+                document.createStyleSheet($css);
+            } else {
+                var styles = "@import url('"+ $css +"');";
+                var newSS=document.createElement('link');
+                newSS.rel='stylesheet';
+                newSS.href='data:text/css,'+escape(styles);
+                document.getElementsByTagName("head")[0].appendChild(newSS);
 
-        loadCSS: function() {
-            
+            }
+            HN.debug($css +' is loaded');
+            cssLoaded[$css] = true;
         },
         // add a module       
         add: function($modId, $fun) {
@@ -144,6 +160,10 @@ HN = function() {
 
         isString: function($o) {
             return typeof $o === 'string'; 
+        },
+
+        ie6: function() {
+            return (!$.support.opacity && $.browser.version.substr(0,1) < 7);    
         }
     }; 
 }();

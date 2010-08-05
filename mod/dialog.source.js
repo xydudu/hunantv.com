@@ -3,14 +3,21 @@
 //need HN, jQuery
 //need CSS dialog.css
 
-HN && jQuery && (HN.dialog = function() {
+HN && jQuery && (HN.dialog = function(window, undefined) {
     
     var 
+    wrapper = head = body = foot = bg = bgiframe = 0,
+    //初始设置
     options = {
         title: 'This is a dialog',
         body: '',
-        foot: ''
+        foot: '',
+        width: 300,
+        bgFrame: true,
+        opacity: 0.5,
+        disableBgClick: false
     },
+    //层HTML结构
     box = [
         '<div id="hn-dialog">',
         '<div id="hn-dialog-head"></div>',
@@ -18,43 +25,145 @@ HN && jQuery && (HN.dialog = function() {
         '<div id="hn-dialog-foot"></div>',
         '</div>'
     ].join(''),
+    //是否IE6
+    ie6 = HN.ie6(),
+    //遮罩层HTML结构
     overlay = [
-        '<div id="hn-dialog-overlay"></div>',
-        '<iframe id="hn-dialog-bgframe" framebroder=0 />'
-    ].join('');
+        '<iframe id="hn-dialog-bgframe" framebroder=0 />',
+        '<div id="hn-dialog-overlay"></div>'
+    ].join(''),
+    viewHW = function() {
+        var doc = $(window);
+        return {
+            height: doc.height(),
+            width: doc.width()
+        }
+    };
+    //引入相关CSS
+    HN.loadCSS(HN.config.url.js +'css/dialog.css');
 
+    //创建
     function createBox() {
         !$('#hn-dialog').length && $('body').append(box);   
+        options.bgFrame && createBG();
+           
+        wrapper = $('#hn-dialog');
+        head = $('#hn-dialog-head');
+        body = $('#hn-dialog-body');
+        foot = $('#hn-dialog-foot');
 
-        return [$('#hn-dialog'), $('#hn-dialog-head'), $('#hn-dialog-body'), $('#hn-dialog-foot')];
+        //IE6下的位置
+        if (ie6) {
+            //滚动的时候
+            $(window).scroll(center);
+            //改变大小时
+            $(window).resize(function() {
+                //改变窗体大小    
+                var view = viewHW();
+                bg &&
+                    bg.css(view),
+                    bgiframe.css(view);
+            });
+
+        }
+
+    }
+    
+    //make element in a cnter position
+    function center() {
+        var scrollTop = $(window).scrollTop();
+        wrapper.css('top', scrollTop + ($(window).height() / 2));
+        bg &&
+            bg.css('top', scrollTop),
+            bgiframe.css('top', scrollTop);
+
+        return false;
+    }
+
+    //更新层状态
+    function updateBox() {
+        HN.debug(options);
+        HN.debug('IE6? ---------'+ ie6);
+
+        if (!wrapper) return;
+        
+        var attr = {
+            'width': options.width,
+            'marginTop': getMarginTop(wrapper.height()),
+            'marginLeft': -(options.width/2)
+        },
+        view = viewHW();
+
+        ie6 && (attr.position = 'absolute');
+        wrapper.css(attr);
+        
+        //重新设定遮罩层大小
+        if (bg) {
+            //设定透明度
+            view.opacity = options.opacity;
+            bg.css(view);
+            bgiframe.css(view);
+
+            !options.disableBgClick && bg.click(HN.dialog.close);
+
+            if (ie6) {
+                bg.css('position', 'absolute');
+                bgiframe.css('position', 'absolute');
+            }
+        }
+    
+    }
+    //计算层在Y轴最佳位置
+    function getMarginTop($height) {
+        var view = viewHW();
+        return -(view.height-$height)/3;     
+    }
+    //创建背景遮罩层
+    function createBG() {
+        if (!bg && !bgiframe) {
+            $('body').append(overlay); 
+            bg = $('#hn-dialog-overlay');
+            bgiframe = $('#hn-dialog-bgframe');
+        }
     }
     
     return {
         open: function($options) {
-            
-            var
-            o = createBox(),
-            wrapper = o[0],
-            head = o[1],
-            body = o[2],
-            foot = o[3];
+            //如果类似 click(open) 会默认传入第一个参数
+            ($options && $options.type) && ($options = undefined);
+            if ($options === undefined) {
+                HN.debug('is undefined');
+                // 直接调用 HN.dialog.open(); 
+                // 打开原来创建的 dialog
+                wrapper && wrapper.show();    
+            } else {
+                //创建html
+                wrapper ? wrapper.show() : createBox();
 
-            HN.isString($options) && ($options = {body: $options});
-            $.extend(options, $options);
+                HN.isString($options) && ($options = {body: $options});
+                $.extend(options, $options);
 
-            HN.debug(options);
-            body.html(options.body);
-
-            
+                head.html(options.title);
+                body.html(options.body);
+            }
+            bg && bg.show();     
+            bgiframe && bgiframe.show();
+            updateBox();
         },
 
         close: function() {
-            
+            wrapper && wrapper.hide();     
+            bg && bg.hide();     
+            bgiframe && bgiframe.hide();
         },
 
         destroy: function() {
-            
+            wrapper && wrapper.remove();     
+            bg && bg.remove();     
+            bgiframe && bgiframe.remove();     
+            wrapper = head = body = foot = bg = bgiframe = 0;
         }
     };
     
-}());
+}(window));
+

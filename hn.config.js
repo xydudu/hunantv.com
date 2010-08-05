@@ -35,6 +35,12 @@ HN.config = {
             'mod/dialog.min.js',
             'xydudu',
             '7/29/2010'
+        ],
+
+        'form': [
+            'mod/form.min.js',
+            '729748',
+            '8/02/2010'
         ]
     }
 }

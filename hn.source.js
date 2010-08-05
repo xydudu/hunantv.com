@@ -28,7 +28,7 @@ HN = function() {
                     s.onload = s.onreadystatechange = null;
                 } else {             
                     src = items[n];
-                        HN.debug(src +'is loaded -------- OK');
+                        HN.debug(src +' is loaded -------- OK');
                     if (jsLoaded[src]) {
                         n ++;
                         process();

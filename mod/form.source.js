@@ -33,21 +33,18 @@ Msg:				文本,用于默认出错提示。如 <input alt="text,1|错误内容|errbox">  不符合条
 MsgBox:				id,用于自定义错误。如<div id='errbox'>err</div>   <input alt="text,1|错误|errbox">  出错后将显示<div id='errbox'>err</div>
 
 
-
-
 ㈡在页面加载后执行如下语句，参数说明见下
-$('#formid').vForm({errBoxClass: 'errClass',errBoxPrefixes:'errMsg_',inputErrClass:'input_warring'});
+$('#formid').vForm({msgBoxClass: 'errClass',errBoxPrefixes:'errMsg_',inputErrClass:'input_warring'});
 
-errBoxClass: 'errClass',  //默认错误消息框样式
+msgBoxClass: 'errClass',  //默认错误消息框样式
 inputErrClass:'input_warring'  //错误 表单样式
-
 */
 
 jQuery.fn.extend({
 	vForm:function(options){
 		var form=$(this),
 		defaults={
-			errBoxClass: 'errClass',  
+			msgBoxClass: 'errClass',  
 			inputErrClass:'input_warring'
 		};
 		var options = $.extend(defaults, options);
@@ -55,7 +52,7 @@ jQuery.fn.extend({
 		verify();
 		function verify($s){			
 			var 
-			re='',
+			re=true,
 			cursor=false,
 			objs=form.find('input[alt],textarea[alt],select[alt],checkbox[alt]');
 			objs.each(function(){
@@ -73,11 +70,10 @@ jQuery.fn.extend({
 					v=arguments.split('|');
 					m=v[1];
 					v[2]?user_define_errbox=v[2]:user_define_errbox=false;
-					v=v[0];
-					
+					v=v[0];					
 				}
 				if($s=='submit'){
-					re=re+' '+checkIpunt(v,m);
+					re=re&checkIpunt(v,m);
 				}else{
 					obj.unbind('blur').blur(function(){re=re+' '+checkIpunt(v,m)});
 				}
@@ -113,7 +109,7 @@ jQuery.fn.extend({
 						break;
 						case 'checkbox':
 						if ((v[1] == 1) & (!obj.attr("checked"))) {
-							return showErr(obj, m);					
+							return showErr(obj, m);
 						} else {
 							return closeErr(obj, i);					
 						}
@@ -203,7 +199,7 @@ jQuery.fn.extend({
 										top: offset.top + 'px'
 									});
 								}
-								msgbox.addClass(options.errBoxClass);
+								msgbox.addClass(options.msgBoxClass);
 								msgbox.show();							
 							}
 						}
@@ -214,7 +210,7 @@ jQuery.fn.extend({
 						$taget.select();
 						cursor=true;
 					}
-					return 0;
+					return false;
 				}
 				
 				function closeErr($taget,$i) {
@@ -225,10 +221,11 @@ jQuery.fn.extend({
 						current_errbox.remove();
 					}
 					$taget.removeClass(options.inputErrClass);
-					return 1;
+					return true;
 				}
 			});	
-			return re.indexOf('0')>0?false:true;
+			HN.debug(re);
+			return Boolean(re);			
 		}
 	}
 });

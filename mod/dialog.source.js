@@ -6,7 +6,7 @@
 HN && jQuery && (HN.dialog = function(window, undefined) {
     
     var 
-    wrapper = head = body = foot = bg = bgiframe = null,
+    wrapper = head = body = foot = bg = bgiframe = 0,
     //初始设置
     options = {
         title: 'This is a dialog',
@@ -52,18 +52,40 @@ HN && jQuery && (HN.dialog = function(window, undefined) {
         body = $('#hn-dialog-body');
         foot = $('#hn-dialog-foot');
 
+        //IE6下的位置
         if (ie6) {
-            $(window).scroll(function() {
-               //IE6下固定位置 
-            });   
+            //滚动的时候
+            $(window).scroll(center);
+            //改变大小时
+            $(window).resize(function() {
+                //改变窗体大小    
+                var view = viewHW();
+                bg &&
+                    bg.css(view),
+                    bgiframe.css(view);
+            });
+
         }
 
+    }
+    
+    //make element in a cnter position
+    function center() {
+        var scrollTop = $(window).scrollTop();
+        wrapper.css('top', scrollTop + ($(window).height() / 2));
+        bg &&
+            bg.css('top', scrollTop),
+            bgiframe.css('top', scrollTop);
+
+        return false;
     }
 
     //更新层状态
     function updateBox() {
         HN.debug(options);
         HN.debug('IE6? ---------'+ ie6);
+
+        if (!wrapper) return;
         
         var attr = {
             'width': options.width,
@@ -110,6 +132,7 @@ HN && jQuery && (HN.dialog = function(window, undefined) {
             //如果类似 click(open) 会默认传入第一个参数
             ($options && $options.type) && ($options = undefined);
             if ($options === undefined) {
+                HN.debug('is undefined');
                 // 直接调用 HN.dialog.open(); 
                 // 打开原来创建的 dialog
                 wrapper && wrapper.show();    
@@ -138,7 +161,7 @@ HN && jQuery && (HN.dialog = function(window, undefined) {
             wrapper && wrapper.remove();     
             bg && bg.remove();     
             bgiframe && bgiframe.remove();     
-            wrapper = head = body = foot = bg = bgiframe = null;
+            wrapper = head = body = foot = bg = bgiframe = 0;
         }
     };
     

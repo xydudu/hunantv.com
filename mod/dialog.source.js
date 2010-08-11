@@ -9,13 +9,15 @@ HN && jQuery && (HN.dialog = function(window, undefined) {
     wrapper = head = body = foot = bg = bgiframe = 0,
     //初始设置
     options = {
-        title: 'This is a dialog',
-        body: '',
-        foot: '',
-        width: 300,
+        title: 'This is a dialog', //set a dialog title
+        body: '', // html content
+        foot: '', // foot
+        width: 300, //nfc
         bgFrame: true,
         opacity: 0.5,
-        disableBgClick: false
+        disableBgClick: false,
+        closeClassName: 'hn-dialog-close',
+        cssFile: HN.config.url.js +'css/dialog.css'
     },
     //层HTML结构
     box = [
@@ -27,6 +29,8 @@ HN && jQuery && (HN.dialog = function(window, undefined) {
     ].join(''),
     //是否IE6
     ie6 = HN.ie6(),
+    //是否引入CSS
+    cssIsLoaded = 0,
     //遮罩层HTML结构
     overlay = [
         '<iframe id="hn-dialog-bgframe" framebroder=0 />',
@@ -37,14 +41,17 @@ HN && jQuery && (HN.dialog = function(window, undefined) {
         return {
             height: doc.height(),
             width: doc.width()
-        }
+        };
     };
     //引入相关CSS
-    HN.loadCSS(HN.config.url.js +'css/dialog.css');
-
+    function insertCss() {
+        if (cssIsLoaded) return;
+        HN.loadCSS(options.cssFile);
+        cssIsLoaded = 1;
+    }
     //创建
     function createBox() {
-        !$('#hn-dialog').length && $('body').append(box);   
+        !$('#hn-dialog').length && $('body').append(box);
         options.bgFrame && createBG();
            
         wrapper = $('#hn-dialog');
@@ -111,7 +118,8 @@ HN && jQuery && (HN.dialog = function(window, undefined) {
                 bgiframe.css('position', 'absolute');
             }
         }
-    
+        
+        bindClose();
     }
     //计算层在Y轴最佳位置
     function getMarginTop($height) {
@@ -126,7 +134,13 @@ HN && jQuery && (HN.dialog = function(window, undefined) {
             bgiframe = $('#hn-dialog-bgframe');
         }
     }
-    
+
+    //生成关闭按钮
+    function bindClose() {
+        var elem = $('.'+ options.closeClassName);        
+        elem.length && elem.click(HN.dialog.close);   
+    }
+
     return {
         open: function($options) {
             //如果类似 click(open) 会默认传入第一个参数
@@ -142,9 +156,11 @@ HN && jQuery && (HN.dialog = function(window, undefined) {
 
                 HN.isString($options) && ($options = {body: $options});
                 $.extend(options, $options);
-
+                
+                insertCss();
                 head.html(options.title);
                 body.html(options.body);
+                foot.html(options.foot);
             }
             bg && bg.show();     
             bgiframe && bgiframe.show();
@@ -162,6 +178,16 @@ HN && jQuery && (HN.dialog = function(window, undefined) {
             bg && bg.remove();     
             bgiframe && bgiframe.remove();     
             wrapper = head = body = foot = bg = bgiframe = 0;
+        },
+        
+        //通用弹出消息
+        //如设定 $times 则在对应时间后隐藏掉此框
+        alert: function($text, $times) {
+            var o = this;
+            o.open($text);
+            head.hide();
+            foot.hide();
+            $times && setTimeout(o.destroy, $times);
         }
     };
     

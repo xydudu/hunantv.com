@@ -11,6 +11,10 @@
     <input type="button" value="open a dialog" id="open"/> 
     <input type="button" value="close a dialog" id="close"/> 
     <input type="button" value="destroy a dialog" id="destroy"/> 
+    <input type="button" value="open a alert no times" id="alert"/> 
+    <input type="button" value="open a alert have times" id="alert-times"/> 
+    <br />
+    <br />
     scroll <br />
     scroll <br />
     scroll <br />
@@ -106,20 +110,35 @@
     scroll <br />
     scroll <br />
     <script>
+        //打开开发模式
         HN.openDevMode();
+        //
         HN.go('jquery, dialog', function() {
-            
+                        
+            //生成弹出层
             $('#create').click(function() {
                 HN.dialog.open({
+                    closeClassName: 'hn-dialog-close-test',
                     title: '测试dialog',
                     body: '里面的内容',
-                    foot: '<input type="button" value="close" />'
+                    foot: '<input type="button" value="close" class="hn-dialog-close-test"/>'
                 });
             });
-
+            //生成后的打开
             $('#open').click(HN.dialog.open);
+            //关闭
             $('#close').click(HN.dialog.close);
+            //删除层，HTML将remove掉
             $('#destroy').click(HN.dialog.destroy);
+
+            //
+            $('#alert').click(function() {
+                HN.dialog.alert('this is a msg');
+            });
+
+            $('#alert-times').click(function() {
+                HN.dialog.alert('this is a msg', 2000);
+            });
 
         });    
     </script>

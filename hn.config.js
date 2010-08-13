@@ -41,6 +41,12 @@ HN.config = {
             'mod/form.min.js',
             '729748',
             '8/02/2010'
+        ],
+
+        'slide': [
+            'mod/slide.min.js',
+            'xydudu',
+            '8/11/2010'
         ]
     }
-}
+};

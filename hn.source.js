@@ -3,7 +3,7 @@
 
 var 
 VERSION = 20100721,
-HN = function() {
+HN = function($win, undefined) {
     var 
     modData = {},
     jsLoaded = {},
@@ -118,7 +118,11 @@ HN = function() {
 
                 HN.debug(srcarr);
                 self.loadJS(srcarr, function() {
-                    jQuery && jQuery(document).ready($fun);    
+                    if (typeof jQuery === 'undefined') {
+                        $fun();
+                    } else {
+                        jQuery(document).ready($fun);    
+                    } 
                 });
 
             });
@@ -166,5 +170,5 @@ HN = function() {
             return (!$.support.opacity && $.browser.version.substr(0,1) < 7);    
         }
     }; 
-}();
+}(window);
 

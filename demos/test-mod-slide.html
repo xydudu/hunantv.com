@@ -103,7 +103,7 @@
 
     <input type="button"  value="go" />
     <script>
-        //HN.openDevMode();
+        HN.openDevMode();
         HN.go('jquery, slide', function() {
             var slideMore = new HN.slide({
                 slideId: 'hn-slide-more',
@@ -117,7 +117,8 @@
             var slide = new HN.slide('hn-slide');
             var slideY = new HN.slide({
                 slideId: 'hn-slide-Y',
-                direction: 'Y'
+                direction: 'Y',
+                autoPlay: true
             });
 
             $('input').click(function() {

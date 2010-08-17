@@ -22,6 +22,7 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
      
     HN.debug('HN.slide is init');    
     var options = {
+        autoPlay: false,
         slideId: 'hn-slide',//slide唯一标识ID
         itemNode: 'div',    //循环个体nodeName
         repeat: true,       //是否循环
@@ -42,6 +43,7 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
     box = con.children('div.hn-slide-box'),
     prev = s.find('.hn-slide-prev'),
     next = s.find('.hn-slide-next'),
+    t = null,
     items = box.children(options.itemNode),
     itemLen = items.length,
     itemW = $(items[0]).width() * options.scrollItems;
@@ -51,6 +53,8 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
 
     //定义滚动个体的父容器宽度
     options.direction === 'X' && box.width((itemW/options.scrollItems) * itemLen);
+    //自动
+    //options.autoPlay && (t = setTimeout(goNext, 1000));
 
     //绑定事件
     prev.length && prev.click(goPrev); 
@@ -58,6 +62,8 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
 
     function goNext() {
         HN.debug(options);
+        clearTimeout(t);
+        t = null;
         var 
         WH = options.direction === 'X' ? itemW : itemH,
         start = scroll(),
@@ -69,6 +75,7 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
             return false;
         } 
         anim(start, end);
+
         return false;
     }
 

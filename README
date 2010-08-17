@@ -1,4 +1,6 @@
 TODO
     -- mod upload
     -- mod slide
+    	-- HN.slide.goTo() not complete
+	-- autoPlay not complete
     -- extend comment

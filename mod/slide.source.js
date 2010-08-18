@@ -128,7 +128,7 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
     return {
         //外部方法 
         next: goNext,
-        goPrev: goPrev,
+        prev: goPrev,
         goTo: goTo
 
     };

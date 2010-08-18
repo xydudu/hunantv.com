@@ -47,6 +47,12 @@ HN.config = {
             'mod/slide.min.js',
             'xydudu',
             '8/11/2010'
+        ],
+
+        'upload': [
+            'mod/upload.min.js',
+            'xydudu',
+            '8/17/2010'
         ]
     }
 };

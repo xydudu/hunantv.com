@@ -1,14 +1,13 @@
-<<<<<<< HEAD
 something must do..so i am here!
 
 go baby..
 
 
-=======
 TODO
-    -- mod upload
+    -- extend upload
+    	
     -- mod slide
     	-- HN.slide.goTo() not complete
 	-- autoPlay not complete
+
     -- extend comment
->>>>>>> hunanjs-dev

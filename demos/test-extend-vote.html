@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script src="../hn.source.js"></script>
+<style type="text/css">
+div {width:60px; height:20px; background:#eee; border:#ccc solid 1px;}
+</style>
+</head>
+
+<body>
+<a id="test" href="javascript:">click me</a><div id="vote-num-d"></div><div id="vote-num-c"></div>
+<br />
+<a id="test2" href="javascript:">click me</a>
+</body>
+</html>
+<script type="text/javascript">
+//       state:0/1   errid  [顶，踩]
+var a={"err":0,"msg":[0,[100,211]]}
+//alert(a.msg[1])
+HN.openDevMode();
+HN.go('jquery,ajax',function(){
+	HN.loadJS('http://jsdev.hunantv.com/extend/vote.source.js',function(){
+		//HN.vote.getVote('123123');															
+		$('#test').click(function(){
+			HN.vote.doVote(showAlert,'1932907','star','c','mulChildPut');
+		});
+		$('#test2').click(function(){
+			HN.vote.doVote(showAlert,'123547');
+		});
+	});
+	function showAlert($msg){
+		alert($msg);
+	}
+
+});
+</script>

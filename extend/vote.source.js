@@ -29,7 +29,7 @@ HN && jQuery && HN.ajax &&(HN.vote = function(){
 				$callBack.call(this,'投票成功！');
 			}
 			, function($data) {
-				callBack.call(this,tips[$data[0]]);
+				$callBack.call(this,tips[$data[0]]);
 			})
 		},
 		//HN.vote.getVote(id,[boy,girl,missstar...],[get,mulget])

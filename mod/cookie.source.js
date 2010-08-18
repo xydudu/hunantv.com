@@ -4,7 +4,7 @@
 //be based on kissy
 //http://kissy.googlecode.com/svn/trunk/src/cookie/cookie.js
 
-HN && (HN.cookie = function() {
+window.HN && (HN.cookie = function() {
     
     var 
     doc = document,

@@ -15,7 +15,7 @@
  * */
 
 
-HN && jQuery && (HN.ajax = function() {
+window.HN && window.jQuery && (HN.ajax = function() {
      
     HN.debug('HN.ajax is init');    
     

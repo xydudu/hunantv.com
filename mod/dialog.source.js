@@ -3,7 +3,7 @@
 //need HN, jQuery
 //need CSS dialog.css
 
-HN && jQuery && (HN.dialog = function(window, undefined) {
+window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
     
     var 
     wrapper = head = body = foot = bg = bgiframe = 0,

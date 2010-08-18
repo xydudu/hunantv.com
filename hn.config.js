@@ -53,6 +53,18 @@ HN.config = {
             'mod/upload.min.js',
             'xydudu',
             '8/17/2010'
+        ],
+
+        'swfupload': [
+            'lib/swfupload.min.js',
+            'xydudu',
+            '8/18/2010'
+        ],
+
+        'swfupload.queue': [
+            'lib/swfupload.queue.min.js',
+            'xydudu',
+            '8/18/2010'
         ]
     }
 };

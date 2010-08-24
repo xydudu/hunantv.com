@@ -5,14 +5,15 @@ var
 VERSION = 20100721,
 HN = function($win, undefined) {
     var 
+    makeCombo = false,
+    addVersion = true,
     modData = {},
     jsLoaded = {},
     cssLoaded = {},
     jsurl = 'http://jsdev.hunantv.com/', 
-    isDev = 0;
+    isDev = this.isDev = 0;
 
     return {
-        //
         loadJS: function($src, $fun, $context) {
             var
             n = 0,
@@ -47,7 +48,7 @@ HN = function($win, undefined) {
                         HN.debug('['+ src +'] is not loaded');    
                     };
 
-                    s.src = src +'?'+ VERSION;
+                    s.src = addVersion ? (src +'?'+ VERSION) : src;
                     document.getElementsByTagName("head")[0].appendChild(s);
                 }    
 
@@ -104,7 +105,7 @@ HN = function($win, undefined) {
             srcarr = [],
             file,
             srcname;
-
+            
             self.loadJS(jsurl +'hn.config.js', function() {
                 
                 while (srcs.length) {
@@ -115,26 +116,35 @@ HN = function($win, undefined) {
                     } else
                         HN.debug(srcname +'is not finded!');
                 }
-
-                HN.debug(srcarr);
+                
+                makeCombo ?
+                self.combo(srcarr, $fun) :
                 self.loadJS(srcarr, function() {
-                    if (typeof jQuery === 'undefined') {
+                    window.jQuery ?
+                        jQuery(document).ready($fun) :    
                         $fun();
-                    } else {
-                        jQuery(document).ready($fun);    
-                    } 
                 });
 
             });
         },
+        
+        combo: function($files, $fun) {
+            var files = [];
+            
+            addVersion = false;
+            while ($files.length) 
+                files.push(HN.trim($files.shift()).replace(jsurl, '$'));    
+            
+            this.loadJS(jsurl +'combo/?'+ files.join('&'), $fun);
+        },
 
         //use the source file 
         openDevMode: function() {
-            isDev = 1; 
+            this.isDev = isDev = 1; 
         },
 
         debug: function($msg) {
-            if (!isDev) return;
+            //if (!isDev) return;
             if (window.console && console.log)                
                 console.log($msg);
             else {

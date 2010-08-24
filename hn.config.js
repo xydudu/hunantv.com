@@ -50,7 +50,7 @@ HN.config = {
         ],
 
         'upload': [
-            'mod/upload.min.js',
+            'extend/upload.min.js',
             'xydudu',
             '8/17/2010'
         ],

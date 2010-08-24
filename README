@@ -7,7 +7,11 @@ TODO
     -- extend upload
     	
     -- mod slide
-    	-- HN.slide.goTo() not complete
-	-- autoPlay not complete
+        -- HN.slide.goTo() not complete
+	    -- autoPlay not complete
 
     -- extend comment
+
+    -- server side combo 
+
+How input commit message with chinese...? 

@@ -14,7 +14,6 @@
  * cross domain ajax
  * */
 
-
 window.HN && window.jQuery && (HN.ajax = function() {
      
     HN.debug('HN.ajax is init');    

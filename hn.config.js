@@ -65,6 +65,12 @@ HN.config = {
             'lib/swfupload.queue.min.js',
             'xydudu',
             '8/18/2010'
+        ],
+
+        'tab': [
+            'mod/tab.min.js',
+            'xydudu',
+            '8/25/2010'
         ]
     }
 };

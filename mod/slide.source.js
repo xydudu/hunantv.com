@@ -20,7 +20,6 @@
 
 window.HN && window.jQuery && (HN.slide = function($slideId) {
      
-    HN.debug('HN.slide is init');    
     var options = {
         autoPlay: false,
         slideId: 'hn-slide',//slide唯一标识ID

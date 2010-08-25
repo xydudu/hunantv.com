@@ -1,7 +1,6 @@
 //xydudu 7.28/2010 CTU
 //cookie mod
 //need HN
-//be based on kissy
 //http://kissy.googlecode.com/svn/trunk/src/cookie/cookie.js
 
 window.HN && (HN.cookie = function() {

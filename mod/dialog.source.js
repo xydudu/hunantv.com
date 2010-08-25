@@ -2,7 +2,6 @@
 //dialog mod
 //need HN, jQuery
 //need CSS dialog.css
-
 window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
     
     var 

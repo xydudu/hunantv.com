@@ -60,7 +60,7 @@ HN = function($win, undefined) {
         //based from http://cse-mjmcl.cse.bris.ac.uk/blog/2005/08/18/1124396539593.html
         loadCSS: function($css) {
             if (cssLoaded[$css])
-                return false;
+                return;
             if(document.createStyleSheet) {
                 document.createStyleSheet($css);
             } else {

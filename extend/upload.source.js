@@ -31,14 +31,24 @@ window.HN && (HN.upload = function($settings) {
         button_text: 'select files',
         button_placeholder_id: "upload-button",
 
-        debug: HN.isDev 
+        debug: HN.isDev,
+
+        swfupload_loaded_handler: isReady    
+
         
     };
     
     $.extend(settings, $settings); 
     
-    HN.debug(settings);
+    //HN.debug(settings);
 
     return new SWFUpload(settings);
     
+    //flash 加载完
+    function isReady() {
+        
+        HN.debug('flash is ready');
+        
+    }
+
 });

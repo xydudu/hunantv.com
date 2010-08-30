@@ -71,6 +71,12 @@ HN.config = {
             'mod/tab.min.js',
             'xydudu',
             '8/25/2010'
+        ],
+
+        'comment': [
+            'extend/comment.min.js',
+            'xydudu',
+            '8/30/2010'        
         ]
     }
 };

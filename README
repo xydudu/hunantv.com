@@ -1,4 +1,4 @@
-This project named HONEY
+This project is named HONEY
 
 something must do..so i am here!
 
@@ -9,8 +9,8 @@ TODO
     -- extend upload
     	
     -- mod slide
-        -- HN.slide.goTo() not complete
-	-- autoPlay not complete
+    * HN.slide.goTo() not complete
+    * autoPlay not complete
 
     -- extend comment
 

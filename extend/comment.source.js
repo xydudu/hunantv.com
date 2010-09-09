@@ -2,15 +2,31 @@
 //comment for everywhere
 //need jquery, ajax
 
-window.HN && window.jQuery && HN.ajax (HN.comment = function() {
+window.HN && window.jQuery && HN.ajax && (HN.comment = function($settings) {
         
     var 
     settings = {
+        id: 'hn-comment',
         url: 'http://newcomment.hunantv.com',
         project: 'guestbood'
     },
     page = 1,
     currentSID = 0;
+    
+    if (HN.isString($settings)) 
+        settings.id = $settings;
+    else 
+        $.extend(settings, $settings);
+    
+    var
+    box = $('#'+ settings.id);
+    //如果没找到box，返回false
+    if (!box.length) {
+        HN.debug('没有找到相关的HTML'); 
+        return false;        
+    }
+    
+    box.html('加载评论中...');
 
     
     return {

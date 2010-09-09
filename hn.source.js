@@ -5,7 +5,7 @@ var
 VERSION = 20100721,
 HN = function($win, undefined) {
     var 
-    makeCombo = false,
+    makeCombo = true,
     addVersion = true,
     modData = {},
     jsLoaded = {},
@@ -144,7 +144,7 @@ HN = function($win, undefined) {
         },
 
         debug: function($msg) {
-            //if (!isDev) return;
+            if (!isDev) return;
             if (window.console && console.log)                
                 console.log($msg);
             else {

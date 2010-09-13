@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Test-mod-template</title>
+     <script src="http://jsdev.hunantv.com/hn.source.js"></script>
+</head>
+<body>
+    <h1>Test template</h1>
+    <div id="d1"></div>
+    <div id="d2"></div>
+    
+<script>
+    //HN.openDevMode();
+    HN.go('template', function() {
+
+        var s = HN.tmpl('x', {test:'i am from the data obj'});
+        document.getElementById('d1').innerHTML = s;
+        document.getElementById('d2').innerHTML = HN.tmpl('<div class="<%=class%>"><%=html%></div>',
+        {class:'className', html: 'i am html'});;
+
+
+
+    });
+</script>
+<script type="text/html" id="x"> 
+    <div><%=test%></div>
+<script>
+</body>
+</html>

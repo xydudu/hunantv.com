@@ -77,6 +77,12 @@ HN.config = {
             'extend/comment.min.js',
             'xydudu',
             '8/30/2010'        
+        ],
+
+        'template': [
+            'mod/template.min.js',
+            'xydudu',
+            '9/13/2010'
         ]
     }
 };

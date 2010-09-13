@@ -5,7 +5,7 @@ var
 VERSION = 20100721,
 HN = function($win, undefined) {
     var 
-    makeCombo = true,
+    makeCombo = false,
     addVersion = true,
     modData = {},
     jsLoaded = {},

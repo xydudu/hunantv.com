@@ -7,8 +7,10 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($settings) {
     var 
     settings = {
         id: 'hn-comment',
+        sid: 0,
         url: 'http://newcomment.hunantv.com',
-        project: 'guestbood'
+        project: 'guestbook',
+        theme: 'beta'
     },
     page = 1,
     currentSID = 0;
@@ -20,14 +22,39 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($settings) {
     
     var
     box = $('#'+ settings.id);
+
     //如果没找到box，返回false
     if (!box.length) {
         HN.debug('没有找到相关的HTML'); 
         return false;        
     }
+
+    if (!settings.sid) {
+        HN.debug('请传入SID');    
+        return false;
+    }
     
     box.html('加载评论中...');
-
+    getCList(page);
+    
+    //取得comment数据
+    function getCList($page) {
+        var data = {
+            page: $page,
+            c: 'comment',
+            sid: settings.sid,
+            theme: settings.theme,
+            type: settings.project
+        };
+        HN.ajax.xGet(settings.url, data, function($data) {
+           //HN.debug($data); 
+            
+        }, function() {
+            //error    
+            
+        });
+        
+    }
     
     return {
         

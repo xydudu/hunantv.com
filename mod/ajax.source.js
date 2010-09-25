@@ -110,6 +110,7 @@ window.HN && window.jQuery && (HN.ajax = function() {
             data: $data,
             dataType: dataType,
             success: function($msg){
+                HN.debug($msg);
                 callback = $msg.err? $fail: $ok;
                 callback($msg.data || $msg.msg);
             },

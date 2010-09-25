@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Test-chat</title>
+    <script src="http://jsdev.hunantv.com/hn.source.js"></script>
+</head>
+<body>
+    <h1>Honey IM demos</h1>
+    <input type="button" id="connect" value="connect" /> 
+    <input type="button" id="check" value="check" /> 
+    <input type="button" id="request-chat" value="request-chat" /> 
+    <input type="button" id="send-msg" value="send-msg" /> 
+    <script>
+        HN.openDevMode();
+        HN.go('jquery, ape.client, IM', function() {
+             
+            var im = new HN.IM(function($ape) {
+                
+                HN.debug($ape); 
+                
+                $('#connect').click(function() {
+                    //.clearSession();
+                    im.connect($ape, prompt('You uid?'));
+                    return false;                
+                });
+                
+                
+                $('#request-chat').click(function() {
+                    
+                    im.requestChat($ape, prompt('Her uid?')); 
+                    return false; 
+                });
+
+                $('#send-msg').click(function() {
+                    im.sendMsg($ape, prompt('say something?'));
+                    //im.sendMsg($ape, prompt('Her uid?'), 'holle world'); 
+                    return false; 
+                });
+                 
+            });
+
+        });
+    </script>
+</body>
+</html>

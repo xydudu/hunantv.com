@@ -83,6 +83,24 @@ HN.config = {
             'mod/template.min.js',
             'xydudu',
             '9/13/2010'
+        ],
+
+        'mootools': [
+            'lib/mootools.core.min.js',
+            'xydudu',
+            '9/19/2010'
+        ],
+
+        'ape.client': [
+            'lib/ape.client.min.js',
+            'xydudu',
+            '9/19/2010'
+        ],
+
+        'IM': [
+            'extend/im.min.js',
+            'xydudu',
+            '9/19/2010'
         ]
     }
 };

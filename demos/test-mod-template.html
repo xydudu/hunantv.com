@@ -9,22 +9,33 @@
     <h1>Test template</h1>
     <div id="d1"></div>
     <div id="d2"></div>
+    <div id="d3"></div>
     
 <script>
-    //HN.openDevMode();
+    HN.openDevMode();
     HN.go('template', function() {
 
-        var s = HN.tmpl('x', {test:'i am from the data obj'});
-        document.getElementById('d1').innerHTML = s;
+        var 
+        data = {name: [1,2,3,4]},
+        s = HN.tmpl('x', {test:'i am from the data obj'});
+        //document.getElementById('d1').innerHTML = s;
         document.getElementById('d2').innerHTML = HN.tmpl('<div class="<%=class%>"><%=html%></div>',
         {class:'className', html: 'i am html'});;
 
 
+        document.getElementById('d3').innerHTML = HN.tmpl('y', data);
 
     });
 </script>
-<script type="text/html" id="x"> 
+<div id="x" style="display:none"> 
     <div><%=test%></div>
-<script>
+<div>
+<script type="text/html" id="y"> 
+    <ul>
+        <% for (var i=0; i<name.length; i++) { %>
+            <li><%=name[i]%></li>
+        <% } %>
+    </ul>
+</script>
 </body>
 </html>

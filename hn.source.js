@@ -133,9 +133,10 @@ HN = function($win, undefined) {
             
             addVersion = false;
             while ($files.length) 
-                files.push(HN.trim($files.shift()).replace(jsurl, '$'));    
+                files.push(HN.trim($files.shift()).replace(jsurl, '/js/'));    
             
-            this.loadJS(jsurl +'combo/?'+ files.join('&'), $fun);
+            //this.loadJS(jsurl +'combo/?'+ files.join('&'), $fun);
+            this.loadJS('http://betapi.hunantv.com/jsapi?'+ files.join('&'), $fun);
         },
 
         //use the source file 

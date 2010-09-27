@@ -100,8 +100,8 @@ window.HN && window.APE && (HN.IM = function($fun) {
         from = $data.data.from,
         msg = $data.data.msg;
         (!pipe) && goChat(from);
-        
-        createMsg(from.pubid, msg, from.uin);
+
+        createMsg(from.pubid, msg, from.properties.uin);
         
     });
   

@@ -101,7 +101,7 @@ window.HN && window.APE && (HN.IM = function($fun) {
         msg = $data.data.msg;
         (!pipe) && goChat(from);
         
-        createMsg(from.pubid, msg, 0);
+        createMsg(from.pubid, msg, from.uin);
         
     });
   
@@ -127,9 +127,9 @@ window.HN && window.APE && (HN.IM = function($fun) {
     }
 
     //生成一条信息
-    function createMsg($pubid, $msg, $self) {
-        var name = $self ? '我' : '别人';
-        $('<p />').html(name +'说：'+ $msg).appendTo('#honey-im-box-'+ $pubid); 
+    function createMsg($pubid, $msg, $name) {
+        var name = $name ? $name : '我';
+        $('<p />').html(name +'说：'+ decodeURIComponent($msg)).appendTo('#honey-im-box-'+ $pubid); 
     }
 
     return {
@@ -150,7 +150,7 @@ window.HN && window.APE && (HN.IM = function($fun) {
         },
 
         sendMsg: function($ape, $msg) {
-            createMsg(pipe, $msg, 1);
+            createMsg(pipe, $msg);
             $ape.request.send('SLT_MSG', {'pipe': pipe, 'msg': $msg}); 
         }
 

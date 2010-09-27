@@ -12,7 +12,8 @@ window.HN && window.APE && (HN.IM = function($fun) {
     var 
     client = new APE.Client(),
     ape,
-    pipe = 0;
+    pipe = 0,
+    pipeself;
     
     client.load({
         identifier: 'honey-im',
@@ -42,7 +43,10 @@ window.HN && window.APE && (HN.IM = function($fun) {
     //已连接
     client.onRaw('IDENT', function($data) {
         
+        pipeself = $data.data.user.pubid;
+
         HN.debug('ident');
+        
         $('#request-chat').show();
         $('#status').html('you are online('+ $data.data.user.properties.uin +')');
 
@@ -95,8 +99,9 @@ window.HN && window.APE && (HN.IM = function($fun) {
         var 
         from = $data.data.from,
         msg = $data.data.msg;
-
-        createMsg(from.pubid, msg);
+        (!pipe) && goChat(from);
+        
+        createMsg(from.pubid, msg, 0);
         
     });
   
@@ -122,8 +127,9 @@ window.HN && window.APE && (HN.IM = function($fun) {
     }
 
     //生成一条信息
-    function createMsg($pubid, $msg) {
-        $('<p />').html($msg).appendTo('#honey-im-box-'+ $pubid); 
+    function createMsg($pubid, $msg, $self) {
+        var name = $self ? '我' : '别人';
+        $('<p />').html(name +'说：'+ $msg).appendTo('#honey-im-box-'+ $pubid); 
     }
 
     return {
@@ -144,8 +150,7 @@ window.HN && window.APE && (HN.IM = function($fun) {
         },
 
         sendMsg: function($ape, $msg) {
-
-            createMsg(pipe, $msg);
+            createMsg(pipe, $msg, 1);
             $ape.request.send('SLT_MSG', {'pipe': pipe, 'msg': $msg}); 
         }
 

@@ -129,7 +129,7 @@ window.HN && window.APE && (HN.IM = function($fun) {
     //生成一条信息
     function createMsg($pubid, $msg, $name) {
         var name = $name ? $name : '我';
-        $('<p />').html(name +'说：'+ decodeURIComponent($msg)).appendTo('#honey-im-box-'+ $pubid); 
+        $('<p />').html(name +'说：'+ decodeURIComponent($msg)).attr('className', $name ? 'honey-im-msg-other' : 'honey-im-msg-me').appendTo('#honey-im-box-'+ $pubid); 
     }
 
     return {

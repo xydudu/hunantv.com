@@ -63,17 +63,17 @@ window.HN && window.APE && (HN.IM = function($fun) {
             {'uid': uin, 'op': ok ? 1 : 3}
         );
         
-        ok && goChat(uin);
+        ok && goChat($data.data.user);
 
     });
 
     //可以直接聊天的状态
     client.onRaw('SLT_REQ', function($data) {
         
+        goChat($data.data.user);
         $('#request-chat').hide();
         $('#send-msg').show();
-        $('#status').html('you can chat with ('+ $data.data.user.properties.uin +') now!');
-
+        
     });
 
     //监听确定请求
@@ -84,17 +84,48 @@ window.HN && window.APE && (HN.IM = function($fun) {
         if (+o.op === 1) {
             //接受了
             HN.debug(o.user.properties.uin +'接受了跟你聊天。。');
-            goChat(o.user.properties.uin);
+            goChat(o.user);
         } else {
             HN.debug(o.op); 
         }
     });
+    
+    //接收消息
+    client.onRaw('SLT_MSG', function($data) {
+        var 
+        from = $data.data.from,
+        msg = $data.data.msg;
+
+        createMsg(from.pubid, msg);
+        
+    });
   
-    function goChat($uin) {
-        HN.debug($uin +'与你聊天中。。');
+    function goChat($user) {
+        HN.debug($user);
+        
+        pipe = $user.pubid;
+        drawChatBox(pipe);
+
+        $('#status').html('you can chat with ('+ $user.properties.uin +') now!');
+
         $('#request-chat').hide();
         $('#send-msg').show();
     }
+    
+    //创建聊天窗口
+    function drawChatBox($pubid) {
+        var 
+        id = 'honey-im-box-'+ $pubid;
+        if ($('#'+ id).length) return;
+        $('<div />').attr({'id': id, 'className': 'honey-im-box'}).appendTo('body');
+
+    }
+
+    //生成一条信息
+    function createMsg($pubid, $msg) {
+        $('<p />').html($msg).appendTo('#honey-im-box-'+ $pubid); 
+    }
+
     return {
         
         //连接
@@ -110,6 +141,12 @@ window.HN && window.APE && (HN.IM = function($fun) {
         //断开聊天
         closeChat: function($ape, $uin) {
             $ape.request.send('SLT_LEFT', {"uid": $uin}); 
+        },
+
+        sendMsg: function($ape, $msg) {
+
+            createMsg(pipe, $msg);
+            $ape.request.send('SLT_MSG', {'pipe': pipe, 'msg': $msg}); 
         }
 
     };

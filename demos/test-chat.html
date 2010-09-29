@@ -19,14 +19,13 @@
 <body>
     <h1>Honey IM demos</h1>
     <input type="button" id="request-chat" value="request-chat" /> 
-    <input type="button" id="send-msg" value="send-msg" /> 
     <input type="button" id="left" value="close a chat" /> 
     <p id="status"></p>
     <script>
         HN.openDevMode();
         HN.go('jquery, ape.client, ajax, IM', function() {
             
-            $('#request-chat, #send-msg, #left').hide();
+            $('#request-chat, #left').hide();
             var 
             statu = $('#status'),
             hash = +window.location.hash.substr(1),

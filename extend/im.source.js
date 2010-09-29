@@ -76,7 +76,6 @@ window.HN && window.APE && (HN.IM = function($fun) {
         
         goChat($data.data.user);
         $('#request-chat').hide();
-        $('#send-msg').show();
         
     });
 
@@ -116,7 +115,6 @@ window.HN && window.APE && (HN.IM = function($fun) {
         $('#status').html('you can chat with ('+ $user.properties.uin +') now!');
 
         $('#request-chat').hide();
-        $('#send-msg').show();
     }
     
     //创建聊天窗口

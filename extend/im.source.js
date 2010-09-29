@@ -13,7 +13,8 @@ window.HN && window.APE && (HN.IM = function($fun) {
     client = new APE.Client(),
     ape,
     pipe = 0,
-    pipeself;
+    pipeself,
+    chatlists = {};
     
     client.load({
         identifier: 'honey-im',
@@ -33,7 +34,6 @@ window.HN && window.APE && (HN.IM = function($fun) {
 
     //登陆成功
     client.onRaw('LOGIN', function($data) {
-
         HN.debug('login');
         HN.debug($data);
         $('#request-chat').show();
@@ -99,16 +99,18 @@ window.HN && window.APE && (HN.IM = function($fun) {
         var 
         from = $data.data.from,
         msg = $data.data.msg;
-        (!pipe) && goChat(from);
+
+        if (!pipe || (pipe != from.pubid))
+            goChat(from);
 
         createMsg(from.pubid, msg, from.properties.uin);
         
     });
   
     function goChat($user) {
-        HN.debug($user);
         
         pipe = $user.pubid;
+        chatlists[pipe] = $user;
         drawChatBox(pipe);
 
         $('#status').html('you can chat with ('+ $user.properties.uin +') now!');
@@ -123,13 +125,48 @@ window.HN && window.APE && (HN.IM = function($fun) {
         id = 'honey-im-box-'+ $pubid;
         if ($('#'+ id).length) return;
         $('<div />').attr({'id': id, 'className': 'honey-im-box'}).appendTo('body');
+        drawSendForm($pubid);
+    }
 
+    //创建发消息form
+    function drawSendForm($pubid) {
+        var 
+        id = '#honey-im-box-'+ $pubid,
+        user = chatlists[$pubid];
+        $(id).html('<p>发给('+ user.properties.uin +'):'+
+            '<input type="text" value="" id="honey-im-msgbox-'+ $pubid +'"  />'+
+            '<input type="button" value="send"  id="honey-im-msgbutton-'+ $pubid +'"  />'+
+            '</p>');
+        $('#honey-im-msgbutton-'+ $pubid).click(function() {
+            var msg = $('#honey-im-msgbox-'+ $pubid).val();
+            if (HN.trim(msg) === '') return; 
+            createMsg($pubid, msg);
+            ape.request.send('SLT_MSG', {'pipe': $pubid, 'msg': msg}); 
+            $('#honey-im-msgbox-'+ $pubid).val('');
+        });
     }
 
     //生成一条信息
     function createMsg($pubid, $msg, $name) {
         var name = $name ? $name : '我';
+        makeBoxHilight($pubid);
         $('<p />').html(name +'说：'+ decodeURIComponent($msg)).attr('className', $name ? 'honey-im-msg-other' : 'honey-im-msg-me').appendTo('#honey-im-box-'+ $pubid); 
+    }
+
+    function makeBoxHilight($pubid) {
+        //具体要看设计，此处为demo
+        $('.honey-im-box').css('backgroundColor', 'gray'); 
+        $('#honey-im-box-'+ $pubid).css('backgroundColor', '#666'); 
+    }
+
+    //获得在线列表
+    function onlines($fun) {
+        var 
+        url = 'http://fq.hunantv.com/chat/usersol/onlinelist',
+        list = [];
+        
+        HN.ajax.xGet(url, {}, $fun);
+
     }
 
     return {
@@ -137,21 +174,28 @@ window.HN && window.APE && (HN.IM = function($fun) {
         //连接
         connect: function($ape, $uin) {
             $ape.start({"uin": $uin}); 
+            //this.updateOnline();
         },
         
         //请求聊天
         requestChat: function($ape, $uin) {
             $ape.request.send('SLT_REQ', {"uid": $uin}); 
         },
-
+        
         //断开聊天
         closeChat: function($ape, $uin) {
             $ape.request.send('SLT_LEFT', {"uid": $uin}); 
         },
-
+        
         sendMsg: function($ape, $msg) {
             createMsg(pipe, $msg);
             $ape.request.send('SLT_MSG', {'pipe': pipe, 'msg': $msg}); 
+        },
+        
+        updateOnline: function() {
+            onlines(function($data) {
+                HN.debug($data); 
+            }); 
         }
 
     };

@@ -8,10 +8,11 @@
         .honey-im-box {
             background-color: gray;
             padding: 10px;
+            margin: 10px 0;
             color: #fff;
         }
         .honey-im-msg-me {
-            color: yellow
+            color: yellow;
         } 
     </style>
 </head>
@@ -23,9 +24,9 @@
     <p id="status"></p>
     <script>
         HN.openDevMode();
-        HN.go('jquery, ape.client, IM', function() {
+        HN.go('jquery, ape.client, ajax, IM', function() {
             
-            $('#request-chat, #send-msg').hide();
+            $('#request-chat, #send-msg, #left').hide();
             var 
             statu = $('#status'),
             hash = +window.location.hash.substr(1),

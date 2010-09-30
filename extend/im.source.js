@@ -14,7 +14,8 @@ window.HN && window.APE && (HN.IM = function($fun) {
     ape,
     pipe = 0,
     pipeself,
-    chatlists = {};
+    chatlists = {},
+    notice;
     
     client.load({
         identifier: 'honey-im',
@@ -98,7 +99,8 @@ window.HN && window.APE && (HN.IM = function($fun) {
         var 
         from = $data.data.from,
         msg = $data.data.msg;
-
+        
+        notice = HN.notice.titleMsg(from.properties.uin +'说了些话...');
         if (!pipe || (pipe != from.pubid))
             goChat(from);
 
@@ -141,6 +143,7 @@ window.HN && window.APE && (HN.IM = function($fun) {
             createMsg($pubid, msg);
             ape.request.send('SLT_MSG', {'pipe': $pubid, 'msg': msg}); 
             $('#honey-im-msgbox-'+ $pubid).val('');
+            notice.stop();
         });
     }
 
@@ -160,7 +163,7 @@ window.HN && window.APE && (HN.IM = function($fun) {
     //获得在线列表
     function onlines($fun) {
         var 
-        url = 'http://fq.hunantv.com/chat/usersol/onlinelist',
+        url = 'http://www.mangoq.com/chat/usersol/onlinelist',
         list = [];
         
         HN.ajax.xGet(url, {}, $fun);
@@ -172,7 +175,7 @@ window.HN && window.APE && (HN.IM = function($fun) {
         //连接
         connect: function($ape, $uin) {
             $ape.start({"uin": $uin}); 
-            //this.updateOnline();
+            this.updateOnline();
         },
         
         //请求聊天
@@ -188,6 +191,7 @@ window.HN && window.APE && (HN.IM = function($fun) {
         sendMsg: function($ape, $msg) {
             createMsg(pipe, $msg);
             $ape.request.send('SLT_MSG', {'pipe': pipe, 'msg': $msg}); 
+            notice.stop();
         },
         
         updateOnline: function() {
@@ -198,3 +202,4 @@ window.HN && window.APE && (HN.IM = function($fun) {
 
     };
 });
+

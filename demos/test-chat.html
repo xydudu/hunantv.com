@@ -23,7 +23,7 @@
     <p id="status"></p>
     <script>
         HN.openDevMode();
-        HN.go('jquery, ape.client, ajax, IM', function() {
+        HN.go('jquery, ape.client, ajax, IM, notice', function() {
             
             $('#request-chat, #left').hide();
             var 
@@ -41,11 +41,6 @@
                 
                 $('#request-chat').click(function() {
                     im.requestChat($ape, prompt('Her uid?')); 
-                    return false; 
-                });
-
-                $('#send-msg').click(function() {
-                    im.sendMsg($ape, prompt('say something?'));
                     return false; 
                 });
                  

@@ -101,6 +101,12 @@ HN.config = {
             'extend/im.min.js',
             'xydudu',
             '9/19/2010'
+        ],
+
+        'notice': [
+            'mod/notice.min.js',
+            'xydudu',
+            '9/30/2010'
         ]
     }
 };

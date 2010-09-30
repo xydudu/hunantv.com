@@ -86,7 +86,6 @@ window.HN && window.jQuery && (HN.ajax = function() {
                 if ($iframe.data('back')) {
                     var response = $.parseJSON($iframe[0].contentWindow.name);
                     if ($.isFunction($ok)) {
-                        HN.debug(response);
                         var 
                         callback = response.err? $fail: $ok;
                         callback(response.data);           

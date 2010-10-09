@@ -34,14 +34,16 @@ window.HN && window.APE && (HN.IM = function($fun) {
     });
 
     //登陆成功
+    /*
     client.onRaw('LOGIN', function($data) {
+
         HN.debug('login');
         HN.debug($data);
-        $('#request-chat').show();
-        $('#status').html('you are online()');
 
     });
+    */
     //已连接
+    /*
     client.onRaw('IDENT', function($data) {
         
         pipeself = $data.data.user.pubid;
@@ -52,7 +54,7 @@ window.HN && window.APE && (HN.IM = function($fun) {
         $('#status').html('you are online('+ $data.data.user.properties.uin +')');
 
     });
-    
+    */
     //监听请求聊天    
     client.onRaw('SLT_INVITE', function($data) {
         HN.debug('SLT_INVITE');
@@ -76,7 +78,6 @@ window.HN && window.APE && (HN.IM = function($fun) {
     client.onRaw('SLT_REQ', function($data) {
         
         goChat($data.data.user);
-        $('#request-chat').hide();
         
     });
 
@@ -100,10 +101,11 @@ window.HN && window.APE && (HN.IM = function($fun) {
         from = $data.data.from,
         msg = $data.data.msg;
         
+        HN.debug(from);
         notice = HN.notice.titleMsg(from.properties.uin +'说了些话...');
         if (!pipe || (pipe != from.pubid))
             goChat(from);
-
+        
         createMsg(from.pubid, msg, from.properties.uin);
         
     });
@@ -114,9 +116,6 @@ window.HN && window.APE && (HN.IM = function($fun) {
         chatlists[pipe] = $user;
         drawChatBox(pipe);
 
-        $('#status').html('you can chat with ('+ $user.properties.uin +') now!');
-
-        $('#request-chat').hide();
     }
     
     //创建聊天窗口
@@ -124,8 +123,14 @@ window.HN && window.APE && (HN.IM = function($fun) {
         var 
         id = 'honey-im-box-'+ $pubid;
         if ($('#'+ id).length) return;
-        $('<div />').attr({'id': id, 'className': 'honey-im-box'}).appendTo('body');
-        drawSendForm($pubid);
+        
+        $('#chat-box').find('.honey-im-box').hide();
+
+        $('<div />').attr({'id': id, 'className': 'honey-im-box'}).appendTo('#chat-box');
+
+        //drawSendForm($pubid);
+        $('#send-to').val($pubid);
+
     }
 
     //创建发消息form
@@ -133,6 +138,8 @@ window.HN && window.APE && (HN.IM = function($fun) {
         var 
         id = '#honey-im-box-'+ $pubid,
         user = chatlists[$pubid];
+        
+        /*
         $(id).html('<p>发给('+ user.properties.uin +'):'+
             '<input type="text" value="" id="honey-im-msgbox-'+ $pubid +'"  />'+
             '<input type="button" value="send"  id="honey-im-msgbutton-'+ $pubid +'"  />'+
@@ -145,19 +152,25 @@ window.HN && window.APE && (HN.IM = function($fun) {
             $('#honey-im-msgbox-'+ $pubid).val('');
             notice.stop();
         });
+        */
     }
 
     //生成一条信息
     function createMsg($pubid, $msg, $name) {
         var name = $name ? $name : '我';
-        makeBoxHilight($pubid);
+        $name && makeBoxHilight($pubid, $name);
+        
         $('<p />').html(name +'说：'+ decodeURIComponent($msg)).attr('className', $name ? 'honey-im-msg-other' : 'honey-im-msg-me').appendTo('#honey-im-box-'+ $pubid); 
+        
+        $('#chat-box').find('.honey-im-box').hide();
+        $('#honey-im-box-'+ $pubid).show();
     }
 
-    function makeBoxHilight($pubid) {
+    function makeBoxHilight($pubid, $uid) {
         //具体要看设计，此处为demo
-        $('.honey-im-box').css('backgroundColor', 'gray'); 
-        $('#honey-im-box-'+ $pubid).css('backgroundColor', '#666'); 
+        $('#chat-list').find('li.chat-now').removeAttr('className');
+        $('#u-'+ $uid).attr('className', 'chat-now');
+        
     }
 
     //获得在线列表
@@ -173,14 +186,22 @@ window.HN && window.APE && (HN.IM = function($fun) {
     return {
         
         //连接
-        connect: function($ape, $uin) {
+        connect: function($ape, $uin, $fun) {
             $ape.start({"uin": $uin}); 
-            this.updateOnline();
+            client.onRaw('LOGIN', function($data) {
+                $fun($data);
+            });
+            client.onRaw('IDENT', function($data) {
+                pipeself = $data.data.user.pubid;
+                $fun($data.data.user); 
+            });
         },
         
         //请求聊天
-        requestChat: function($ape, $uin) {
-            $ape.request.send('SLT_REQ', {"uid": $uin}); 
+        requestChat: function($ape, $user) {
+            var uin = $user.uid;
+            $ape.request.send('SLT_REQ', {"uid": uin}); 
+
         },
         
         //断开聊天
@@ -191,14 +212,10 @@ window.HN && window.APE && (HN.IM = function($fun) {
         sendMsg: function($ape, $msg) {
             createMsg(pipe, $msg);
             $ape.request.send('SLT_MSG', {'pipe': pipe, 'msg': $msg}); 
-            notice.stop();
+            notice && notice.stop();
         },
         
-        updateOnline: function() {
-            onlines(function($data) {
-                HN.debug($data); 
-            }); 
-        }
+        updateOnline: onlines
 
     };
 });

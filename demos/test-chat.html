@@ -14,6 +14,15 @@
         .honey-im-msg-me {
             color: yellow;
         } 
+        #list {
+            width: 200px;
+        }
+        #list li {
+            border: 1px solid #333;
+            padding: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -21,6 +30,7 @@
     <input type="button" id="request-chat" value="request-chat" /> 
     <input type="button" id="left" value="close a chat" /> 
     <p id="status"></p>
+    <ul id="list"></ul>
     <script>
         HN.openDevMode();
         HN.go('jquery, ape.client, ajax, IM, notice', function() {
@@ -48,6 +58,29 @@
                     im.closeChat($ape, prompt('Close who?')); 
                     return false;
                 });
+
+                im.updateOnline(function($data) {
+                    var 
+                    user,
+                    html = [],
+                    box = $('#list');
+                    while ($data.length) {
+                        user = $data.shift();     
+                        (+user.uid !== +hash) && 
+                            html.push('<li id="chat-'+ user.uid +'">'+ user.nick +'</li>');
+                    }
+                    box.html(html.join(''));
+                    box.find('li').click(function() {
+                        im.requestChat($ape, this.id.split('-')[1]);
+                    }).hover(function() {
+                        this.style.backgroundColor = '#333';
+                        this.style.color = '#fff';
+                    }, function() {
+                        this.style.backgroundColor = '#fff';
+                        this.style.color = '#000';
+                    });
+                });
+
             });
 
         });

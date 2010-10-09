@@ -149,11 +149,25 @@ HN = function($win, undefined) {
             if (window.console && console.log)                
                 console.log($msg);
             else {
-                var box = document.createElement('div');
-                box.style.fontSize = '12px';
-                box.style.color = 'gray';
-                box.innerHTML = $msg;
-                document.body.appendChild(box);
+                var
+                msg = document.createElement('p'),
+                box = document.getElementById('honey-debug') ? 
+                    document.getElementById('honey-debug') : 
+                    document.createElement('div'); 
+                if (!document.getElementById('honey-debug')) { 
+                    box.style.fontSize = '12px';
+                    box.style.color = 'gray';
+                    box.style.position = 'absolute';
+                    box.style.width = '300px';
+                    box.style.height = '200px';
+                    box.style.overflow = 'auto';
+                    box.style.right = '0';
+                    box.style.top = '0';
+                    box.id = 'honey-debug';
+                    document.body.appendChild(box);
+                }
+                msg.innerHTML = $msg;
+                box.appendChild(msg);
             } 
         },
 

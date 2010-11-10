@@ -33,66 +33,9 @@ window.HN && window.APE && (HN.IM = function($fun) {
         HN.debug($data);        
     });
 
-    //登陆成功
-    /*
-    client.onRaw('LOGIN', function($data) {
-
-        HN.debug('login');
-        HN.debug($data);
-
-    });
-    */
-    //已连接
-    /*
-    client.onRaw('IDENT', function($data) {
-        
-        pipeself = $data.data.user.pubid;
-
-        HN.debug('ident');
-        
-        $('#request-chat').show();
-        $('#status').html('you are online('+ $data.data.user.properties.uin +')');
-
-    });
-    */
-    //监听请求聊天    
-    client.onRaw('SLT_INVITE', function($data) {
-        HN.debug('SLT_INVITE');
-        HN.debug($data);
-        var 
-        //获取向你发送聊天邀请的人
-        uin = $data.data.user.properties.uin,
-        //是否接受？ 
-        ok = confirm(uin +' want to chat with you, chat or not?');
-        
-        ape.request.send(
-            'SLT_RSP', 
-            {'uid': uin, 'op': ok ? 1 : 3}
-        );
-        
-        ok && goChat($data.data.user);
-
-    });
-
     //可以直接聊天的状态
     client.onRaw('SLT_REQ', function($data) {
-        
         goChat($data.data.user);
-        
-    });
-
-    //监听确定请求
-    client.onRaw('SLT_RESPONSE', function($data) {
-        HN.debug('SLT_RESPONSE');     
-        HN.debug($data);     
-        var o = $data.data;
-        if (+o.op === 1) {
-            //接受了
-            HN.debug(o.user.properties.uin +'接受了跟你聊天。。');
-            goChat(o.user);
-        } else {
-            HN.debug(o.op); 
-        }
     });
     
     //接收消息
@@ -111,11 +54,10 @@ window.HN && window.APE && (HN.IM = function($fun) {
     });
   
     function goChat($user) {
-        
         pipe = $user.pubid;
         chatlists[pipe] = $user;
         drawChatBox(pipe);
-
+        
     }
     
     //创建聊天窗口
@@ -133,28 +75,6 @@ window.HN && window.APE && (HN.IM = function($fun) {
 
     }
 
-    //创建发消息form
-    function drawSendForm($pubid) {
-        var 
-        id = '#honey-im-box-'+ $pubid,
-        user = chatlists[$pubid];
-        
-        /*
-        $(id).html('<p>发给('+ user.properties.uin +'):'+
-            '<input type="text" value="" id="honey-im-msgbox-'+ $pubid +'"  />'+
-            '<input type="button" value="send"  id="honey-im-msgbutton-'+ $pubid +'"  />'+
-            '</p>');
-        $('#honey-im-msgbutton-'+ $pubid).click(function() {
-            var msg = $('#honey-im-msgbox-'+ $pubid).val();
-            if (HN.trim(msg) === '') return; 
-            createMsg($pubid, msg);
-            ape.request.send('SLT_MSG', {'pipe': $pubid, 'msg': msg}); 
-            $('#honey-im-msgbox-'+ $pubid).val('');
-            notice.stop();
-        });
-        */
-    }
-
     //生成一条信息
     function createMsg($pubid, $msg, $name) {
         var name = $name ? $name : '我';
@@ -166,7 +86,7 @@ window.HN && window.APE && (HN.IM = function($fun) {
         $('#honey-im-box-'+ $pubid).show();
     }
 
-    function makeBoxHilight($pubid, $uid) {
+    function makeBoxHileght($pubid, $uid) {
         //具体要看设计，此处为demo
         $('#chat-list').find('li.chat-now').removeAttr('className');
         $('#u-'+ $uid).attr('className', 'chat-now');
@@ -174,26 +94,25 @@ window.HN && window.APE && (HN.IM = function($fun) {
     }
 
     //获得在线列表
-    function onlines($fun) {
+    function onlines($fun, $err) {
         var 
         url = 'http://www.mangoq.com/chat/usersol/onlinelist',
         list = [];
-        
-        HN.ajax.xGet(url, {}, $fun);
-
+        HN.ajax.xGet(url, {}, $fun, $err);
     }
 
     return {
         
         //连接
-        connect: function($ape, $uin, $fun) {
+        connect: function($ape, $uin, $begin, $over) {
             $ape.start({"uin": $uin}); 
+            $begin();
             client.onRaw('LOGIN', function($data) {
-                $fun($data);
+                $over($data);
             });
             client.onRaw('IDENT', function($data) {
                 pipeself = $data.data.user.pubid;
-                $fun($data.data.user); 
+                $over($data.data.user); 
             });
         },
         
@@ -215,7 +134,29 @@ window.HN && window.APE && (HN.IM = function($fun) {
             notice && notice.stop();
         },
         
-        updateOnline: onlines
+        updateOnline: onlines,
+
+        getRequest: function($fun) {
+            //监听请求聊天    
+            client.onRaw('SLT_INVITE', function($data) {
+                HN.debug('SLT_INVITE');
+                $fun($data);
+             });    
+        },
+
+        dealRequest: function($uin, $ok) {
+            ape.request.send(
+                'SLT_RSP', 
+                {'uid': $uin, 'op': $ok}
+            );
+        },
+
+        getReponse: function($fun) {
+            //监听确定请求
+            client.onRaw('SLT_RESPONSE', $fun);
+        },
+
+        readyToChat: goChat
 
     };
 });

@@ -156,7 +156,8 @@ HN = function($win, undefined) {
                     document.createElement('div'); 
                 if (!document.getElementById('honey-debug')) { 
                     box.style.fontSize = '12px';
-                    box.style.color = 'gray';
+                    box.style.color = '#fff';
+                    box.style.backgroundColor = 'gray';
                     box.style.position = 'absolute';
                     box.style.width = '300px';
                     box.style.height = '200px';

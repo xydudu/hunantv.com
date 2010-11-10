@@ -107,6 +107,12 @@ HN.config = {
             'mod/notice.min.js',
             'xydudu',
             '9/30/2010'
+        ],
+
+        'tooltip': [
+            'mod/tooltip.min.js',
+            'xydudu',
+            '11/08/2010'
         ]
     }
 };

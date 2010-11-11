@@ -7,7 +7,7 @@
 
 HN.config = {
     url: {
-        js: 'http://jsdev.hunantv.com/'    
+        js: 'http://js.mangoq.com/honey/'    
     },
     /*
      *  存放文件，每个人添加文件后，请到此处“备案”。。。

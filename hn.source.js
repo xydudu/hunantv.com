@@ -10,7 +10,7 @@ HN = function($win, undefined) {
     modData = {},
     jsLoaded = {},
     cssLoaded = {},
-    jsurl = 'http://jsdev.hunantv.com/', 
+    jsurl = 'http://js.mangoq.com/honey/', 
     isDev = this.isDev = 0;
 
     return {
@@ -190,6 +190,10 @@ HN = function($win, undefined) {
 
         isString: function($o) {
             return typeof $o === 'string'; 
+        },
+
+        random: function($min, $max) 
+            return ($max-$min) * Math.random() + $min;
         },
 
         ie6: function() {

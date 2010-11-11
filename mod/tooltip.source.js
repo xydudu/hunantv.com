@@ -1,6 +1,6 @@
 //11.5/2010 tooltip
 //need jQuery, tmpl
-window.HN && window.jQuery && HN.tmpl && (HN.tooltip = function($elem, $msg) {
+window.HN && window.jQuery && (HN.tooltip = function($elem, $msg, $parentid) {
     
     var 
     tmpl = $('<div />').attr('className', 'msg-window'),
@@ -21,12 +21,13 @@ window.HN && window.jQuery && HN.tmpl && (HN.tooltip = function($elem, $msg) {
         var 
         msg = HN.isString($msg) ? $msg : $msg.call(this),
         pos = $(this).offset();
+        if (!msg || HN.trim(msg) == '') return;
         pos.left += 20;
         pos.top -= 80;
         tmpl.css(pos);
         clearTimeout(t2);
         t = setTimeout(function() {
-            tmpl.html(msg).appendTo('body').show();
+            tmpl.html(msg).appendTo($parentid || 'body').show();
             clearTimeout(t);
         }, 300);
         

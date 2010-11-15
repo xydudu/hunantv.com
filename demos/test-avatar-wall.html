@@ -19,6 +19,7 @@
             margin: 5px;
             padding: 0;
             border: 1px solid #fff;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -27,7 +28,6 @@
     <img src="http://avatar.hunantv.com/79/10947484_120_120.jpg?r=60" />
     <img src="http://avatar.hunantv.com/62/10947467_120_120.jpg?r=84" />
     <img src="http://avatar.hunantv.com/50/10947455_120_120.jpg?r=97" />
-    <!--
     <img src="http://avatar.hunantv.com/45/10947450_120_120.jpg?r=28" />
     <img src="http://avatar.hunantv.com/35/10947440_120_120.jpg?r=62" />
     <img src="http://avatar.hunantv.com/24/10947429_120_120.jpg?r=47" />
@@ -43,28 +43,17 @@
     <img src="http://avatar.hunantv.com/211/10799206_120_120.jpg?r=95" />
     <img src="http://avatar.hunantv.com/79/10947484_120_120.jpg?r=60" />
     <img src="http://avatar.hunantv.com/62/10947467_120_120.jpg?r=84" />
-    <img src="http://avatar.hunantv.com/50/10947455_120_120.jpg?r=97" />
-    <img src="http://avatar.hunantv.com/45/10947450_120_120.jpg?r=28" />
-    <img src="http://avatar.hunantv.com/35/10947440_120_120.jpg?r=62" />
-    <img src="http://avatar.hunantv.com/24/10947429_120_120.jpg?r=47" />
-    <img src="http://avatar.hunantv.com/25/10947430_120_120.jpg?r=91" />
-    <img src="http://avatar.hunantv.com/28/10947433_120_120.jpg?r=75" />
-    <img src="http://avatar.hunantv.com/16/10947421_120_120.jpg?r=68" />
-    <img src="http://avatar.hunantv.com/3/10947408_120_120.jpg?r=38" />
-    <img src="http://avatar.hunantv.com/252/10947402_120_120.jpg?r=43" />
-    <img src="http://avatar.hunantv.com/242/10947392_120_120.jpg?r=98" />
-    <img src="http://avatar.hunantv.com/241/10947391_120_120.jpg?r=27" />
-    <img src="http://avatar.hunantv.com/221/10947371_120_120.jpg?r=37" />
-    <img src="http://avatar.hunantv.com/218/10947368_120_120.jpg?r=34" />
-    <img src="http://avatar.hunantv.com/211/10799206_120_120.jpg?r=95" />
-    -->
+
 </div>
 
 <input type="button" id="go" value="go" />
 <script>
+
     HN.openDevMode();
     HN.go('jquery', function() {
-        
+        jQuery.easing.easeInOutQuad = function(x, t, b, c, d) {
+            return c*((t=t/d-1)*t*t + 1) + b;
+        }
         var 
         box = $('#wall-box'),
         sizes = [30, 60, 120];
@@ -80,27 +69,37 @@
                     'position': 'absolute',
                     'left': +Math.random()*800,
                     'top': +Math.random()*200,
-                    'z-index': size
+                    'z-index': size,
+                    'opacity': 0
                 }); 
-                doAnimate(that.data('opa', 1).css('opacity', 0));
+                 
+                setTimeout(function() {
+                    doAnimate(that.data('opa', 1));
+                }, ($i%2)*500);
+                
+                that.hover(function() {
+                    
+                }, function() {
+                    
+                });
+
             });
         });
         function doAnimate($elem) {
             opa = $elem.data('opa') == 0 ? 1 : 0;
             $elem.data('opa', opa);
-            
             $elem.animate({
                 opacity: opa 
-            }, HN.random(2000, 6000), function() {
-                console.log(opa); 
-                //!opa && $elem.css({
-                //    'left': +Math.random()*800,
-                //    'top': +Math.random()*200
-                //});      
+            }, HN.random(2000, 6000), 'easeInOutQuad', function() {
+                if ($(this).data('opa') == 0) {
+                    $elem.css({
+                        'left': +Math.random()*800,
+                        'top': +Math.random()*200,
+                        'opacity': 0
+                    });
+                }
                 doAnimate($elem);
-
             });
-        
         }
 
     });

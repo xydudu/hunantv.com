@@ -26,7 +26,7 @@ HN = function($win, undefined) {
             function process() {
                 if (n === l) {
                     $fun && $fun.call( $context||window );
-                    s.onload = s.onreadystatechange = null;
+                    s && (s.onload = s.onreadystatechange = null);
                 } else {             
                     src = items[n];
                         HN.debug(src +' is loaded -------- OK');
@@ -192,7 +192,7 @@ HN = function($win, undefined) {
             return typeof $o === 'string'; 
         },
 
-        random: function($min, $max) 
+        random: function($min, $max) {
             return ($max-$min) * Math.random() + $min;
         },
 

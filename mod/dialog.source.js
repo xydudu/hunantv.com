@@ -19,13 +19,42 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
         cssFile: HN.config.url.js +'css/dialog.css'
     },
     //层HTML结构
+    //box = [
+    //    '<div id="hn-dialog">',
+    //    '<div id="hn-dialog-head"></div>',
+    //    '<div id="hn-dialog-body"></div>',
+    //    '<div id="hn-dialog-foot"></div>',
+    //    '</div>'
+    //].join(''),
+
     box = [
-        '<div id="hn-dialog">',
-        '<div id="hn-dialog-head"></div>',
-        '<div id="hn-dialog-body"></div>',
-        '<div id="hn-dialog-foot"></div>',
+        '<div class="f-all">',
+        '<div class="f-top">',
+        '<div class="f-top-l"></div>',
+        '<div class="f-top-r"></div>',
+        '<div class="f-top-m w-top-m"></div>',
+        '</div>',
+        '<div class="f-main">',
+        '<div class="f-main-l w-main-l"></div>',
+        '<div class="f-main-m w-main-m" id="hn-dialog-body">',
+
+        //content
+
+        '</div>',
+        '<div class="f-main-r w-main-r">',
+        '<div class="f-main-r-bg"></div>',
+        '</div>',
+        '</div>',
+        '<div class="f-buttom">',
+        '<div class="f-buttom-l"></div>',
+        '<div class="f-buttom-r"></div>',
+        '<div class="f-buttom-m w-buttom-m">',
+        '<div class="f-buttom-m-bg"></div>',
+        '</div>',
+        '</div>',
         '</div>'
     ].join(''),
+
     //是否IE6
     ie6 = HN.ie6(),
     //是否引入CSS

@@ -3,6 +3,7 @@
 window.HN && window.jQuery && (HN.tooltip = function($elem, $msg, $parentid) {
     
     var 
+    elem = HN.isString($elem) ? $($elem) : $elem,
     tmpl = $('<div />').attr('className', 'msg-window'),
     t, 
     t2,
@@ -15,7 +16,10 @@ window.HN && window.jQuery && (HN.tooltip = function($elem, $msg, $parentid) {
     });
     
     //position
-    tmpl.css('position', 'absolute');
+    tmpl.css({
+        'position': 'absolute',
+        'zIndex': 1000    
+    });
 
     function show() {
         var 
@@ -44,7 +48,8 @@ window.HN && window.jQuery && (HN.tooltip = function($elem, $msg, $parentid) {
         
         }, 300);
     }
-     
-    $($elem).hover(show, hide);
+    
+    elem.hover(show, hide);
     
 });
+

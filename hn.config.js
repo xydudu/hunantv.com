@@ -113,6 +113,12 @@ HN.config = {
             'mod/tooltip.min.js',
             'xydudu',
             '11/08/2010'
+        ],
+
+        'select': [
+            'mod/select.min.js',
+            'xydudu',
+            '11/17/2010'
         ]
     }
 };

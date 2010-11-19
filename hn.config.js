@@ -119,6 +119,18 @@ HN.config = {
             'mod/select.min.js',
             'xydudu',
             '11/17/2010'
+        ],
+
+        'area': [
+            'mod/area.min.js',
+            'xydudu',
+            '11/18/2010'
+        ],
+
+        'render': [
+            'mod/render.min.js',
+            'xydudu',
+            '11/19/2010'
         ]
     }
 };

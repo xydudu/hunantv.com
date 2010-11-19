@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Render-mod</title>
+     <script src="http://js.mangoq.com/honey/hn.source.js"></script>
+</head>
+<body>
+    <h1 id="heading">修改模块</h1>
+    <div id="mode">loading ...</div>
+    <script id="modeshow" type="html/hn-tmpl" >
+        <div>姓名：[%=name%]</div>
+        <div>学历：[%=degree.name%]</div>
+        <input type="button" value="edit" id="edit" />
+
+    </script>
+    <script id="modeedit" type="html/hn-tmpl" >
+        <form type="post" action="render-mod-edit.php">
+            <input type="text" name="name" value="[%=name%]" />
+            <select name="degree"> [%=HN.render.drawOptions(degree.id, [{id:1, name: '没学历'}, {id:2, name: '本科'}])%] </select>
+            <input type="button" value="ok" id="ok" />
+        </form>
+    </script>
+
+    <script>
+        DATA = {name: 'i am dudu', degree: {id: 2, name: '本科'}};
+        HN.openDevMode();
+        HN.go('jquery, template, ajax, render', function() {
+            
+            HN.render({
+                'id': 'mode',
+                'data': DATA,
+                'bindShow': function($r) {
+                    $('#edit').click($r.edit);
+                },
+                'bindEdit': function($r) {
+                    $('#ok').click($r.post); 
+                }
+            });
+        });
+    </script>
+</body>
+</html>

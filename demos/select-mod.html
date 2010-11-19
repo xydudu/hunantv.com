@@ -8,17 +8,17 @@
 <body>
     <select id="province"><option>哪个省？</option></select>  
     <select id="city"><option>哪个市？</option></select>  
+    <input type="button" value="set to 株州" />
     <script>
         HN.openDevMode();
-        HN.go('select', function() {
-            var area = [
-                [{id: 1, name: '湖南'}, {id: 2, name: '湖北'}],
-                [{id: 1, pid: 1, name: '长沙'}, {id: 2, pid: 1, name: '某地'}]
-            ];
-            var a = HN.selectTwo(area, '', ['province', 'city']);
-             
-            a.setDefault({id:1, pid:1});
+        HN.go('area, select', function() {
 
+            var a = HN.selectTwo(AREA, {id:3410,pid:29,name:'黄山市'}, ['province', 'city']);
+
+            document.getElementsByTagName('input')[0].onclick = function() {
+
+                a.set({id:4302,pid:14,name:'株洲市'});
+            }
         });
     </script>
 </body>

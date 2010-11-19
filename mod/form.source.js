@@ -41,20 +41,20 @@ inputErrClass:'input_warring'  //错误 表单样式
 */
 
 jQuery.fn.extend({
-	vForm:function(options){
+	vForm:function(options,callback){
 		var form=$(this),
 		defaults={
 			msgBoxClass: 'errClass',  
 			inputErrClass:'input_warring'
 		};
 		var options = $.extend(defaults, options);
-		form.submit(function(){return verify('submit'); });
+		form.submit(function(){if(verify('submit')){callback(); return true;}else{return false;}; });
 		verify();
 		function verify($s){			
-			var 
+			var
 			re=true,
 			cursor=false,
-			objs=form.find('input[alt],textarea[alt],select[alt],checkbox[alt]');
+			objs=form.find('input[alt]:visible,textarea[alt]:visible,select[alt]:visible,checkbox[alt]:visible');
 			objs.each(function(){
 				var
 				obj=$(this),
@@ -84,13 +84,13 @@ jQuery.fn.extend({
 					val=obj.val(),
 					v = $v.split(',');
 					
-					if(obj.val()==null){var len=0}else{var len=obj.val().length}
+					if(obj.val()==null){var len=0}else{var len=obj.val().replace(/[^\x00-\xff]/g,"**").length}
 					
 					switch (v[0]) {
 						case 'text':
 						break;
 						case 'email':
-						reg_string = '(^[a-z0-9_+.-]+\@([a-z0-9-]+\.)+[a-z0-9]{2,4}$)';
+						reg_string = /^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/;
 						break;
 						case 'tel':
 						reg_string = '(^\([0-9]{3,4}-\)?[0-9]{7,8}$)';
@@ -105,7 +105,7 @@ jQuery.fn.extend({
 						reg_string = '(^[0-9]+$)';
 						break;
 						case 'idCard':
-						reg_string = '(^[0-9]{15}([0-9Xx]{2,3})?$)';
+						reg_string = '((^\d{15}$)|(^\d{17}([0-9]|X)$))';
 						break;
 						case 'checkbox':
 						if ((v[1] == 1) & (!obj.attr("checked"))) {
@@ -171,7 +171,11 @@ jQuery.fn.extend({
 				
 				function showErr($taget, $msg, $middle) {
 					if(user_define_errbox){
-						$('#'+user_define_errbox).show();
+						if(options.delayTime){
+							$('#'+user_define_errbox).show().delay(options.delayTime).fadeOut(400);
+						}else{
+							$('#'+user_define_errbox).show();
+						}
 					} else {
 						var offset = $taget.offset();
 						if($msg){

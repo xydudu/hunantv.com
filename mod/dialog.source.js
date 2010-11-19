@@ -16,7 +16,10 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
         opacity: 0.5,
         disableBgClick: false,
         closeClassName: 'hn-dialog-close',
-        cssFile: HN.config.url.js +'css/dialog.css'
+        cssFile: false,
+        className: false,
+        tmpl: false
+        //cssFile: HN.config.url.js +'css/dialog.css'
     },
     //层HTML结构
     //box = [
@@ -28,7 +31,7 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
     //].join(''),
 
     box = [
-        '<div class="f-all">',
+        '<div class="f-all" id="hn-dialog">',
         '<div class="f-top">',
         '<div class="f-top-l"></div>',
         '<div class="f-top-r"></div>',
@@ -37,8 +40,6 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
         '<div class="f-main">',
         '<div class="f-main-l w-main-l"></div>',
         '<div class="f-main-m w-main-m" id="hn-dialog-body">',
-
-        //content
 
         '</div>',
         '<div class="f-main-r w-main-r">',
@@ -79,14 +80,15 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
     }
     //创建
     function createBox() {
-        !$('#hn-dialog').length && $('body').append(box);
+        !$('#hn-dialog').length && $('body').append(options.tmpl ? options.tmpl : box);
         options.bgFrame && createBG();
            
         wrapper = $('#hn-dialog');
         head = $('#hn-dialog-head');
         body = $('#hn-dialog-body');
         foot = $('#hn-dialog-foot');
-
+        
+        options.className && wrapper.attr('className', options.className);
         //IE6下的位置
         if (ie6) {
             //滚动的时候
@@ -124,7 +126,7 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
         
         var attr = {
             'width': options.width,
-            'marginTop': getMarginTop(wrapper.height()),
+            'top': getTop(wrapper.height()),
             'marginLeft': -(options.width/2)
         },
         view = viewHW();
@@ -150,9 +152,9 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
         bindClose();
     }
     //计算层在Y轴最佳位置
-    function getMarginTop($height) {
+    function getTop($height) {
         var view = viewHW();
-        return -(view.height-$height)/3;     
+        return (view.height-$height)/3;     
     }
     //创建背景遮罩层
     function createBG() {
@@ -179,13 +181,14 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
                 // 打开原来创建的 dialog
                 wrapper && wrapper.show();    
             } else {
+                
+                HN.isString($options) && ($options = {body: $options});
+                $.extend(options, $options);
+
                 //创建html
                 wrapper ? wrapper.show() : createBox();
 
-                HN.isString($options) && ($options = {body: $options});
-                $.extend(options, $options);
-                
-                insertCss();
+                options.cssFile && insertCss();
                 head.html(options.title);
                 body.html(options.body);
                 foot.html(options.foot);
@@ -199,6 +202,7 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
             wrapper && wrapper.hide();     
             bg && bg.hide();     
             bgiframe && bgiframe.hide();
+            return false;
         },
 
         destroy: function() {
@@ -216,6 +220,18 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
             head.hide();
             foot.hide();
             $times && setTimeout(o.destroy, $times);
+        },
+
+        getAttrs: function($id) {
+            var 
+            elem = $('#'+ $id),
+            c = elem.attr('className').split('|');
+
+            return {
+                'html': elem.html(),
+                'className': c[0],
+                'width': c[1]
+            };    
         }
     };
     

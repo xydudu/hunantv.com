@@ -103,7 +103,6 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
             });
 
         }
-
     }
     
     //make element in a cnter position

@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://jsdev.hunantv.com/hn.source.js"></script>
+<title>Test-mod-tab</title>
+<style>
+html {margin:0; padding:0; font-size:12px; color:#900;}
+hr {margin:20px 0;}
+div {color:#000;}
+#tab1 {width:350px; height:80px; background:#fff;}
+#tab2 {width:350px; height:80px; background:#fff;}
+#tab3 {width:350px; height:80px; background:#fff;}
+#tab4 {width:350px; height:80px; background:#fff;}
+#tab5 {width:350px; height:80px; background:#fff;}
+#tab6 {width:350px; height:80px; background:#fff;}
+
+.bar {clear:both; float:left; width:350px;}
+.bar ul { list-style:none outside none; margin:0px; padding:0px;}
+.bar ul li{ float:left; width:80px; height:30px; line-height:30px; cursor:pointer; margin:0 1px 0 0; text-align:center; padding:0px; background:#999;}
+
+.bar ul li.selecteds {background:#f00; }
+.bar ul li.a {background:#033; }
+.bar ul li.b {background:#0f0; }
+.bar ul li.c {background:#0cf; }
+.bar ul li.d {background:#c0f; }
+
+.content {float:left;width:348px; height:49px; border:1px solid #CCC;}
+
+.content .content_index {display:block}
+</style>
+</head>
+<body>
+var tab = new HN.tab({<br>
+<div style="margin-left:20px;color:#900;">tabId: 'tab-id',                  //tab唯一标识ID*/<br>
+index: 0 ,                        //默认显示第几个*/<br>
+eventType: 'click',               //触发事件 click/mouseover*/<br>
+tabClass: 'selecteds',            //自定义 按钮样式  字符串形式 为统一样式 eq:selecteds，数组 为一一对应样式 eq:['a','b','c','d']<br>
+//AUTO<br>
+autoSwitch: false,                //是否自动切换 false/true*/<br>
+autoSwitchTime:5000,              //切换时间030<br>
+//ajax<br>
+ajax: null                    //null {url:,type},AJAX取回数据后，会给对应DIV加一个itgeted 的CLASS eq:<code>ajax:{url:'test-mod-tab-ajaxtemplate.php',type:'GET'}</code><br>
+</div>
+}); 
+<br>
+<hr/>
+基本的
+<div id="tab1">
+  <!--选项按钮-->
+  <div class="bar">
+    <ul id="fast-post-bar">
+      <li>选项一</li>
+      <li>选项二</li>
+      <li>选项三</li>
+      <li>选项四</li>
+    </ul>
+  </div>
+  <!--切换内容-->
+  <div class="content">
+      <div>内容1</div>
+      <div>内容2</div>
+      <div>内容3</div>
+      <div>内容4</div>
+  </div>
+</div>
+<hr/>
+自动翻动的  <code>autoSwitch:true,autoSwitchTime:3000</code>
+<div id="tab2">
+  <!--选项按钮-->
+  <div class="bar">
+    <ul id="fast-post-bar">
+      <li>选项一</li>
+      <li>选项二</li>
+      <li>选项三</li>
+      <li>选项四</li>
+    </ul>
+  </div>
+  <!--切换内容-->
+  <div class="content">
+      <div>内容1</div>
+      <div>内容2</div>
+      <div>内容3</div>
+      <div>内容4</div>
+  </div>
+</div>
+<hr/>
+自定义初始项的 <code>index:2</code>
+<div id="tab3">
+  <!--选项按钮-->
+  <div class="bar">
+    <ul id="fast-post-bar">
+      <li>选项一</li>
+      <li>选项二</li>
+      <li>选项三</li>
+      <li>选项四</li>
+    </ul>
+  </div>
+  <!--切换内容-->
+  <div class="content">
+      <div>内容1</div>
+      <div>内容2</div>
+      <div>内容3</div>
+      <div>内容4</div>
+  </div>
+</div>
+<hr/>
+AJAX取模板的  <code>ajax:{url:'test-mod-tab-ajaxtemplate.php',type:'GET'}</code>
+<div id="tab4">
+  <!--选项按钮-->
+  <div class="bar">
+    <ul id="fast-post-bar">
+      <li>选项一</li>
+      <li>选项二</li>
+      <li>选项三</li>
+      <li>选项四</li>
+    </ul>
+  </div>
+  <!--切换内容-->
+  <div class="content">
+      <div>内容1</div>
+      <div>内容2</div>
+      <div>内容3</div>
+      <div>内容4</div>
+  </div>
+</div>
+
+<hr/>
+这可是彩色的TAB   <code>tabClass:['a','b','c','d']</code>
+<div id="tab5">
+  <!--选项按钮-->
+  <div class="bar">
+    <ul id="fast-post-bar">
+      <li>选项一</li>
+      <li>选项二</li>
+      <li>选项三</li>
+      <li>选项四</li>
+    </ul>
+  </div>
+  <!--切换内容-->
+  <div class="content">
+      <div>内容1</div>
+      <div>内容2</div>
+      <div>内容3</div>
+      <div>内容4</div>
+  </div>
+</div>
+
+<hr/>
+鼠标事件变了   <code>eventType:'mouseover'</code>
+<div id="tab6">
+  <!--选项按钮-->
+  <div class="bar">
+    <ul id="fast-post-bar">
+      <li>选项一</li>
+      <li>选项二</li>
+      <li>选项三</li>
+      <li>选项四</li>
+    </ul>
+  </div>
+  <!--切换内容-->
+  <div class="content">
+      <div>内容1</div>
+      <div>内容2</div>
+      <div>内容3</div>
+      <div>内容4</div>
+  </div>
+</div>
+
+<script>
+	//HN.openDevMode();
+	HN.go('jquery, tab', function() {
+		var tab1 = new HN.tab('tab1'); 
+		
+		var tab2 = new HN.tab({
+			tabId:'tab2',
+			autoSwitch:true,
+			autoSwitchTime:3000
+		}); 
+		
+		var tab3 = new HN.tab({
+			tabId:'tab3',
+			index:2
+		}); 
+								  
+		var tab4 = new HN.tab({
+			tabId:'tab4',
+			ajax:{url:'test-mod-tab-ajaxGetTemplate.php',type:'GET'}
+		});  
+		
+		var tab5 = new HN.tab({
+			tabId:'tab5',
+			tabClass:['a','b','c','d']
+		}); 
+		
+		var tab6 = new HN.tab({
+			tabId:'tab6',
+			eventType:'mouseover'
+		}); 
+	});
+</script>
+</body>
+</html>

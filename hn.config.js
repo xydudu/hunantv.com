@@ -131,6 +131,18 @@ HN.config = {
             'mod/render.min.js',
             'xydudu',
             '11/19/2010'
+        ],
+		
+        'autocomplete': [
+            'mod/autocomplete.min.js',
+            '729748',
+            '11/20/2010'
+        ],
+
+        'IMdialog': [
+            'extend/im.dialog.source.js',
+            'xydudu',
+            '11/20/2010'
         ]
     }
 };

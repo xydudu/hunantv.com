@@ -1,5 +1,5 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>Im-dialog</title>
@@ -7,118 +7,19 @@
     <link href="http://css.mangoq.com/ui/mangoq/2010v1/css/frame.css" rel="stylesheet" type="text/css" />
     <link href="http://css.mangoq.com/ui/mangoq/2010v1/css/chatlist.css" rel="stylesheet" type="text/css" />
     <script src="http://js.mangoq.com/honey/hn.source.js"></script>
+    <style>
+        .chat-frame {
+            text-align: left;
+        } 
+    </style>
 </head>
 <body>
-    <script type="html/tmpl">
-        <div class="chat-frame">
-            <div class="chat-frame-top">
-                <div class="l">与 Jesmain 聊天中 </div>
-                <div class="r chat-frame-top-x"><a href="#"><img border="0" align="absmiddle" src="/ui/mangoq/2010v1/images/ico/x.gif"></a></div>
-            </div>
-            <div class="chat-frame-mid">
-                <div class="l">
-                    <div class="chat-frame-userinfo">
-                        <div class="chat-frame-face"><a href="#"><img border="0" src="/ui/mangoq/2010v1/images/face/803.jpg"></a></div>
-                        <div class="chat-frame-userinfo-content">
-                            <div class="chat-frame-name"><span>Jesmain</span> &nbsp; &nbsp; 21岁 长沙</div>
-                            <div class="chat-frame-action"><a href="#"><img border="0" onmouseout="this.src='/ui/mangoq/2010v1/images/button/useraction-addf-default.jpg';" onmouseover="this.src='/ui/mangoq/2010v1/images/button/useraction-addf-mouseon.jpg';" src="/ui/mangoq/2010v1/images/button/useraction-addf-default.jpg"></a><a href="#"><img border="0" onmouseout="this.src='/ui/mangoq/2010v1/images/button/useraction-or-default.jpg';" onmouseover="this.src='/ui/mangoq/2010v1/images/button/useraction-or-mouseon.jpg';" src="/ui/mangoq/2010v1/images/button/useraction-or-default.jpg"></a></div>
-                        </div>
-                    </div>
-                    <div class="chat-frame-chatlog">
-                        <div class="chat-frame-content">
-                            <div class="chat-frame-inputs-name-a">Jesmain  13:30:24</div>
-                            <span>国庆长假准备去哪里旅游？</span>
-                            <div class="chat-frame-inputs-name-b">王子晨  13:30:55</div>
-                            <span>我已经订好了去巴厘岛和马尔代夫的机票。</span>
-                            <div class="chat-frame-inputs-name-a">Jesmain  13:30:24</div>
-                            <span>多拍一些漂亮的照片回来 </span>
-                            <div class="chat-frame-inputs-name-b">王子晨  13:30:55</div>
-                            <span><img width="16" height="16" align="absmiddle" src="/ui/mangoq/2010v1/images/ico/face_haha.jpg"> 忘记带相机了</span> </div>
-                        <div class="chat-frame-status"> Jesmain 正在输入...</div>
-                    </div>
-                    <div class="chat-frame-form">
-                        <div class="chat-frame-icos"><a href="#"><img border="0" src="/ui/mangoq/2010v1/images/ico/face_smile.jpg"></a> &nbsp; <a href="#"><img border="0" src="/ui/mangoq/2010v1/images/ico/face_message.jpg"></a></div>
-                        <div class="chat-frame-textbox">
-                            <textarea id="message" rows="" cols="" name="message"></textarea>
-                        </div>
-                        <div class="chat-frame-buttom">
-                            <input type="image" onmouseout="this.src='/ui/mangoq/2010v1/images/button/send-default.gif';" onmouseover="this.src='/ui/mangoq/2010v1/images/button/send-mouseon.gif';" src="/ui/mangoq/2010v1/images/button/send-default.gif" name="">
-                        </div>
-                    </div>
-                </div>
-                <div class="l chat-frame-users">
-                    <div class="chat-frame-users-default">
-                        <div class="chat-frame-users-dot"><img width="10" height="10" src="/ui/mangoq/2010v1/images/ico/y_blue.jpg"></div>
-                        <div class="chat-frame-users-name"><a href="#">潇洒小姐</a></div>
-                        <div class="chat-frame-users-del"><a href="#"><img width="8" height="7" border="0" src="/ui/mangoq/2010v1/images/ico/action_del_default.gif"></a></div>
-                        <div class="chat-frame-users-face"><a href="#"><img width="30" height="30" border="0" src="/ui/mangoq/2010v1/images/face/302.jpg"></a></div>
-                    </div>
-                    <div class="chat-frame-users-active">
-                        <div class="chat-frame-users-dot"><img width="10" height="10" src="/ui/mangoq/2010v1/images/ico/y_white.gif"></div>
-                        <div class="chat-frame-users-name"><a href="#">Jesmain</a></div>
-                        <div class="chat-frame-users-del"><a href="#"><img width="9" height="8" border="0" src="/ui/mangoq/2010v1/images/ico/action_del_active.gif"></a></div>
-                        <div class="chat-frame-users-face"><a href="#"><img width="30" height="30" border="0" src="/ui/mangoq/2010v1/images/face/301.jpg"></a></div>
-                    </div>
-                    <div class="chat-frame-users-default">
-                        <div class="chat-frame-users-dot"><img width="10" height="10" src="/ui/mangoq/2010v1/images/ico/y_blue.jpg"></div>
-                        <div class="chat-frame-users-name"><a href="#">老狼</a></div>
-                        <div class="chat-frame-users-del"><a href="#"><img width="8" height="7" border="0" src="/ui/mangoq/2010v1/images/ico/action_del_default.gif"></a></div>
-                        <div class="chat-frame-users-face"><a href="#"><img width="30" height="30" border="0" src="/ui/mangoq/2010v1/images/face/303.jpg"></a></div>
-                    </div>
-                    <div class="chat-frame-users-default">
-                        <div class="chat-frame-users-dot"><img width="10" height="10" src="/ui/mangoq/2010v1/images/ico/y_yellow.jpg"></div>
-                        <div class="chat-frame-users-name"><a href="#">爷爷泡的茶</a></div>
-                        <div class="chat-frame-users-del"><a href="#"><img width="8" height="7" border="0" src="/ui/mangoq/2010v1/images/ico/action_del_default.gif"></a></div>
-                        <div class="chat-frame-users-face"><a href="#"><img width="30" height="30" border="0" src="/ui/mangoq/2010v1/images/face/304.jpg"></a></div>
-                    </div>
-                    <div class="chat-frame-users-default">
-                        <div class="chat-frame-users-dot"><img width="10" height="10" src="/ui/mangoq/2010v1/images/ico/y_blue.jpg"></div>
-                        <div class="chat-frame-users-name"><a href="#">嘻哈空姐</a></div>
-                        <div class="chat-frame-users-del"><a href="#"><img width="8" height="7" border="0" src="/ui/mangoq/2010v1/images/ico/action_del_default.gif"></a></div>
-                        <div class="chat-frame-users-face"><a href="#"><img width="30" height="30" border="0" src="/ui/mangoq/2010v1/images/face/305.jpg"></a></div>
-                    </div>
-                    <div class="chat-frame-users-default">
-                        <div class="chat-frame-users-dot"><img width="10" height="10" src="/ui/mangoq/2010v1/images/ico/y_blue.jpg"></div>
-                        <div class="chat-frame-users-name"><a href="#">白菜姑娘</a></div>
-                        <div class="chat-frame-users-del"><a href="#"><img width="8" height="7" border="0" src="/ui/mangoq/2010v1/images/ico/action_del_default.gif"></a></div>
-                        <div class="chat-frame-users-face"><a href="#"><img width="30" height="30" border="0" src="/ui/mangoq/2010v1/images/face/306.jpg"></a></div>
-                    </div>
-                    <div class="chat-frame-users-default">
-                        <div class="chat-frame-users-dot"><img width="10" height="10" src="/ui/mangoq/2010v1/images/ico/y_purple.jpg"></div>
-                        <div class="chat-frame-users-name"><a href="#">孙悟空</a></div>
-                        <div class="chat-frame-users-del"><a href="#"><img width="8" height="7" border="0" src="/ui/mangoq/2010v1/images/ico/action_del_default.gif"></a></div>
-                        <div class="chat-frame-users-face"><a href="#"><img width="30" height="30" border="0" src="/ui/mangoq/2010v1/images/face/307.jpg"></a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </script>
-
     <input type="button" value="go"  />
 <script>
     HN.openDevMode();
-    HN.go('jquery, dialog', function() {
-        
-        var tmpl = [
-            '<div class="chat-frame" id="hn-dialog">',
-                '<div class="chat-frame-top">',
-                    '<div class="l" id="hn-dialog-head"></div>',
-                    '<div class="r chat-frame-top-x"><a href="#" class="hn-dialog-close">',
-                        '<img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/x.gif" align="absmiddle" border="0" />',
-                    '</a></div>',
-                '</div>',
-                '<div class="chat-frame-mid" id="hn-dialog-body"></div>',
-            '</div>' 
-        ].join(''); 
-       
+    HN.go('jquery, ajax, dialog, template, IMdialog', function() {
         $('input').click(function() {
-            HN.dialog.open({
-                'tmpl': tmpl,
-                'body': 'test',
-                'disableBgClick': true,
-                'opacity': 0,
-                'width': 590
-            });
+            HN.IMdialog({uid: 1, cuid: 3});
         });
     });
 </script>

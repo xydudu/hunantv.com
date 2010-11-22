@@ -9,21 +9,35 @@
     <h1 id="heading">修改模块</h1>
     <div id="mode">loading ...</div>
     <script id="modeshow" type="html/hn-tmpl" >
-        <div>姓名：[%=name%]</div>
-        <div>学历：[%=degree.name%]</div>
+        <div>文本框：[%=name%]</div>
+		<div>单选：[%=sex.value%]</div>
+        <div>下拉框：[%=degree.value%]</div>
+		<div>多选：[%=interest.value%]</div>
         <input type="button" value="edit" id="edit" />
 
     </script>
     <script id="modeedit" type="html/hn-tmpl" >
         <form type="post" action="render-mod-edit.php">
             <input type="text" name="name" value="[%=name%]" />
-            <select name="degree"> [%=HN.render.drawOptions(degree.id, [{id:1, name: '没学历'}, {id:2, name: '本科'}])%] </select>
+            [%=HN.render.option('radio', sex.id, 'sex', tempData.sexs)%]
+            [%=HN.render.option('select', degree.id, 'degree', tempData.degrees)%]
+			[%=HN.render.option('checkbox', interest.id, 'interest[]', tempData.interests)%]
             <input type="button" value="ok" id="ok" />
         </form>
     </script>
 
     <script>
-        DATA = {name: 'i am dudu', degree: {id: 2, name: '本科'}};
+		//初始数据
+		DATA = {name: 'i am dudu', degree: {id: 2, value: '本科'}, interest:{id:[1,2],value:'打球,泡MM'}, sex:{id:0,value:'男'}};
+		
+		//选项数据源  ，注意变量名不能和上面DATA里的元素名相冲突 比如 sexs和sex 要区分开
+		var	tempData={};
+		tempData.sexs=[{id:0, value: '男'}, {id:1, value: '女'}],
+		tempData.degrees=[{id:1, value: '没学历'}, {id:2, value: '本科'}],
+		tempData.interests=[{id:1, value: '打球'}, {id:2, value: '看电影'}, {id:3, value: '泡MM'}];
+		//tempData.nations... more.....
+		
+		
         HN.openDevMode();
         HN.go('jquery, template, ajax, render', function() {
             

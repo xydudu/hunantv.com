@@ -10,7 +10,7 @@ HN = function($win, undefined) {
     modData = {},
     jsLoaded = {},
     cssLoaded = {},
-    jsurl = 'http://js.mangoq.com/honey/', 
+    jsurl = 'http://js.mangoq.com/honey/' ,
     isDev = this.isDev = 0;
 
     return {
@@ -170,6 +170,19 @@ HN = function($win, undefined) {
                 msg.innerHTML = $msg;
                 box.appendChild(msg);
             } 
+        },
+        
+        handleEvent: function($e) {
+            var 
+            e = $e || window.event,
+            target = $(e.target || e.srcElement);
+                    
+            if(target.attr('hnevent')) {
+                HN.debug(1);
+                var fun = target.attr('hnevent').split('|');
+                fun[0].call(target, fun.slice(1));
+            }
+            
         },
 
         /* 功能函数 */

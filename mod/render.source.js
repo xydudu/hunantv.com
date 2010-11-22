@@ -28,7 +28,6 @@ window.HN && HN.tmpl && (HN.render = function($options) {
             params = form.serialize();
                 
             HN.ajax.post(url, params, function($data) {
-
                 $options.data = $data; 
                 box.html(HN.tmpl(showTmpl, $data));
                 $options.bindShow(method);
@@ -44,16 +43,52 @@ window.HN && HN.tmpl && (HN.render = function($options) {
 
 });
 
-HN.render.drawOptions = function($default, $list) {
+function in_array($str,$arr){
+	for(i=0;i<$arr.length;i++){
+		if($arr[i] == $str){
+			return true;
+		}
+	}
+	return false;
+}
+
+HN.render.option = function($type, $default, $name, $list) {
     var 
     options = [];
-
-    for (var i = 0, l = $list.length; i < l; i ++) {
-        (function($id, $name) {
-            $id == $default ?
-            options.push('<option selected="selected" value="'+ $id +'">'+ $name +'</option>'): 
-            options.push('<option value="'+ $id +'">'+ $name +'</option>'); 
-        })($list[i].id, $list[i].name);
-    }
+	switch($type){
+		case 'select':
+		options.push('<select name="'+$name+'">');
+		for (var i = 0, l = $list.length; i < l; i ++) {
+			(function($key, $value) {
+				$key == $default ?
+				options.push('<option selected="selected" value="'+ $key +'">'+ $value +'</option>'): 
+				options.push('<option value="'+ $key +'">'+ $value +'</option>'); 
+			})($list[i].id, $list[i].value);
+		}
+		options.push('</select>');
+		break;
+		
+		case 'checkbox':
+		for (var i = 0, l = $list.length; i < l; i ++) {
+			(function($key, $value) {
+				in_array($key,$default) ?
+				options.push('<input name="'+ $name +'" type="checkbox" value="'+ $key+'|'+$value+'" checked>'+ $value): 
+				options.push('<input name="'+ $name +'" type="checkbox" value="'+ $key+'|'+$value+'">'+ $value); 
+			})($list[i].id, $list[i].value);
+		}
+		break;
+		
+		case 'radio':
+		for (var i = 0, l = $list.length; i < l; i ++) {
+			(function($key, $value) {
+				$key == $default ?
+				options.push('<input name="'+ $name +'" type="radio" value="'+ $key+'" checked>'+ $value): 
+				options.push('<input name="'+ $name +'" type="radio" value="'+ $key+'">'+ $value); 
+			})($list[i].id, $list[i].value);
+		}
+		break;
+		
+		default:
+	}
     return options.join('');
 }

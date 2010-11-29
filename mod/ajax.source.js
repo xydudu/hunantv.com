@@ -87,7 +87,7 @@ window.HN && window.jQuery && (HN.ajax = function() {
                     var response = $.parseJSON($iframe[0].contentWindow.name);
                     if ($.isFunction($ok)) {
                         var 
-                        callback = response.err? $fail: $ok;
+                        callback = +response.err? $fail: $ok;
                         callback(response.data);           
                     }
                     $form.empty().remove();
@@ -110,7 +110,7 @@ window.HN && window.jQuery && (HN.ajax = function() {
             dataType: dataType,
             success: function($msg){
                 HN.debug($msg);
-                callback = $msg.err? $fail: $ok;
+                callback = +$msg.err? $fail: $ok;
                 callback($msg.data || $msg.msg);
             },
             error: function($a, $b, $c) {

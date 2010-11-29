@@ -18,7 +18,8 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
         closeClassName: 'hn-dialog-close',
         cssFile: false,
         className: false,
-        tmpl: false
+        tmpl: false,
+        id: 'hn-dialog'
         //cssFile: HN.config.url.js +'css/dialog.css'
     },
     //层HTML结构
@@ -31,15 +32,15 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
     //].join(''),
 
     box = [
-        '<div class="f-all" id="hn-dialog">',
+        '<div class="f-all" id="{{id}}">',
         '<div class="f-top">',
-        '<div class="f-top-l"></div>',
-        '<div class="f-top-r"></div>',
+        '<div class="f-top-l" png="/ui/mangoq/2010v1/images/bg/f_a_0.png"></div>',
+        '<div class="f-top-r" png="/ui/mangoq/2010v1/images/bg/f_a_6.png"></div>',
         '<div class="f-top-m w-top-m"></div>',
         '</div>',
         '<div class="f-main">',
         '<div class="f-main-l w-main-l"></div>',
-        '<div class="f-main-m w-main-m" id="hn-dialog-body">',
+        '<div class="f-main-m w-main-m" id="{{id}}-body">',
 
         '</div>',
         '<div class="f-main-r w-main-r">',
@@ -62,8 +63,8 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
     cssIsLoaded = 0,
     //遮罩层HTML结构
     overlay = [
-        '<iframe id="hn-dialog-bgframe" framebroder=0 />',
-        '<div id="hn-dialog-overlay"></div>'
+        '<iframe id="{{id}}-bgframe" framebroder=0 />',
+        '<div id="{{id}}-overlay"></div>'
     ].join(''),
     viewHW = function() {
         var doc = $(window);
@@ -80,13 +81,13 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
     }
     //创建
     function createBox() {
-        !$('#hn-dialog').length && $('body').append(options.tmpl ? options.tmpl : box);
+        !$('#'+ options.id).length && $('body').append(options.tmpl ? options.tmpl : box.replace(/{{id}}/g, options.id));
         options.bgFrame && createBG();
            
-        wrapper = $('#hn-dialog');
-        head = $('#hn-dialog-head');
-        body = $('#hn-dialog-body');
-        foot = $('#hn-dialog-foot');
+        wrapper = $('#'+ options.id);
+        head = $('#'+ options.id +'-head');
+        body = $('#'+ options.id +'-body');
+        foot = $('#'+ options.id +'-foot');
         
         options.className && wrapper.attr('className', options.className);
         //IE6下的位置
@@ -155,12 +156,17 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
         var view = viewHW();
         return (view.height-$height)/3;     
     }
+	
+	function getLeft($width) {
+        var view = viewHW();
+        return (view.width-$width)/3;     
+    }
     //创建背景遮罩层
     function createBG() {
         if (!bg && !bgiframe) {
-            $('body').append(overlay); 
-            bg = $('#hn-dialog-overlay');
-            bgiframe = $('#hn-dialog-bgframe');
+            $('body').append(overlay.replace(/{{id}}/g, options.id)); 
+            bg = $('#'+ options.id +'-overlay');
+            bgiframe = $('#'+ options.id +'-bgframe');
         }
     }
 
@@ -214,8 +220,29 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
         //通用弹出消息
         //如设定 $times 则在对应时间后隐藏掉此框
         alert: function($text, $times) {
-            var o = this;
-            o.open($text);
+            var 
+            o = this,
+            tmpl = [
+                '<div class="w740-f">',
+                '<div class="zz w740-f-notice">'+ $text +'</div>',
+                /*
+                '<div class="c w740-f-sumbit">',
+                '<div class="l w740-pl">',
+                '<input type="image" src="/ui/mangoq/2010v1/images/button/sumbit_65x25.jpg" name="" />',
+                '</div>',
+                '<div class="l"><a href="#">取消</a></div>',
+                '</div>',
+                */
+                '</div>'
+            ].join('');
+
+            o.open({
+                body: tmpl,
+                width: 178,
+                id: 'hn-dialogalert',
+                className: 'f-all w-w178h101'
+            });
+            o.reSize(178, 101);
             head.hide();
             foot.hide();
             $times && setTimeout(o.destroy, $times);
@@ -231,7 +258,27 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
                 'className': c[0],
                 'width': c[1]
             };    
-        }
+        },
+		reSize: function($width, $height) {
+			var 
+            o=this,
+            left,
+            top;
+
+			if ($width > 0) {
+				wrapper.css('width', $width + 24);
+				left = ($width + 24) / 2;
+				$('.w-top-m,.w-main-m,.w-buttom-m').css('width', $width);
+				wrapper.css('margin-left', -left);
+			}
+			if ($height > 0) {
+				top=getTop($height+24);
+				if(top<0)top=10;
+				wrapper.css('height',$height+24+'px');
+				$('.w-main-l,.w-main-m,.w-main-r').css('height',$height+'px');
+				wrapper.css('top',top+'px');
+			}
+		}
     };
     
 }(window));

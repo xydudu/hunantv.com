@@ -6,6 +6,29 @@ window.HN && (HN.notice = function($doc) {
     //原始的标题
     originTitle = $doc.title,
     t;
+
+    //闪烁并focus到输入框
+    $.fn.shakeElem = function() {
+        var 
+        times = 0,
+        elem = $(this),
+        offset = elem.offset(),
+        args = (arguments.length === 2) ? arguments : ['#B0FAA9', '#fff'],
+        shake = function () {
+            elem.css('backgroundColor', args[times % 2]);
+            times += 1;
+            if (times === 6) {
+                times = 0;
+                elem.is('input, textarea') && elem.focus();
+                return elem;
+            }
+            setTimeout(arguments.callee, 100);
+            return elem;
+        };
+        HN.scrollTo(elem);
+        return shake();
+    };
+
     return {
         
         //title栏的提醒

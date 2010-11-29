@@ -39,14 +39,16 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
     var 
     s = $('#'+ options.slideId),
     con = s.children('div.hn-slide-con'),
-    box = con.children('div.hn-slide-box'),
+    box = con.children('.hn-slide-box'),
     prev = s.find('.hn-slide-prev'),
     next = s.find('.hn-slide-next'),
     t = null,
     items = box.children(options.itemNode),
     itemLen = items.length,
-    itemW = $(items[0]).width() * options.scrollItems;
-    itemH = $(items[0]).height() * options.scrollItems;
+    itemW,
+    itemH;
+    options.width?itemW=options.width: itemW== $(items[0]).width() ;
+    options.heigth?itemH=options.heigth:itemH = $(items[0]).height() ;
     //如没有找到相关HTML，提示一下
     !s.length && HN.debug('没有找到id为"'+ options.slideId +'"的东东');
 
@@ -59,10 +61,15 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
     prev.length && prev.click(goPrev); 
     next.length && next.click(goNext); 
 
-    function goNext() {
+    function goNext($num) {
         HN.debug(options);
         clearTimeout(t);
         t = null;
+		if($num){
+			itemW=itemW * options.scrollItems;
+		}else{
+		
+		}
         var 
         WH = options.direction === 'X' ? itemW : itemH,
         start = scroll(),

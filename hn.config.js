@@ -49,12 +49,6 @@ HN.config = {
             '8/11/2010'
         ],
 
-        'upload': [
-            'extend/upload.min.js',
-            'xydudu',
-            '8/17/2010'
-        ],
-
         'swfupload': [
             'lib/swfupload.min.js',
             'xydudu',
@@ -140,9 +134,27 @@ HN.config = {
         ],
 
         'IMdialog': [
-            'extend/im.dialog.source.js',
+            'extend/im.dialog.min.js',
             'xydudu',
             '11/20/2010'
+        ],
+
+        'login': [
+            'extend/login.min.js',
+            '729748',
+            '11/21/2010'
+        ],
+		
+		'upload': [
+            'extend/upload.source.js',
+            '729748',
+            '11/21/2010'
+        ],
+		
+		'tInput': [
+            'extend/upload.source.js',
+            '729748',
+            '11/21/2010'
         ]
     }
 };

@@ -31,7 +31,11 @@ window.HN && HN.tmpl && (HN.render = function($options) {
                 $options.data = $data; 
                 box.html(HN.tmpl(showTmpl, $data));
                 $options.bindShow(method);
-                
+            }, function($data) {
+                //error
+                HN.dialog.alert('操作出错，请重试！',2000);
+                box.html(HN.tmpl(showTmpl, $options.data));  
+                $options.bindShow(method);
             });
             
         }
@@ -52,9 +56,13 @@ function in_array($str,$arr){
 	return false;
 }
 
-HN.render.option = function($type, $default, $name, $list) {
+HN.render.option = function($type, $default, $name, $list, $box) {
     var 
     options = [];
+	if(typeof($box)!="object"){
+		var $box=['','',''];
+	}
+	
 	switch($type){
 		case 'select':
 		options.push('<select name="'+$name+'">');
@@ -68,24 +76,14 @@ HN.render.option = function($type, $default, $name, $list) {
 		options.push('</select>');
 		break;
 		
-		case 'checkbox':
-		for (var i = 0, l = $list.length; i < l; i ++) {
-			(function($key, $value) {
-				in_array($key,$default) ?
-				options.push('<input name="'+ $name +'" type="checkbox" value="'+ $key+'|'+$value+'" checked>'+ $value): 
-				options.push('<input name="'+ $name +'" type="checkbox" value="'+ $key+'|'+$value+'">'+ $value); 
-			})($list[i].id, $list[i].value);
-		}
-		break;
-		
-		case 'radio':
-		for (var i = 0, l = $list.length; i < l; i ++) {
-			(function($key, $value) {
-				$key == $default ?
-				options.push('<input name="'+ $name +'" type="radio" value="'+ $key+'" checked>'+ $value): 
-				options.push('<input name="'+ $name +'" type="radio" value="'+ $key+'">'+ $value); 
-			})($list[i].id, $list[i].value);
-		}
+		case 'radio':case 'checkbox':
+			for (var i = 0, l = $list.length; i < l; i ++) {
+				(function($key, $value) {
+					in_array($key,$default) ?
+					options.push($box[0]+'<input name="'+ $name +'" type="'+$type+'" value="'+ $key+'|'+$value+'" checked>'+$box[1]+ $value+$box[2]): 
+					options.push($box[0]+'<input name="'+ $name +'" type="'+$type+'" value="'+ $key+'|'+$value+'">'+$box[1]+ $value+$box[2]);
+				})($list[i].id, $list[i].value);
+			}
 		break;
 		
 		default:

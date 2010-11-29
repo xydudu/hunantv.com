@@ -13,6 +13,8 @@ HN = function($win, undefined) {
     jsurl = 'http://js.mangoq.com/honey/' ,
     isDev = this.isDev = 0;
 
+    
+
     return {
         loadJS: function($src, $fun, $context) {
             var
@@ -204,9 +206,55 @@ HN = function($win, undefined) {
         isString: function($o) {
             return typeof $o === 'string'; 
         },
-
+        
+        //生成两个数间的随机数
         random: function($min, $max) {
             return ($max-$min) * Math.random() + $min;
+        },
+        
+        //事件代理
+        delegate: function(rules) {
+            return function($e) {
+                var 
+                e = $e || window.event,
+                target = $(e.target || e.srcElement);
+                HN.debug(target);
+                for (var selector in rules)
+                  if (target.is(selector)) return rules[selector].apply(target, $.makeArray(arguments));
+            }
+        },
+        
+        //窗体滚动到某个元素的位置
+        //可传jqury elem obj, elem id, elem, Y
+        scrollTo: function($elem) {
+            var X, Y;
+            if ($elem.selector) {
+                var offset = $elem.offset();
+                X = offset.left;
+                Y = offset.top;
+            }
+            if (HN.isString($elem)) 
+                $elem = $win.document.getElementById($elem); 
+
+            if ($elem.innerHTML) {
+                while ($elem != null) {
+                    X += $elem.offsetLeft;
+                    Y += $elem.offsetTop;
+                    $elem = $elem.offsetParent;
+                }
+            }
+            
+            if (typeof $elem == 'number') {
+                X = 0;
+                Y = $elem;
+            }
+            
+            window.jQuery ?
+                Y -= ($($win).height() / 2) - 100 :
+                Y -= 200;
+                
+
+            window.scrollTo(X, Y);
         },
 
         ie6: function() {

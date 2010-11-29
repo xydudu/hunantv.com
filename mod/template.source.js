@@ -17,7 +17,7 @@ window.HN &&
         "var p=[],print=function(){p.push.apply(p,arguments);};" +
         
         // Introduce the data as local variables using with(){}
-        "with(obj){p.push('" +
+        "with(obj){try{p.push('" +
         
         // Convert the template into pure JavaScript
         str
@@ -28,7 +28,9 @@ window.HN &&
           .split("\t").join("');")
           .split("%]").join("p.push('")
           .split("\r").join("\\'")
-      + "');}return p.join('');");
+      + "');}catch($err)"+
+      "{p.push($err.message);HN.debug($err.message);}}"+
+      "return p.join('');");
     
     // Provide some basic currying to the user
     return data ? fn( data ) : fn;

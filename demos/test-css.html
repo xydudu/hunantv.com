@@ -1,0 +1,277 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Honey Chat</title>
+    <script src="http://jsdev.hunantv.com/hn.source.js"></script>
+    <style>
+        html, body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            font-size: 13px;
+        }
+        #wraper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #left {
+            background-color: #fff;
+            border-right: 2px solid #333;
+            width: 200px;
+            height: 100%; 
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 20;
+        }
+        #right {
+            height: 100%;
+            width: 100%
+        }
+
+        #user-info {
+            border-bottom: 2px solid #333;
+            width: 100%;
+            height: 60px;
+            color: #999;
+            padding: 10px 0 0 210px;
+        }
+
+        #chat-box {
+            position: absolute;
+            padding: 10px 0 100px 210px;
+            height: 100%;
+            width: 100%;
+            z-index: 10;
+            overflow: auto;
+        }
+        #chat-list {
+            list-style: none;
+            padding: 0;
+            line-height: 30px;
+            margin: 0
+        }
+        #chat-list li {
+            clear: both;
+            padding:0 10px;
+            color: #4E4E4E;
+            cursor: pointer;
+        }
+        #chat-list img { 
+            float: right;
+            margin: 2px 0 6px 0;
+            border: 1px solid #fff;
+        }
+        #type-box {
+            background-color: #88b9f4;
+            position:absolute;
+            z-index: 15;
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            height: 100px;
+            bottom: 0;
+            left: 0;
+        }
+
+        #msg {
+            width: 300px;
+            height: 50px;
+            overflow: auto
+        }   
+
+        #t-box {
+            padding: 0 0 0 210px;
+            width: 100%;
+        }
+        #notice {
+            background-color: red;
+            color: #fff;
+            height: 25px;
+            line-height: 25px;
+            padding: 0 0 0 210px;
+        }
+        .nodisplay {
+            display: none;
+        }
+        .chat-now {
+            background-color: #4681C5;
+            color: #fff !important;
+        }
+
+        .honey-im-msg-me {
+            color: red; 
+        }
+    </style>
+</head>
+<body>
+<div id="wraper">
+    <div id="left">
+        <p class="loading">loading...</p>
+        <ul id="chat-list">
+            <li class="nodisplay" id="u-[%=uid%]">
+                <img width="24" height="24" src="http://a2.twimg.com/profile_images/54750862/d5c57879647564759000_normal.jpg" />
+                <span>[%=nick%]([%=uid%])</span>
+            </li> 
+        </ul>
+    </div> 
+    <div id="right">
+        <div id="user-info">
+            <img src="http://a2.twimg.com/profile_images/54750862/d5c57879647564759000_normal.jpg" /> 
+            <span id="user-name">superman</span> 
+        </div>
+        <div id="notice" style="display:none">something...</div>
+        <div id="chat-box">
+        </div>
+        <div id="type-box">
+            <div id="t-box">
+                <textarea id="msg" ></textarea>
+                <input type="hidden" value="0" id="send-to" />
+                <br />
+                <input type="button" value="send" id="send" />
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    HN.openDevMode();
+    HN.go('jquery, ape.client, ajax, dialog, notice, template, IM', function() {
+         
+        var 
+        noticebox = $('#notice'),
+        hash = +window.location.hash.substr(1),
+        listTmpl = $('#chat-list').html();
+
+        if (!hash) {
+            check(arguments.callee); 
+            return;
+        }
+        im = new HN.IM(function($ape) {
+            
+            im.connect($ape, ''+ hash, function() {
+                showNotice('正在登录...');        
+            }, function($data) {
+                hideNotice();
+                //登录后 
+                HN.debug($data);
+                $('#user-name').html('你当前登录ID：'+ hash);
+            });
+
+            im.updateOnline(function($data) {
+                var user, list = [], box = $('#chat-list');
+                if (!$data.length) {
+                    showNotice('加载不了在线列表！');
+                    return ;
+                }
+                while ($data.length) {
+                    user = $data.shift();
+                    list.push(HN.tmpl(listTmpl, user)); 
+                };
+                box.html(list.join(''));
+                $('.loading').hide();
+                box.find('li').removeClass('nodisplay').click(function() {
+                    
+                    var
+                    li = $(this),
+                    uid = li.attr('id').split('-')[1],
+                    name = li.find('span').text();
+                    im.requestChat($ape, {uid: uid, nick: name});
+                     
+                    box.find('li.chat-now').removeAttr('className');
+                    li.attr('className', 'chat-now');
+                    showNotice('等待'+ uid +'的回应！');
+
+                });
+            }, function($data) {
+                showNotice('加载不了在线列表！');
+            });
+
+            im.getRequest(function($data) {
+                var                
+                uid = $data.data.user.properties.uin,
+                yes = $('<input />').attr({'value': 'yes', 'type': 'button'}).click(deal(1)),
+                no = $('<input />').attr({'value': 'no', 'type': 'button'}).click(deal(3));
+                showNotice(uid +' 请求与你聊天，'); 
+                noticebox.append(yes);
+                noticebox.append(no);
+                
+                function deal($ok) {
+                    return function() {
+                        im.dealRequest(uid, $ok);
+                        noticebox.hide();
+                    }
+                }
+            });
+
+            im.getReponse(function($data) {
+                var 
+                o = $data.data,
+                uid = o.user.properties.uin;        
+                if (+o.op === 1) {
+                    $('#chat-list').find('li.chat-now').removeAttr('className');
+                    $('#u-'+ uid).attr('className', 'chat-now');
+                    
+                    im.readyToChat(o.user);
+                    showNotice(uid +'同意与你聊天！say hi', 1000); 
+                } else {
+                    showNotice(uid +'拒绝了你，你就是个悲剧！'); 
+                }
+            });
+
+            $('#send').click(function() {
+                var 
+                msg = $('#msg').val(),
+                to = $('#send-to').val();
+
+                if (HN.trim(msg) === '') return; 
+                if (HN.trim(to) == 0) return; 
+
+                im.sendMsg($ape, msg);
+                 
+                $('#msg').val('');
+
+            });
+
+        });
+
+        function check($fun) {
+            var 
+            uids = [285, 286, 280],
+            inputs = [];
+
+            for (var i = 0, l = uids.length; i < l; i ++)
+                inputs.push(HN.tmpl('<input type="button" class="choose-user" value="[%=uid%]" />', {uid: uids[i]}));    
+            
+            HN.dialog.open({
+                title: '请先选择一个帐户登录(只有三个帐号，你还别嫌少)',
+                body: inputs.join(''),
+                disableBgClick: true
+            });
+            
+
+            $('input.choose-user').click(function() {
+                window.location.hash = this.value;  
+                $fun();
+                HN.dialog.close();
+            });
+        }
+        
+
+        function showNotice($msg, $time) {
+            noticebox.html($msg).show(); 
+            $time && setTimeout(hideNotice, $time);
+        }
+
+        function hideNotice() {
+            noticebox.html('').hide();
+        }
+        
+    
+    });
+</script>
+</body>
+</html>

@@ -151,8 +151,8 @@ HN.config = {
             '11/21/2010'
         ],
 		
-		'tInput': [
-            'extend/upload.source.js',
+		'tinput': [
+            'mod/tinput.source.js',
             '729748',
             '11/21/2010'
         ]

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/reset.css" rel="stylesheet" type="text/css" />
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/frame.css" rel="stylesheet" type="text/css" />
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/reg.css" rel="stylesheet" type="text/css" />
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/float.css" rel="stylesheet" type="text/css" />
+<script src="http://js.mangoq.com/honey/hn.source.js"></script>
+<style type="text/css">
+#dialog_email_tip {background:#EE5555; color:#FFFFFF; display:none; width:150px; left:101px; padding:0 5px; position:absolute; top:99px;}
+#dialog_psw_tip {background:#EE5555; color:#FFFFFF; display:none; width:150px; left:101px; padding:0 5px; position:absolute; top:144px;}
+.login-frame .login-form dd .iw {border:1px solid #CC9900;}
+</style>
+<title>无标题文档</title>
+</head>
+
+<body>
+<input id="open" type="button" value="打开" />
+<input id="des" type="button" value="完全关闭，移除DOM" /><br />
+当标签含有  hn-dialog-close 为关闭弹层
+<input id="close" type="button" class="hn-dialog-close" value="关闭，隐藏" />
+<br /><br />
+<input id="check" type="button"  value="检测登陆状态及接下的相关操作" />
+<br />
+
+目前是测试 js域的接口，所只默认是登陆的	 http://js.mangoq.com/honey/demos/getlogin.php =>	{"err":0,"data":{"msg":true}}	<br />
+<br />
+正式接口：http://www.mangoq.com/home/user/is_login
+<br />
+
+
+<script type="text/javascript">
+HN.openDevMode();
+HN.go('jquery,form,dialog,login',function(){
+	$('#check').click(function(){								  					  
+		HN.login().isLogin(doSomething,HN.login().dialogLoginForm);
+		function doSomething(){
+			HN.debug('登陆状态为TRUE,这里可以做些什么');
+			$('body').append("<div style='margin:auto; width:300px; line-height:50px; height:200px; background-color:#f9E'>登陆状态：OK<br/>做些什么！！</div>");
+		}
+	});	
+	
+});
+</script>
+</body>
+</html>

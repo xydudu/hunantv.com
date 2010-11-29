@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/reset.css" rel="stylesheet" type="text/css" />
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/frame.css" rel="stylesheet" type="text/css" />
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/float.css" rel="stylesheet" type="text/css" />
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/float_photos.css" rel="stylesheet" type="text/css" />
+<script src="http://js.mangoq.com/honey/hn.source.js"></script>
+<title>无标题文档</title>
+</head>
+<style>
+body {padding:30px;}
+.css {border:1px solid #ccc; margin-right:20px;}
+span {margin-right:20px;}
+input {width:120px; padding:2px;}
+</style>
+<body>
+<div style="margin:auto; width:50%; border:1px dashed #CCC; padding:20px; text-align:left; line-height:25px;">
+  <p><code>&lt;span class=&quot;test&quot; <span style="color:#F00">alt=&quot;id&quot;</span>&gt;<span style="color:#03C">点击进行编辑</span>&lt;/span&gt; </code><br />
+    <b>target</b>:支持JQ对象，及ID或Class选择器，例如：<code>target:$('#box span').eq(2)，或target:'.calss,#id'</code><br />
+    <b>url</b>:ajax请求地址<br />
+  <b>css</b>:为鼠标移到文本上的样式</p>
+  <p>传送的数据为<span style="color:#F30">:data={id:'alt值'，v:'文本内容'}</span><br />
+    <code>HN.tInput({target:'.test,.aa,.cc',url:'tInput.php',css:'css'}); </code><br />
+  </p>
+</div>
+<br />
+<br />
+<div id="box" style="margin:auto; width:50%; border:1px dashed #CCC; background:#ECECEC; padding:20px; text-align:left; line-height:20px;">
+<a  alt="1">点击进行编辑</a><span alt="2" class="test">点击进行编辑</span>
+<span class="aa" alt="3">点击进行编辑</span><span alt="4" class="cc">点击进行编辑</span>
+<br />
+<br />
+<code>
+$('#edit').click(function(){<br />
+HN.tInput({target:$('#box span').eq(2),url:'tInput.php',id:'photo_id',value:'photo_des'});<br />
+}); </code><br />
+
+<a id="edit" href="javascript:">点我编辑第三个</a>
+</div>
+<script type="text/javascript">
+HN.openDevMode();
+HN.go('jquery,ajax,tinput',function(){
+	//目标支持ID或Class选择
+	HN.tInput({target:'.test,.aa,.cc',url:'tInput.php',id:'photo_id',value:'photo_des'});
+	$('#edit').click(function(){
+		HN.tInput({target:$('#box span').eq(2),url:'tInput.php',id:'photo_id',value:'photo_des'});
+	});
+	
+});
+</script>
+</body>
+</html>

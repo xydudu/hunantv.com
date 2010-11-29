@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="http://jsdev.hunantv.com/hn.source.js"></script>
+    <title>Test JS loader time</title>
+    <h3>test HN.loadJs</h3>
+</head>
+<script>
+    var a = new Date();
+    //HN.openDevMode();
+    HN.go('jquery, slide, swfupload, ajax, cookie, dialog, form, vote', function() {
+        
+        
+        HN.debug('jQuery -------'+ (window.jQuery ? 'OK' : '<span style="color:red">ERROR</span>'));
+        HN.debug('ajax -------'+ (HN.ajax ? 'OK' : '<span style="color:red">ERROR</span>'));
+        HN.debug('cookie -------'+ (HN.cookie ? 'OK' : '<span style="color:red">ERROR</span>'));
+        HN.debug('dialog -------'+ (HN.dialog ? 'OK' : '<span style="color:red">ERROR</span>'));
+        HN.debug('slide -------'+ (HN.slide ? 'OK' : '<span style="color:red">ERROR</span>'));
+        var b = new Date(); 
+
+        HN.debug('total time: '+ (+b.getMilliseconds() - +a.getMilliseconds()));
+    }); 
+</script>
+</html>

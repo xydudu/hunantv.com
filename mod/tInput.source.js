@@ -1,10 +1,10 @@
 //need HN, jQuery
-window.HN && window.jQuery && (HN.xinput = function($options) {
+window.HN && window.jQuery && (HN.tInput = function($options) {
     
-	HN.debug('HN.xinput is init'); 
+	HN.debug('HN.tInput is init'); 
 
 	var options = {
-    };
+    },obj;
 	
 	if (HN.isString($options)) {
 		HN.debug('options is wrong!');
@@ -12,38 +12,55 @@ window.HN && window.jQuery && (HN.xinput = function($options) {
         $.extend(options, $options);
     }
 	
-	$(options.target).hover(function(){
-		options.css?$(this).addClass(options.css):$(this).css({border:'1px solid #063'});
-	},function(){
-		options.css?$(this).removeClass(options.css):$(this).css('border','none');
-	});
+	HN.isString(options.target)?obj=$(options.target):edit(options.target);
 	
-	$(options.target).bind('click',(function(){
-		var o=$(this),
+	//绑定文本HOVER样式
+	$(obj).live('mouseover',(function(){
+		options.css?$(this).addClass(options.css):$(this).css({background:'#e3e3e3'});
+	}));
+	$(obj).live('mouseout',(function(){
+		options.css?$(this).removeClass(options.css):$(this).css('background','none');
+	}));
+	
+	$(obj).live('click',(function(){
+		edit($(this));
+	}));
+	
+	function edit($obj){
+		var o=$obj,
 		html=o.html(),
 		input,
 		w=+o.width()+8;
 		o.hide();
-		o.after('<input type="text" style="width:'+w+'px;" value="'+html+'" />');
+		o.after('<input type="text" name="'+o.attr('alt')+'" style="width:'+w+'px;" value="'+html+'" />');
 		input=o.next('input').eq(0);
 		input.focus();
 		input.bind('blur',(function(){
 			var 
 			v=input.val(),
-			data={val:v};
-			input.attr('readonly','readonly')
-			HN.ajax.post(options.url,data,function(){
+			id=input.attr('name'),
+			data={};
+			data[options.id] = id;
+			data[options.value] = v;
+			HN.debug(data)
+			
+			if(v!=html){
+				input.attr('readonly','readonly');
+				HN.ajax.post(options.url,data,function($data){
+					input.remove();
+					o.html(v).show();
+				},
+				function(){
+					input.removeAttr('readonly');
+					o.show();
+				});
+			}else{
 				input.remove();
-				o.html(v).show();
-			},
-			function(){
-				input.removeAttr('readonly');
-				input.css('border','1px solid #f33');
-			});
+				o.show();				
+			}
 		}));
-	}));
 	
-	
+	}
 	
 });
 

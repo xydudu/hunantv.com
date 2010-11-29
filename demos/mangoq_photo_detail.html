@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>manggoq_template</title>
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/reset.css" rel="stylesheet" type="text/css" />
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/frame.css" rel="stylesheet" type="text/css" />
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/float.css" rel="stylesheet" type="text/css" />
+<link href="http://css.mangoq.com/ui/mangoq/2010v1/css/photoview.css" rel="stylesheet" type="text/css" />
+<script src="http://js.mangoq.com/honey/hn.source.js"></script>
+
+</head>
+<body>
+<div class="wrap">
+  <!-- head start -->
+  <div class="p-head">
+
+    <div class="h-l">
+      <div class="h-logo"><a href="#"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/logo/logo.jpg" width="133" height="75" border="0" /></a></div>
+      <div class="h-menu">
+        <!-- 
+        #Menu button css define 
+        默认                  鼠标经过          激活的
+        search-default       search-on        search-active
+        chat-default         chat-on          chat-active
+        info-default         info-on          info-active
+        plaza-default        plaza-on         plaza-active
+        非激活的鼠标经过
+        onmousemove="this.className='button search-on';" onmouseout="this.className='button search-default';"
+        onmousemove="this.className='button chat-on';" onmouseout="this.className='button chat-default';"
+        onmousemove="this.className='button info-on';" onmouseout="this.className='button info-default';"
+        onmousemove="this.className='button plaza-on';" onmouseout="this.className='button plaza-default';"
+      -->
+        <div class="button search-default"><a href="#"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/bg/blank.gif" alt="找人" border="0" /></a></div>
+        <div class="button chat-default">
+          <div class="e-7">&nbsp;</div>
+          <div class="c r" style="margin-right:10px;">
+            <div class="l num-pic-l"></div>
+
+            <div class="l num-pic-m"><a href="#">1</a></div>
+            <div class="l num-pic-r"></div>
+          </div>
+          <a href="#"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/bg/blank.gif" alt="聊天" border="0" /></a> </div>
+        <div class="button info-default"><a href="#"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/bg/blank.gif" alt="个人档案" border="0" /></a></div>
+        <div class="button plaza-default"><a href="#"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/bg/blank.gif" alt="广场" border="0" /></a></div>
+      </div>
+    </div>
+
+    <div class="h-qlink"><a href="" class="font-hlight">王子晨</a> &nbsp; <a href="#" ><span>设置</span></a>&nbsp;&nbsp; <a href="#" ><span>帮助</span></a>&nbsp; | <a href="#" ><span>注销</span></a></div>
+  </div>
+  <!-- head end -->
+  <div class="e-20">&nbsp;</div>
+
+  <div class="p-body">
+    <div class="l frame740">
+      <div class="w740-path">
+        <div class="l"><a href="#">非优质的王的相册</a> <img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/dot_path.jpg" align="absmiddle" /> 生活在大海的日子</div>
+        <div class="r"><a href="#"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/photo_upload2.jpg" /></a></div>
+      </div>
+      <div class="c zz w740-picgo"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/pre_default.jpg" /> <a href="javascript:"  class="photo_pre pre">上一张</a> | <a href="javascript:"  class="photo_next pre">下一张</a> <img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/next_on.jpg" /></div>
+
+      <!--浮动层 父层开始 -->
+      <div style="position:relative;">
+        <div class="c w740-pic"><a href="#"><img id="bigpic" src="http://css.mangoq.com/ui/mangoq/2010v1/images/temp/photo_view_1.jpg" border="0" /></a></div>
+        <div class=" line-dfdfd2"></div>
+        <div class="w740-tips">
+          <div class="l w740-tips-l"><a href="#">点击此处添加照片描述</a></div>
+          <div class="r w740-tips-r">第<b>3</b>/24张  5小时前更新 <a href="#">删除</a></div>
+
+        </div>
+        <!--浮动层1开始-->
+        <div class="f-all w-w368h123"  style="display:; top:382px; position:absolute;" >
+          <div class="f-top">
+            <div class="f-top-l"></div>
+            <div class="f-top-r"></div>
+            <div class="f-top-m w-top-m"></div>
+          </div>
+          <div class="f-main">
+
+            <div class="f-main-l w-main-l"></div>
+            <div class="f-main-m w-main-m">
+              <div class="w740-f">
+                <div class="r w740-f-t">(最多140个字符)</div>
+                <div class="c w740-f-textarea">
+                  <textarea>点击此处添加照片描述文字</textarea>
+                </div>
+                <div class="c w740-f-sumbit">
+
+                  <div class="l">
+                    <input name="" type="image" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/sumbit_65x25.jpg" />
+                  </div>
+                  <div class="l"><a href="#">取消</a></div>
+                </div>
+              </div>
+            </div>
+            <div class="f-main-r w-main-r">
+
+              <div class="f-main-r-bg"></div>
+            </div>
+          </div>
+          <div class="f-buttom">
+            <div class="f-buttom-l"></div>
+            <div class="f-buttom-r"></div>
+            <div class="f-buttom-m w-buttom-m">
+              <div class="f-buttom-m-bg"></div>
+            </div>
+
+          </div>
+        </div>
+        <!--浮动层1结束-->
+        <!--浮动层2开始-->
+        <div class="f-all w-w178h101"  style="display:; top:390px; left:756px; position:absolute;" >
+          <div class="f-top">
+            <div class="f-top-l"></div>
+            <div class="f-top-r"></div>
+            <div class="f-top-m w-top-m"></div>
+
+          </div>
+          <div class="f-main">
+            <div class="f-main-l w-main-l"></div>
+            <div class="f-main-m w-main-m">
+              <div class="w740-f">
+                <div class="zz w740-f-notice">是否确定删除这张照片？<br />
+                  该操作无法恢复。</div>
+                <div class="c w740-f-sumbit">
+
+                  <div class="l w740-pl" >
+                    <input name="" type="image" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/sumbit_65x25.jpg" />
+                  </div>
+                  <div class="l"><a href="#">取消</a></div>
+                </div>
+              </div>
+            </div>
+            <div class="f-main-r w-main-r">
+
+              <div class="f-main-r-bg"></div>
+            </div>
+          </div>
+          <div class="f-buttom">
+            <div class="f-buttom-l"></div>
+            <div class="f-buttom-r"></div>
+            <div class="f-buttom-m w-buttom-m">
+              <div class="f-buttom-m-bg"></div>
+            </div>
+
+          </div>
+        </div>
+        <!--浮动层2结束-->
+      </div>
+      <!--浮动层 父层结束 -->
+      <div class="c w740-spics" id="photo-slide">
+        <div class="l w740-spics-l hn-slide-prev"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/photo_go_pre.jpg" border="0" /></div>
+        <div class="r w740-spics-r hn-slide-next"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/photo_go_next.jpg" border="0" /></div>
+        <div class="l hn-slide-con" style="width:635px; overflow:hidden; height:122px;">
+          <ul class="hn-slide-box" style="float:left; width:2000px;">
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_1.jpg" border="0" /></li>
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_2.jpg" border="0" /></li>
+            <li class="on"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_2.jpg" border="0" /></li>
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_2.jpg" border="0" /></li>
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_3.jpg" border="0" /></li>
+            
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_3.jpg" border="0" /></li>
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_4.jpg" border="0" /></li>
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_5.jpg" border="0" /></li>
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_1.jpg" border="0" /></li>
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_2.jpg" border="0" /></li>
+            
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_3.jpg" border="0" /></li>
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_4.jpg" border="0" /></li>
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_5.jpg" border="0" /></li>
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_4.jpg" border="0" /></li>
+            <li><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_5.jpg" border="0" /></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="c w740-stitle"> 评 论 </div>
+      <div class="e-10"></div>
+      <div class="c w740-textarea">
+        <textarea></textarea>
+      </div>
+      <div class="c w740-sumbit">
+        <div class="l"><a href="#"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/face_smile_whitebg.jpg" width="16" height="16" border="0" /></a> <a href="#"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/more_icos.jpg" width="7" height="16" border="0" /></a></div>
+
+        <div class="r">
+          <input name="" type="image" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/sumbit_green.jpg" />
+        </div>
+      </div>
+      <div class="c e-10"></div>
+      <div class="c line-dfdfd2"></div>
+      <div class="c w740-comments-list">
+        <div class="l c-face"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/301.jpg" /></div>
+        <div class="r c-re"><a href="#">回复</a></div>
+
+        <div class="l c-content"><a>潇洒小姐</a> 想要和某人，25岁-40岁 认识 <span>(2分钟前) </span></div>
+      </div>
+      <div class="c w740-comments-list">
+        <div class="l c-face"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/302.jpg" /></div>
+        <div class="r c-re"><a href="#">回复</a></div>
+        <div class="l c-content"><a>Jesmain</a> Wants to make friends with somebody, 24-35 <span>(2分钟前) </span></div>
+
+      </div>
+      <div class="c w740-comments-list">
+        <div class="l c-face"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/303.jpg" /></div>
+        <div class="r c-re"><a href="#">回复</a></div>
+        <div class="l c-content"><a>老狼</a> Wants to make friends with somebody, 24-35 <span>(2分钟前) </span></div>
+      </div>
+
+      <div class="c w740-comments-list">
+        <div class="l c-face"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/304.jpg" /></div>
+        <div class="r c-re"><a href="#">回复</a></div>
+        <div class="l c-content"><a>潇洒小姐</a> 想要和一个男生,23岁-30岁 建造一座沙堡build a sand castle非诚勿扰！ <span>(2分钟前) </span></div>
+      </div>
+      <div class="c w740-comments-list">
+
+        <div class="l c-face"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/305.jpg" /></div>
+        <div class="r c-re"><a href="#">回复</a></div>
+        <div class="l c-content"><a>Jesmain</a> 和一个男生,23岁-30岁 建造一座沙堡build a sand castl<span>(2分钟前) </span></div>
+      </div>
+      <div class="c w740-comments-list">
+        <div class="l c-face"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/306.jpg" /></div>
+
+        <div class="r c-re"><a href="#">回复</a></div>
+        <div class="l c-content"><a>非优质的王</a> Wants to make friends with somebody, 24-35 <span>(2分钟前) </span></div>
+      </div>
+      <div class="c w740-comments-list">
+        <div class="l c-face"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/307.jpg" /></div>
+        <div class="r c-re"><a href="#">回复</a></div>
+
+        <div class="l c-content"><a>嘻哈空姐</a> Wants to make friends with somebody, 24-35 <span>(2分钟前) </span></div>
+      </div>
+      <div class="c w740-comments-list">
+        <div class="l c-face"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/304.jpg" /></div>
+        <div class="r c-re"><a href="#">回复</a></div>
+        <div class="l c-content"><a>Jesmain</a> Wants to make friends with somebody, 24-35 <span>(2分钟前) </span></div>
+
+      </div>
+      <div class="c w740-comments-list">
+        <div class="l c-face"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/301.jpg" /></div>
+        <div class="r c-re"><a href="#">回复</a></div>
+        <div class="l c-content"><a>嘻哈空姐</a> Wants to make friends with somebody, 24-35 <span>(2分钟前) </span></div>
+      </div>
+
+      <div class="e-20"></div>
+      <div class="c">
+        <ul class="pages">
+          <li><a href="#"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/link_previous_default.jpg" border="0" align="absmiddle"  onmousemove="this.src='http://css.mangoq.com/ui/mangoq/2010v1/images/button/link_previous_mouseon.jpg';"   onmouseout="this.src='http://css.mangoq.com/ui/mangoq/2010v1/images/button/link_previous_default.jpg';" /></a></li>
+          <li><a href="">1</a></li>
+          <li class="pages-on">2</li>
+          <li><a href="">3</a></li>
+
+          <li><a href="">4</a></li>
+          <li><a href="">5</a></li>
+          <li><a href="">6</a></li>
+          <li><a href="">7</a></li>
+          <li><a href="">8</a></li>
+          <li><a href="">9</a></li>
+
+          <li><a href="#"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/link_next_default.jpg" border="0" align="absmiddle"  onmousemove="this.src='http://css.mangoq.com/ui/mangoq/2010v1/images/button/link_next_mouseon.jpg';"   onmouseout="this.src='http://css.mangoq.com/ui/mangoq/2010v1/images/button/link_next_default.jpg';" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="r framew190">
+      <div class="w190-top"></div>
+      <div class="w190-content">
+        <div class="l"><span><a href="#">访客</a></span></div>
+
+        <div  class="l num">
+          <div class="num-font">1235</div>
+        </div>
+        <div class="r numcount">564</div>
+        <div class="c"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/frame/infocount_w190_line.jpg" width="190" height="11" /></div>
+        <div class="l"><span><a href="#">通知</a></span></div>
+        <div  class="l num">
+
+          <div class="num-font">12</div>
+        </div>
+        <div class="r numcount">6</div>
+        <div class="c"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/frame/infocount_w190_line.jpg" width="190" height="11" /></div>
+        <div class="l"><span><a href="#">关注</a></span></div>
+        <div  class="l num">
+          <div class="num-font">3</div>
+
+        </div>
+        <div class="r numcount">11</div>
+        <div class="c"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/frame/infocount_w190_line.jpg" width="190" height="11" /></div>
+        <div class="l"><span><a href="#">隐身</a></span></div>
+        <div class="r numcount">3</div>
+        <div class="c"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/frame/infocount_w190_line.jpg" width="190" height="11" /></div>
+        <div class="l"><span><a href="#">黑名单</a></span></div>
+
+        <div class="r numcount">9</div>
+        <div class="c"></div>
+      </div>
+      <div class="c w190-buttom"></div>
+    </div>
+  </div>
+  <div class="p-footer">Copyright 2006-2010 hunantv.com Corporation,All Rights Reserved <br />
+    湖南快乐阳光互动娱乐传媒有限公司 版权所有</div>
+
+</div>
+</body>
+</html>
+<script type="text/javascript">
+HN.openDevMode();
+HN.go('jquery, slide', function() {
+	$('#photo-slide .hn-slide-box li img').click(function(){
+		$('#bigpic').attr('src',$(this).attr('src'));
+		$('#photo-slide .hn-slide-box li').removeClass('on');
+		$(this).parent('li').addClass('on');
+	});
+	
+	var slideMore = new HN.slide({
+	slideId: 'photo-slide',
+	itemNode: 'li',
+	width:126,
+	scrollItems: 5
+	});
+	
+	var slideOne = new HN.slide({
+		slideId: 'photo-slide',
+		itemNode: 'li',
+		width:126,
+		scrollItems: 1
+	});
+	
+	$('.photo_next').click(slideOne.next());
+	
+	var go=location.hash.replace('#','');
+});
+</script>

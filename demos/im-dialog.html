@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Im-dialog</title>
+    <link href="http://css.mangoq.com/ui/mangoq/2010v1/css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="http://css.mangoq.com/ui/mangoq/2010v1/css/frame.css" rel="stylesheet" type="text/css" />
+    <link href="http://css.mangoq.com/ui/mangoq/2010v1/css/chatlist.css" rel="stylesheet" type="text/css" />
+    <script src="http://js.mangoq.com/honey/hn.source.js"></script>
+</head>
+<body>
+    <input type="button" value="go"  />
+<script>
+    HN.openDevMode();
+    HN.go('jquery, ajax, dialog, template, IMdialog', function() {
+        $('input').click(function() {
+            HN.IMdialog({uid: 1, cuid: 3});
+        });
+    });
+</script>
+</body>
+</html>

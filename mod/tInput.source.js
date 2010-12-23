@@ -1,9 +1,10 @@
-//need HN, jQuery
+//need HN, jQuery 
 window.HN && window.jQuery && (HN.tInput = function($options) {
     
 	HN.debug('HN.tInput is init'); 
 
 	var options = {
+		width:80
     },obj;
 	
 	if (HN.isString($options)) {
@@ -14,7 +15,7 @@ window.HN && window.jQuery && (HN.tInput = function($options) {
 	
 	HN.isString(options.target)?obj=$(options.target):edit(options.target);
 	
-	//���ı�HOVER��ʽ
+	//绑定文本HOVER样式
 	$(obj).live('mouseover',(function(){
 		options.css?$(this).addClass(options.css):$(this).css({background:'#e3e3e3'});
 	}));
@@ -22,7 +23,7 @@ window.HN && window.jQuery && (HN.tInput = function($options) {
 		options.css?$(this).removeClass(options.css):$(this).css('background','none');
 	}));
 	
-	$(obj).live('click',(function(){
+	$(obj).unbind('click').bind('click',(function(){
 		edit($(this));
 	}));
 	
@@ -31,6 +32,7 @@ window.HN && window.jQuery && (HN.tInput = function($options) {
 		html=o.html(),
 		input,
 		w=+o.width()+8;
+		if(options.width){w=options.width}
 		o.hide();
 		o.after('<input type="text" name="'+o.attr('alt')+'" style="width:'+w+'px;" value="'+html+'" />');
 		input=o.next('input').eq(0);
@@ -40,25 +42,38 @@ window.HN && window.jQuery && (HN.tInput = function($options) {
 			v=input.val(),
 			id=input.attr('name'),
 			data={};
-			data[options.id] = id;
-			data[options.value] = v;
-			HN.debug(data)
-			
-			if(v!=html){
-				input.attr('readonly','readonly');
-				HN.ajax.post(options.url,data,function($data){
-					input.remove();
-					o.html(v).show();
-				},
-				function(){
-					input.removeAttr('readonly');
-					o.show();
-				});
+			if(options.length&&v.replace(/[^\x00-\xff]/g,"**").length>options.length){
+				alert('只能允许长度在'+options.length+'个字符以内!');
+				input.focus();
 			}else{
-				input.remove();
-				o.show();				
+				data[options.id] = id;
+				data[options.value] = v;			
+				if(v!=html){
+					input.attr('readonly','readonly');
+					HN.ajax.post(options.url,data,function($data){
+						input.remove();
+						o.html(v).show();
+						if(options.callback){
+							options.callback.call()
+						}
+					},
+					function($data){
+						if($data=='parse-error'){
+							alert('修改失败,输入内容不符合条件!');
+						}else if($data=='not-login'){
+							alert('没有登陆!');
+							HN.login().dialogLoginForm(1);
+						}
+						input.removeAttr('readonly');	
+						input.css('border','1px solid #f66')
+					});
+				}else{
+					input.remove();
+					o.show();				
+				}
 			}
 		}));
+		input.focus();
 	
 	}
 	

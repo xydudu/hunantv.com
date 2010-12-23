@@ -30,7 +30,16 @@ echo '{
         "sex": {
             "id": "'. $_POST['sex'] .'",
             "value": "'. $sex .'"
-    	}
+        },
+        "live_province_id": {
+            "id": "'. $_POST['live_province'] .'",
+            "value": ""
+        },
+
+        "live_city_id": {
+            "id": "'. $_POST['live_city'] .'",
+            "value": ""
+        }
     }
 }';
 ?>

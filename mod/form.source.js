@@ -1,6 +1,6 @@
 /*
 表单检测
-
+ 
 ◇使用方法　分两步◇
 
 ㈠在对应的表单元素中 加入相应的参数
@@ -48,11 +48,27 @@ jQuery.fn.extend({
 			inputErrClass:'input_warring'
 		};
 		var options = $.extend(defaults, options);
-		form.submit(function(){if(verify('submit')){callback(); return true;}else{return false;}; });
-		verify();
-		function verify($s){			
+		form.submit(function(){if(verify('submit',form,options)){callback(); return true;}else{return false;}; });
+		verify('',form,options);
+	},
+	xForm:function(options){
+		var form=$(this),
+		defaults={
+			msgBoxClass: 'errClass',  
+			inputErrClass:'input_warring'
+		};
+		var options = $.extend(defaults, options);
+		return verify('submit',form,options);
+	}
+});
+
+
+		function verify($s,$form,$options){			
 			var
 			re=true,
+			options=$options,
+			form=$form,
+			$s=$s,
 			cursor=false,
 			objs=form.find('input[alt]:visible,textarea[alt]:visible,select[alt]:visible,checkbox[alt]:visible');
 			objs.each(function(){
@@ -185,7 +201,7 @@ jQuery.fn.extend({
 								msgbox = $('<div></div>').html($msg);
 								msgbox.appendTo('body').hide();
 								msgbox.attr('id', form.attr('id')+'_err_' + i);
-								msgbox.css({position: 'absolute',lineHeight: '22px'});
+								msgbox.css({position: 'absolute',zIndex:999,lineHeight: '22px'});
 								if($middle==1){
 									msgbox.css({								
 										left: offset.left + $taget.width()/2 - (msgbox.width()/2) + 'px',
@@ -230,5 +246,3 @@ jQuery.fn.extend({
 			});	
 			return Boolean(re);			
 		}
-	}
-});

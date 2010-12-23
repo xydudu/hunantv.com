@@ -8,12 +8,11 @@ HN = function($win, undefined) {
     makeCombo = false,
     addVersion = true,
     modData = {},
+    mods = [],
     jsLoaded = {},
     cssLoaded = {},
     jsurl = 'http://js.mangoq.com/honey/' ,
     isDev = this.isDev = 0;
-
-    
 
     return {
         loadJS: function($src, $fun, $context) {
@@ -26,7 +25,7 @@ HN = function($win, undefined) {
             process();
 
             function process() {
-                if (n === l) {
+                if (n==l || n > l) {
                     $fun && $fun.call( $context||window );
                     s && (s.onload = s.onreadystatechange = null);
                 } else {             
@@ -47,6 +46,7 @@ HN = function($win, undefined) {
                         }
                     };
                     s.onerror = function() {
+                        HN.debug('error '+ n);
                         HN.debug('['+ src +'] is not loaded');    
                     };
 
@@ -67,9 +67,9 @@ HN = function($win, undefined) {
                 document.createStyleSheet($css);
             } else {
                 var styles = "@import url('"+ $css +"');";
-                var newSS=document.createElement('link');
-                newSS.rel='stylesheet';
-                newSS.href='data:text/css,'+escape(styles);
+                var newSS = document.createElement('link');
+                newSS.rel = 'stylesheet';
+                newSS.href = 'data:text/css,'+escape(styles);
                 document.getElementsByTagName("head")[0].appendChild(newSS);
 
             }
@@ -100,7 +100,7 @@ HN = function($win, undefined) {
         
         //$files: lib and mod names , 'jquery' use the most in Hunantv
         //$fun: the function will excute after dom, libs and mods loaded
-        go: function($files, $fun, $needready) {
+        go: function($files, $fun, $needready, $first) {
             var 
             self = this,
             srcs = $files.split(','),
@@ -112,16 +112,23 @@ HN = function($win, undefined) {
                 
                 while (srcs.length) {
                     srcname = HN.trim(srcs.shift());
-                    if (srcname in HN.config.files) {
-                        file = HN.config.files[srcname][0];
-                        srcarr.push(jsurl + (isDev ? file.replace('.min.', '.source.') : file));
-                    } else
-                        HN.debug(srcname +'is not finded!');
+                    if (HN.inArray(srcname, mods) < 0) {
+                        mods.push(srcname);
+                        if (srcname in HN.config.files) {
+                            file = HN.config.files[srcname][0];
+                            srcarr.push(jsurl + (isDev ? file.replace('.min.', '.source.') : file));
+                        } else
+                            HN.debug(srcname +'is not finded!');    
+                    }
                 }
                 
                 makeCombo ?
                 self.combo(srcarr, $fun) :
                 self.loadJS(srcarr, function() {
+                    if ($first) {
+                        $fun();
+                        return false;    
+                    }
                     window.jQuery ?
                         jQuery(document).ready($fun) :    
                         $fun();
@@ -151,8 +158,13 @@ HN = function($win, undefined) {
             if (window.console && console.log)                
                 console.log($msg);
             else {
+                return ;
                 var
                 msg = document.createElement('p'),
+                close = document.getElementById('honey-debug-close') ?
+                    document.getElementById('honey-debug-close') :
+                    document.createElement('input'),
+
                 box = document.getElementById('honey-debug') ? 
                     document.getElementById('honey-debug') : 
                     document.createElement('div'); 
@@ -168,9 +180,18 @@ HN = function($win, undefined) {
                     box.style.top = '0';
                     box.id = 'honey-debug';
                     document.body.appendChild(box);
+                    close.value = 'close';
+                    close.type = 'button';
+                    close.onclick = function() {
+                        box.style.display = 'none';
+                        isDev = true;    
+                        return false;
+                    };
+                    box.appendChild(close);
                 }
                 msg.innerHTML = $msg;
                 box.appendChild(msg);
+                box.scrollTop = box.scrollHeight;
             } 
         },
         
@@ -197,10 +218,10 @@ HN = function($win, undefined) {
         //如果在，返回$a在$b中对应的下标
         inArray: function($a, $b) {
             for (var c = 0; c < $b.length; c++) { 
-                if ($b[c] === $a) 
+                if ($b[c] == $a) 
                     return c;
             }
-            return false;    
+            return -1;    
         },
 
         isString: function($o) {
@@ -218,10 +239,11 @@ HN = function($win, undefined) {
                 var 
                 e = $e || window.event,
                 target = $(e.target || e.srcElement);
-                HN.debug(target);
+
+                //HN.debug(target[0].tagName);
                 for (var selector in rules)
                   if (target.is(selector)) return rules[selector].apply(target, $.makeArray(arguments));
-            }
+            };
         },
         
         //窗体滚动到某个元素的位置

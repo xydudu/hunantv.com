@@ -3,8 +3,7 @@
 //need HN
 //http://kissy.googlecode.com/svn/trunk/src/cookie/cookie.js
 
-window.HN && (HN.cookie = function() {
-    
+window.HN && (HN.cookie = function() {    
     var 
     doc = document,
     encode = encodeURIComponent,

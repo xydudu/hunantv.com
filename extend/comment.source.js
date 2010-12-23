@@ -47,11 +47,17 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings)
     }
     
     //评论内的事件绑定
-    box.click(HN.delegate({
+    box.unbind('click').click(HN.delegate({
         'a.show-reply': function() {
             var 
-            rbox = $('#reply-'+ $(this).attr('rel')),
+            that = $(this),
+            rbox = $('#reply-'+ that.attr('rel')),
+            cls = that.attr('class'),
             rinput = rbox.find('.hn-comment-reply-box'); 
+
+            if (cls.split(' ').length > 1) {
+                rinput.find('input.hn-reply-content').val('回复 '+ $('#reply-'+ cls.split('-').pop()).find('.reply-nickname').text() +'：');
+            }
             if (rinput.is(':visible')) { 
                 focusInput();
                 return false;
@@ -63,11 +69,12 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings)
                 rbox.slideDown(200, focusInput);
             }
             
+            
             function focusInput() {
                 HN.scrollTo(rinput);
                 rinput.find('.hn-reply-content').focus();
             }
-            
+            HN.face(rbox.find('img.face-trigger'), rbox.find('input.hn-reply-content'));
             return false;
         },
 
@@ -79,11 +86,11 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings)
 
             if (HN.trim(cv) == '') {
                 HN.debug('回复内容不能为空');
-                rinput.shakeElem('#728F16', '#fff'); 
+                rinput.shakeElem(); 
                 return false;
             }
             
-            HN.ajax.post(settings.url+ 'reply', {photo_id: photoID, comment_id: cid, content: cv}, function($data) {
+            HN.ajax.post(settings.url+ 'reply', {photo_id: settings.sid, comment_id: cid, content: cv}, function($data) {
                 var ritem = HN.tmpl(replytmplbox.html(), $data);
                 $('div.hn-comment-reply-box', '#reply-'+ cid).after(ritem); 
                 rinput.val(''); 
@@ -117,12 +124,22 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings)
                 //error 
             });   
             
+        },
+
+        'img.face-trigger': function() {
+            var 
+            cid = $(this).attr('className').split('-').pop(),
+            cbody = $('#reply-'+ cid),
+            inputbox = cbody.find('input.hn-reply-content');
+            HN.debug('x'); 
+            HN.face($(this), inputbox);
+            return false; 
         }
 
     }));
 
     //分页的事件绑定
-    pagebox.click(HN.delegate({
+    pagebox.unbind('click').click(HN.delegate({
         'a[rel]': function() { 
             getCList($(this).attr('rel'));
             return false;
@@ -133,6 +150,8 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings)
             return false;
         }
     }));
+    //评论的添加事件
+    createbutton.unbind('click').click(createComment);
 
     getCList(page);
     
@@ -157,26 +176,54 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings)
                     html.push(HN.tmpl(tmpl, lists[i]));
                 }
                 box.html(html.join(''));
-                pagebox.length && pagebox.html(makePages($data));
-                createbutton.unbind('click').click(createComment);
+                //pagebox.length && pagebox.html(makePages($data));
+                makePages(pagebox, $data);
 
             } else {
-                box.html('还没有评论。');
+                box.html('<p id="hn-no-comment">还没有评论。</p>');
+                pagebox.hide().html('');
             }
-        }, function() {
-            box.html('还没有评论。');
+        }, function($data) {
+            box.html($data);
         });
         
     }
     
-    function makePages($data) {
-        var tmpl = pagetmplbox.html();
-        return HN.tmpl(tmpl, $data);
+    function makePages($box, $data) {
+        if ($data.total < 2) 
+            return $box.hide();
+        var 
+        pageNum = 5,
+        tmpl = pagetmplbox.html(),
+        l = $data.total,
+        page = $data.page,
+        middle = Math.ceil(pageNum/2),
+        data = {
+            min: 0,
+            max: l,
+            page: page,
+            total: l
+        };
+        //如果超过设定长度
+        if ($data.total > pageNum) {
+            (page - middle) > 0 ?
+                (data.min = page - middle):
+                (data.min = 0, data.max = pageNum);
+
+            (page + middle) > l ?
+                (data.max = l, data.min = l-pageNum):
+                ((data.max != pageNum) && (data.max = page + middle));
+        }
+        $box.html(HN.tmpl(tmpl, data)).show().find('img[over]').hover(function() {
+            this.src = [$(this).attr('over'), $(this).attr('over', this.src)][0];    
+        });
+        return $box;
     }
 
     function createComment() {
         var
         content = contentbox.val(),
+        loadingbox = $('#comment-post-loading'),
         data = {
             'photo_id': settings.sid,
             'content': content
@@ -189,14 +236,19 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings)
             return false;
         }
         
-
+        loadingbox.show();
         HN.ajax.post(settings.url +'create', data, function($data) {
+
+            loadingbox.hide();
+            $('#hn-no-comment').remove();
             $data.reply = []; 
             var c = $(HN.tmpl(tmplbox.html(), $data)).hide(); 
             contentbox.val('');
             box.prepend(c.slideDown()); 
             
         }, function($msg) {
+
+            loadingbox.hide();
             contentbox.shakeElem(); 
             //error    
         });

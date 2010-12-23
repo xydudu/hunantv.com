@@ -1,8 +1,8 @@
 // 弹出登陆
 window.HN && window.jQuery && ( HN.login = function(){
-	HN.loadCSS('http://css.mangoq.com/ui/mangoq/2010v1/css/reg.css');
+	//HN.loadCSS('http://css.mangoq.com/ui/mangoq/2010v1/css/reg.css');
 	return {
-		dialogLoginForm:function(){
+		dialogLoginForm:function($type){
 			HN.debug('DialogLoginForm is init');  
 			var
 			html=[
@@ -14,12 +14,12 @@ window.HN && window.jQuery && ( HN.login = function(){
 				  '<div class="c e-7"></div>',
 				  '<div class="c line-dfdfd2"></div>',
 				  '<div class="c e-10"></div>',
-				  '<form id="dialogLoginForm" method="post">', //form it here
+				  '<form id="dialogLoginForm" method="post" action="http://www.mangoq.com/home/user/login">', //form it here
 				  '<div class="c login-form">',
 					'<dl>',
 					  '<dt>邮箱地址：</dt>',
 					  '<dd>',
-						'<input type="text" alt="email,1||dialog_email_tip" name="">',
+						'<input type="text" alt="email,1||dialog_email_tip" name="username" id="username">',
 						'<div id="dialog_email_tip">请填写正确的邮箱帐户！</div>',
 						'<span>注册时填写的邮箱地址！</span>',
 					  '</dd>',
@@ -27,15 +27,15 @@ window.HN && window.jQuery && ( HN.login = function(){
 					'<dl>',
 					  '<dt>密　　码：</dt>',
 					  '<dd>',
-						'<input type="password" name="" alt="text,1,6,16||dialog_psw_tip">',
+						'<input type="password" name="password" id="password" alt="text,1,6,16||dialog_psw_tip">',
 						'<div id="dialog_psw_tip">请填写密码，6-16个字符！</div>',
-						'<span>密码为6-16伴字符！</span>',
+						'<span>密码为6-16个字符！</span>',
 					  '</dd>',
 					'</dl>',
 				  '</div>',
 				  '<div class="login-form-checkbox">',
 					'<div class="l">',
-					  '<input type="checkbox" value="" name="">',
+					  '<input type="checkbox" value="" name="remember" id="remember">',
 					'</div>',
 					'<div class="l">在此电脑上记住我</div>',
 				  '</div>',
@@ -43,30 +43,40 @@ window.HN && window.jQuery && ( HN.login = function(){
 					'<div class="l">',
 					  '<input type="image" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/login.jpg" name="">',
 				   '</div>',
-					'<div class="l"><a href="#">忘记密码？</a></div>',
+					'<div class="l"><a href="http://www.mangoq.com/home/user/find_passwd">忘记密码？</a></div>',
 				  '</div>',
 				  '</form>',
 				'</div>'
-			].join('');			
+			].join('');
 			
-			if($('#hn-dialog').length){
-				HN.dialog.reSize(354,240);
-				$('#hn-dialog-body').html(html);
-				$('#hn-dialog').attr('className', 'f-all w-w378h264').css('width','378px');
-				$('.hn-dialog-close').bind('click',(function(){HN.dialog.close();}));
-			} else {
-				HN.dialog.open({
-					'body':html,
-					'disableBgClick': true,
-					'opacity': 0.1,
-					'className': 'f-all w-w378h264',
-					'width': 378
-				});
-			}
+			
+			HN.dialog.open({
+				'body':html,
+				'disableBgClick': true,
+				'opacity': 0.1,
+				'className': 'f-all w-w378h264',
+				'width': 378
+			});
+			HN.dialog.reSize(354,240);
 			
 			//加点点效果
 			$('#hn-dialog').hide().fadeIn(200);
 			$('#dialogLoginForm').vForm({errBoxClass:'err',inputErrClass:'iw',delayTime:2000},function(){});
+			
+			if($type){
+				
+				$('#dialogLoginForm').submit(function(){
+					if($('#dialogLoginForm').xForm({errBoxClass:'err',inputErrClass:'iw',delayTime:2000})){
+						HN.ajax.post('http://www.mangoq.com/home/user/ajax_login',{username:$('#username').val(),password:$('#password').val(),remember:$('#remember').val()},function($data){
+							HN.dialog.close();
+							if(!login_uid){login_uid=+$data.msg;}
+						},function(){
+							alert('登陆失败,请检查用户名和密码!');
+						});
+						}
+					return false;
+				});
+			}
 		},
 		
 		isLogin:function($true,$false){
@@ -77,7 +87,7 @@ window.HN && window.jQuery && ( HN.login = function(){
 					} else {
 						$false.call();
 					}
-				})
+				});
 			});
 		}
 	}

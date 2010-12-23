@@ -1,5 +1,5 @@
 //9.30/2010 xydudu CTU
-//通知，包括title栏提醒，声音提醒，右下角弹出
+//通知，包括title栏提醒，声音提醒，右下角弹出 
 
 window.HN && (HN.notice = function($doc) {
     var 
@@ -8,7 +8,7 @@ window.HN && (HN.notice = function($doc) {
     t;
 
     //闪烁并focus到输入框
-    $.fn.shakeElem = function() {
+    $.fn.shakeElem = function($times) {
         var 
         times = 0,
         elem = $(this),
@@ -17,7 +17,7 @@ window.HN && (HN.notice = function($doc) {
         shake = function () {
             elem.css('backgroundColor', args[times % 2]);
             times += 1;
-            if (times === 6) {
+            if (times === ($times || 6)) {
                 times = 0;
                 elem.is('input, textarea') && elem.focus();
                 return elem;
@@ -35,20 +35,20 @@ window.HN && (HN.notice = function($doc) {
         //$msg: 显示消息内容
         //$sound: 是否提示声音
         titleMsg: function($msg, $sound) {
-            if (t)
-                clearInterval(t);
-            var i = 0;             
-            t = setInterval(function() {
-                $doc.title = i % 2 ? '['+ $msg +']' : originTitle;
-                i ++;    
-            }, 500);
+              if (t)
+                  clearInterval(t);
+              var i = 0;             
+              t = setInterval(function() {
+                  $doc.title = i % 2 ? '['+ $msg +']' : originTitle;
+                  i ++;    
+              }, 500);
 
-            return {
-                stop: function() {
-                    clearInterval(t);
-                    $doc.title = originTitle;                    
-                }  
-            };
+              return {
+                  stop: function() {
+                      clearInterval(t);
+                      $doc.title = originTitle;                    
+                  }  
+              };
         }
         
     };

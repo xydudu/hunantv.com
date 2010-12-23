@@ -3,7 +3,7 @@ window.HN && window.jQuery && (HN.tab = function($tabId) {
 	HN.debug('HN.tab is init'); 
 
 	var options = {
-        tabId: 'tab-id',                  //tab唯一标识ID*/
+        tabId: 'tab-id',                  //tab唯一标识ID*/ 
 		index: 0 ,                        //默认显示第几个*/
         eventType: 'click',               //触发事件 click/mouseover*/
 		tabClass: 'selecteds',            //自定义 按钮样式  字符串形式 为统一样式 eq:selecteds，数组 为一一对应样式 eq:['a','b','c','d']

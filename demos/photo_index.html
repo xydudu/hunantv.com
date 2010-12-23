@@ -12,7 +12,7 @@
 <title>无标题文档</title>
 </head>
 <body>
-<div class="l frame510">
+<div class="l frame510" id="photo_album_wrap">
 
   <div class="w490-photos">
     <div class="l"><img src="http://css.mangoq.com//ui/mangoq/2010v1/images/title/album.jpg" /></div>
@@ -27,7 +27,7 @@
   <div class="l icodot"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/dot_triangle_2.gif"/></div>
 </div>
 
-<!--显示模板-->
+<!--显示模板 外框-->
 <script id="photo_albums_show" type="html/hn-tmpl">
   [% if(albumData.length==0) {%]
 	  [%if(self){%]
@@ -37,94 +37,100 @@
 	  [%}%]
   [%}else{ %] 
 	  [% for (var j=0; j<albumData.length; j++) { %] 
-	  <div id="[%=albumData[j].album_id%]">
-	  <div class="w490-photos-title">
-		<div class="l"><span>[[%=albumData[j].album_name%]]</span> &nbsp; ([%=albumData[j].photo_count%]张照片，[%=albumData[j].comment_count%]条评论，[%=albumData[j].last_update_time%]前更新)</div>
-		[% if(self) { %] 
-		<div class="r"><a href="javascript:" class="album_edit_btn"><img border="0" alt="编辑" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/edit.gif" /></a></div>
-		[%}%]
-		<div class="r"></div>
+	  <div id="photo_album_show_box_[%=albumData[j].album_id%]" class="photo_album_show_box">
 	  </div>
-	  <div class="w490-photos-content">
-		<div class="l"><a id="[%=albumData[j].photo_id%]" target="_blank" href="http://www.mangoq.com/photo/photo/index/[%=albumData[j].photo_id%]"><img border="0" title="[%=albumData[j].album_cover%]" src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/340_1.jpg" /></a></div>
-		<div class="r">
-		  <ul>
-			[% for (var i=0; i<albumData[j].photoes.length; i++) { %]  
-				<li><a target="_blank" href="http://www.mangoq.com/photo/photo/index/[%=albumData[j].photoes[i].photo_id%]"><img border="0" title="[%=albumData[j].photoes[i].photo_key%]" src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_1.jpg" /></a></li>
-			[% } %]  
-		  </ul>
-		</div>
-	  </div>
-	  </div>
-	  [% } %]
+	 [% } %]
   [% } %]  
 </script>
+<!--显示模板 列表-->
+<script id="photo_albums_show_list" type="html/hn-tmpl">
+		  <div class="w490-photos-title">
+			<div class="l"><span>[[%=album_name%]]</span> &nbsp; ([%=photo_count%]张照片，[%=comment_count%]条评论，[%=last_update_time%]前更新)</div>
+			[% if(self) { %] 
+			<div class="r"><a href="javascript:" class="album_edit_btn" name="[%=album_id%]"><img border="0" alt="编辑" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/edit.gif" /></a></div>
+			[%}%]
+			<div class="r"></div>
+		  </div>
+		  <div class="w490-photos-content">
+			<div class="l"><a id="[%=photo_id%]" target="_blank" href="http://www.mangoq.com/photo/photo/index/[%=photo_id%]"><img border="0" title="[%=album_cover%]" src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/340_1.jpg" /></a></div>
+			<div class="r">
+			  <ul>
+				[% for (var i=0; i<photoes.length; i++) { %]  
+					<li><a target="_blank" href="http://www.mangoq.com/photo/photo/index/[%=photoes[i].photo_id%]"><img border="0" title="[%=photoes[i].photo_key%]" src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_1.jpg" /></a></li>
+				[% } %]  
+			  </ul>
+			</div>
+		  </div>
+</script>
   
-<!--编辑模板-->
+<!--编辑模板  外框-->
 <script id="photo_albums_edit" type="html/hn-tmpl">
-  <div id="album_edit_box" name="[%=album_id%]" style="margin-bottom:15px; float:left;">
-    <div class="fp-frame fp-frame-3">
+  <div id="photo_album_edit_box_[%=album_id%]" style="margin-bottom:15px; float:left;">
+    <div class="fp-frame fp-frame-3" style="padding:0px;">
       <div class="fp-albumname">
         <div class="l">相册名称：</div>
         <div class="l fp-textbox">
-          <input value="[%=album_name%]"/>
+			  <input type="hidden" class="album_cover_photo_id" value="[%=album_cover%]"/>
+          <span style="float:left;" id="photo_album_name_[%=album_id%]">[%=album_name%]</span>
         </div>
-        <div class="l">
-          <input type="image" src="http://css.mangoq.com/ui//mangoq/2010v1/images/button/album_save.gif" name=""  />
-        </div>
-        <div class="l"><a href="javascript:">取消</a><span>(最多10个字符)</span></div>
+        <div class="l"><span>(最多10个字符)</span></div>
       </div>
       <div class="fp-piclists">
 	  
+		
+      </div>
+      <div class="c e-20"></div>
+      <div class="fp-photo-more" id="more_photo_[%=album_id%]" name="1" style="cursor:pointer">
+        <div class="fp-photo-more-l"><a href="javascript:">更多照片</a></div>
+        <div class="fp-photo-more-r"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photolist_more.jpg"/></div>
+      </div>
+      <div class="fp-command-del">
+        <div class="l">
+          <input type="checkbox" value="1" class="check_photo_all" name="">
+        </div>
+        <div class="l">全选</div>
+        <div class="l">
+          <input type="image" class="del_photo_all_btn" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/cmd_delete_53x25.jpg" name="" />
+        </div>
+      </div>
+    </div>
+    <div class="save-sumbit">
+      <div class="save-sumbit-l">
+        <input type="image" class="compate_edit" name="[%=album_id%]" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/save.jpg" name="" />
+      </div>
+      <div class="save-sumbit-r"><a class="compate_edit" name="[%=album_id%]" href="javascript:">取消</a></div>
+    </div>
+  </div>
+</script>
+
+<!--编辑模板  列表 -->
+<script id="photo_albums_edit_photolist" type="html/hn-tmpl">	  
 	  [% for (var j=0; j<list.length; j++) { %] 
-        <div style="position: relative;" class="fp-piclist">
+        <div style="position: relative;" class="fp-piclist" name="[%=list[j].photo_id%]">
           <dl>
             <dt>
               <div class="fp-piclists-del"></div>
               <div class="c"><a href="javascript:"><img border="0" src="http://css.mangoq.com/ui/mangoq/2010v1/images/face/105_1.jpg" /></a></div>
-              <div class="fp-piclists-del"><a href="javascript:"><img name="[%=list[j].photo_id%]" key="[%=list[j].photo_key%]" src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photo_setdefault[%if(!list[j].is_cover){%]2[%}%].jpg" /></a><a href="javascript:"><img border="0" class="del_photo_btn" name="[%=list[j].photo_id%]"  key="[%=list[j].photo_key%]" src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photo_del.gif"/></a></div>
+              <div class="fp-piclists-del"><a href="javascript:"><img class="set_cover_btn" key="[%=list[j].photo_key%]" [%if(!list[j].is_cover){%]is_cover="true"[%}%] src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photo_setdefault[%if(!list[j].is_cover){%]2[%}%].jpg" /></a><a href="javascript:"><img border="0" class="del_photo_btn" name="[%=list[j].photo_id%]" key="[%=list[j].photo_key%]" src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photo_del.gif" title="删除相片"/></a></div>
               <!-- float tips start -->
-              <div style="position: absolute; top: 76px; left: 58px;" class="fp-piclists-floattips1">设封面</div>
+              <div style="position: absolute; top: 76px; left: 58px; display:none;" class="fp-piclists-floattips1">设封面</div>
               <!-- float tips end -->
             </dt>
             <dd>
               <div>
-                <div class="fp-piclists-write"><a href="javascript:"><img height="12" width="12" border="0" src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/write.gif"/></a></div>
+                <div class="fp-piclists-write"><a href="javascript:"><img height="12" title="编辑相片" width="12" border="0" src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/write.gif"/></a></div>
                 <div class="fp-piclists-title"><a href="javascript:" alt="[%=list[j].photo_id%]">[%=list[j].photo_des%]</a></div>
               </div>
             </dd>
           </dl>
         </div>
 		[%}%]
-      </div>
-      <div class="c e-20"></div>
-      <div class="fp-photo-more">
-        <div class="fp-photo-more-l"><a href="javascript:">更多照片</a></div>
-        <div class="fp-photo-more-r"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photolist_more.jpg"/></div>
-      </div>
-      <div class="fp-command-del">
-        <div class="l">
-          <input type="checkbox" value="" name="">
-        </div>
-        <div class="l">全选</div>
-        <div class="l">
-          <input type="image" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/cmd_delete_53x25.jpg" name="" />
-        </div>
-      </div>
-    </div>
-    <div class="save-sumbit">
-      <div class="save-sumbit-l">
-        <input type="image" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/save.jpg" name="" />
-      </div>
-      <div class="save-sumbit-r"><a href="javascript:">取消</a></div>
-    </div>
-  </div>
 </script>
 
 <script type="text/javascript">
 HN.openDevMode();
 var albumData=[],self=false,total=0,uid=18,userToken='佳健生成';
-HN.go('jquery,dialog,ajax,template,form,login,swfupload,upload,tinput',function(){
+HN.go('jquery,dialog,ajax,template,form,login,swfupload,upload,tinput,tooltip',function(){
 	
 	//初始化相册资料
 	getAlbum(0);
@@ -144,60 +150,134 @@ HN.go('jquery,dialog,ajax,template,form,login,swfupload,upload,tinput',function(
 		html=$('#album_more').html();
 		$('#album_more').html('<div style="margin-left:30px;text-align:left; padding-top:8px;"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/loading.gif" /></div>');
 		HN.ajax.post('http://js.mangoq.com/honey/demos/get_photo_album.php',data,function($data){
+			albumData=[];
 			for(var z=0;z<$data.album.length;z++){
 				albumData.push($data.album[z]);
 			}
 			total=$data.total;
 			self=$data.self;
-			$('.frame510').html(HN.tmpl('photo_albums_show',albumData));
+			$('#photo_album_wrap').append(HN.tmpl('photo_albums_show',albumData));
+			for(var i=0;i<albumData.length;i++){
+				$('#photo_album_show_box_'+albumData[i].album_id).append(HN.tmpl('photo_albums_show_list',albumData[i]));
+			}
 			$('#album_more').html(html);
-			if(albumData.length==total){$('#album_more').hide();}
+			if($('.photo_album_show_box').length==total){$('#album_more').hide();}
+			
+			//编辑相册按钮事件
+			$('.album_edit_btn').unbind('click').bind('click',(function(){
+				var n=$(this).attr('name');
+				album_edit($('#photo_album_show_box_'+n),n,0);
+			}));
+			
+			//显示编辑相册模板
+			function album_edit($box,$n,$page){
+				var Data={album_id:$n,page:$page};
+				HN.ajax.post('http://js.mangoq.com/honey/demos/get_ablum_byid.php',Data,function($data){
+					//套外框
+					$box.html(HN.tmpl("photo_albums_edit",$data));
+					//编辑后的 保存和取消事件绑定
+					$box.find('.compate_edit').unbind('click').click(function(){
+						HN.ajax.post('http://js.mangoq.com/honey/demos/get_ablum_by_albumid.php',{album_id:$(this).attr('name'), uid :uid},function($data){
+							$box.html(HN.tmpl('photo_albums_show_list',$data));
+							$('.album_edit_btn').unbind('click').bind('click',(function(){
+								var n=$(this).attr('name');
+								album_edit($('#photo_album_show_box_'+n),n,0);
+							}));
+						});
+					});
+					
+					//初始相片
+					getMorePhoto($n,0);					
+					//更多相片 事件
+					$('#more_photo_'+$n).unbind('click').bind('click',function(){
+						getMorePhoto($n,$(this).attr('name'));
+					});
+					//更多相片获取
+					function getMorePhoto($album,$page){
+						var Data={album_id:$album,page:$page}
+						HN.ajax.post('http://js.mangoq.com/honey/demos/get_ablum_byid.php',Data,function($data){
+							var html='';
+							//插入相片
+							$box.find('.fp-piclists').append(HN.tmpl('photo_albums_edit_photolist',$data));
+							//没有更多
+							if($box.find('.fp-piclist').length>=$data.total){$('#more_photo_'+$n).hide();}
+							
+							//绑定设置封面事件
+							$('.set_cover_btn').unbind('click').bind('mouseover',function(){
+								$(this).parent().parent().siblings('.fp-piclists-floattips1').fadeIn(500);
+							});
+							$('.set_cover_btn').unbind('click').bind('mouseout',function(){
+								$(this).parent().parent().siblings('.fp-piclists-floattips1').fadeOut(100);
+							});
+							//编辑相片描述
+							var post_url='http://js.mangoq.com/honey/demos/tInput.php'
+							HN.tInput({target:'.fp-piclists-title a',url:post_url,id:'photo_id',value:'photo_des'});
+							$('.fp-piclists-write a').unbind('click').bind('click',(function(){
+								var obj=$(this).parent().siblings().find('a');
+								HN.tInput({target:obj,url:post_url,id:'photo_id',value:'photo_des'});
+							}));
+							
+							//删除相片
+							$box.find('.del_photo_btn').unbind('click').bind('click',function(){
+								var o=$(this);
+								data={cover_photo_id:$box.find('.album_cover_photo_id').val(),photo_id:o.attr('name')};
+								obj=o.parent().parent().parent().parent().parent();
+								delete_photo(obj,data);
+							});
+							
+							//设置封面
+							$box.find('.set_cover_btn').unbind('click').bind('click',function(){
+								var o=$(this);
+								HN.ajax.post('http://js.mangoq.com/honey/demos/cancel_cover.php',{album_id:$n,photo_id:o.attr('name'),key:o.attr('key')},function($data){
+									$box.find('.set_cover_btn').attr('src','http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photo_setdefault2.jpg');
+									o.attr('src','http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photo_setdefault.jpg');
+									o.attr('is_cover','true');
+								},
+								function(){
+									alert('设置失败');
+								});
+							});
+						});
+					}
+					
+					function delete_photo($obj, $data) {
+						HN.ajax.post('http://js.mangoq.com/honey/demos/del_photo.php', $data, 
+						function($data) {
+							$obj.fadeOut(200, 
+							function() {
+								obj.remove();					
+							});					
+						},
+						function() {
+							alert('删除失败');					
+						});					
+					}
+					
+					//编辑相册名称
+					HN.tInput({target:'#photo_album_name_'+$n,url:'http://js.mangoq.com/honey/demos/save_album_name.php',album_id:'album_id',value:'album_name'});
+					//删除全部选中相片
+					$box.find('.del_photo_all_btn').unbind('click').bind('click',function(){
+						if($box.find('.check_photo_all').attr('checked')){
+							var photoid=[];
+							for(var i=0;i<$box.find('.fp-piclist').length;i++){
+								photoid.push(+$box.find('.fp-piclist').eq(i).attr('name'));
+							}
+							data={cover_photo_id:$box.find('.album_cover_photo_id').val(),photo_id:photoid};
+							obj=$box.find('.fp-piclist').remove();
+							delete_photo(obj,data);
+							$box.find('.check_photo_all').attr('checked','');
+						}
+					});
+		
+				});
+			}
+		
 		},
 		function($data){
 			self=$data.self;
-			$('.frame510').html(HN.tmpl('photo_albums_show',albumData));
 			$('#album_more').hide();
 		});
 	}
-	
-	//编辑相册处理
-	$('.album_edit_btn').die('click').live('click',(function(){
-		album_edit($(this).parent().parent().parent(),0);
-	}));
-	//编辑相册方法
-	function album_edit($box,$page){
-		var Data={album_id:$box.attr('id'),page:$page};
-		HN.debug(Data)
-		HN.ajax.post('http://js.mangoq.com/honey/demos/get_ablum_byid.php',Data,function($data){
-			$box.html(HN.tmpl("photo_albums_edit",$data));
-		});
-	}
-	
-	//编辑相册文本-编辑
-	var post_url='http://js.mangoq.com/honey/demos/tInput.php'
-	HN.tInput({target:'.fp-piclists-title a',url:post_url,id:'photo_id',value:'photo_des'});
-	$('.fp-piclists-write a').live('click',(function(){
-		var obj=$(this).parent().siblings().find('a');
-		HN.tInput({target:obj,url:post_url,id:'photo_id',value:'photo_des'});
-	}));
-	
-	//删除相片
-	$('.del_photo_btn').live('click',function(){
-		var o=$(this);
-		HN.ajax.post('http://js.mangoq.com/honey/demos/cancel_cover.php',{album_id:$('#album_edit_box').attr('name'),photo_id:o.attr('name'),key:o.attr('key')},function($data){
-			HN.ajax.post('http://js.mangoq.com/honey/demos/del_photo.php',{photo_id:o.attr('name')},function($data){
-				var obj=o.parent().parent().parent().parent().parent();
-				obj.fadeOut(400,function(){
-					obj.remove();			
-				});
-			},function(){
-				alert('删除失败');
-			});	
-		},function(){
-			alert('删除失败');
-		});
-	});
-	
 	
 	//上传按钮
 	$('#upload_btn').click(function(){
@@ -205,7 +285,7 @@ HN.go('jquery,dialog,ajax,template,form,login,swfupload,upload,tinput',function(
 	});
 	
 	//看相片处理
-	$('.w490-photos-content a').click(function(){
+	$('.w490-photos-content a').live('click',(function(){
 		var 
 		o=$(this),
 		data={photo_id:$(this).attr('id')};
@@ -225,7 +305,7 @@ HN.go('jquery,dialog,ajax,template,form,login,swfupload,upload,tinput',function(
 			}
 		});
 		return false;
-	});
+	}));
 	
 });
 </script>

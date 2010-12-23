@@ -15,10 +15,10 @@
 <script type="text/javascript">
 HN.openDevMode();
 HN.go('jquery,dialog,ajax,form,upload,swfupload',function(){	
-	//HN.upload().dialogUpload('123456',1);
-	
+	//HN.upload().dialogUpload($uid);
+	//$uid:用户ID，$tip:1 为1时 显示提示 提示：该用户已上传多张照片，您必须同样拥有 <span>3张</span> 以上照片才能欣赏TA的全部靓照哦！
 	$('#open').click(function(){
-		HN.upload().dialogUpload('123456');					  
+		HN.upload().dialogUpload(18);	
 	});
 });
 </script>

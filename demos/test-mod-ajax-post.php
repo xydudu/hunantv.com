@@ -1,7 +1,8 @@
 <?php
 $response = array(
-    'err' => 0,
+    'err' => 1,
     'data' => $_POST['data']    
 );  
+sleep(11);
 echo json_encode($response);
-?>
+?

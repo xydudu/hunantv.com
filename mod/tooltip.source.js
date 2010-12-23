@@ -1,4 +1,4 @@
-//11.5/2010 tooltip
+//11.5/2010 tooltip 
 //need jQuery, tmpl
 window.HN && window.jQuery && (HN.tooltip = function($elem, $msg, $parentid) {
     
@@ -14,11 +14,22 @@ window.HN && window.jQuery && (HN.tooltip = function($elem, $msg, $parentid) {
     }, function() {
         isOn = 0;            
     });
+    //HN.ie6() && 
+    tmpl.click(HN.delegate({
+        
+        'a': function() {
+            //HN.debug($(this).html()));
+            window.location.href = $(this).attr('href');
+            return false;
+        }
+
+    }));
     
     //position
     tmpl.css({
-        'position': 'absolute',
-        'zIndex': 1000    
+        //'position': 'absolute'
+		textAlign:'left',
+        'zIndex': 999    
     });
 
     function show() {
@@ -33,7 +44,7 @@ window.HN && window.jQuery && (HN.tooltip = function($elem, $msg, $parentid) {
         t = setTimeout(function() {
             tmpl.html(msg).appendTo($parentid || 'body').show();
             clearTimeout(t);
-        }, 300);
+        }, 100);
         
     }
 
@@ -41,12 +52,12 @@ window.HN && window.jQuery && (HN.tooltip = function($elem, $msg, $parentid) {
         //clearTimeout(t);
         t2 = setTimeout(function() {
             isOn ?
-                setTimeout(arguments.callee, 300):
+                setTimeout(arguments.callee, 100):
                 tmpl.hide();
 
             clearTimeout(t2);
         
-        }, 300);
+        }, 100);
     }
     
     elem.hover(show, hide);

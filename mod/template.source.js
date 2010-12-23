@@ -1,4 +1,4 @@
-// Simple JavaScript Templating
+// Simple JavaScript Templating 
 // John Resig - http://ejohn.org/ - MIT Licensed
 window.HN &&
 (function(){

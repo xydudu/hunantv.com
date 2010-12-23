@@ -73,7 +73,7 @@ echo '{
 				]
 			},
 			{
-				"album_id": "2",
+				"album_id": "3",
 				"uid": "1",
 				"album_name": "这是测试相册四",
 				"photo_id": "18",

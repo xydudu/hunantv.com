@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <script src="http://jsdev.hunantv.com/hn.source.js"></script>
+    <script src="http://js.mangoq.com/honey/hn.source.js"></script>
     <title>Test-mod-ajax</title>
 </head>
 <body>
@@ -31,6 +31,10 @@
                 HN.ajax.post(url, data, function($data) {
                     HN.debug($data); 
                     o.parent().append($data +'<span>-------------OK</span>'); 
+                }, function() {
+                    
+                    HN.debug('fail');
+            
                 });
             });
 

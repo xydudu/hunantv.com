@@ -16,7 +16,7 @@ span {margin-right:20px;}
 input {width:120px; padding:2px;}
 </style>
 <body>
-<div style="margin:auto; width:50%; border:1px dashed #CCC; padding:20px; text-align:left; line-height:25px;">
+<div style="margin:auto;  width:50%; border:1px dashed #CCC; padding:20px; text-align:left; line-height:25px;">
   <p><code>&lt;span class=&quot;test&quot; <span style="color:#F00">alt=&quot;id&quot;</span>&gt;<span style="color:#03C">点击进行编辑</span>&lt;/span&gt; </code><br />
     <b>target</b>:支持JQ对象，及ID或Class选择器，例如：<code>target:$('#box span').eq(2)，或target:'.calss,#id'</code><br />
     <b>url</b>:ajax请求地址<br />
@@ -43,10 +43,13 @@ HN.tInput({target:$('#box span').eq(2),url:'tInput.php',id:'photo_id',value:'pho
 HN.openDevMode();
 HN.go('jquery,ajax,tinput',function(){
 	//目标支持ID或Class选择
-	HN.tInput({target:'.test,.aa,.cc',url:'tInput.php',id:'photo_id',value:'photo_des'});
+	HN.tInput({target:'.test,.aa,.cc',url:'tInput.php',id:'photo_id',value:'photo_des',callback:aa});
 	$('#edit').click(function(){
 		HN.tInput({target:$('#box span').eq(2),url:'tInput.php',id:'photo_id',value:'photo_des'});
 	});
+	function aa(){
+	alert(1)
+	}
 	
 });
 </script>

@@ -13,6 +13,7 @@
 		<div>单选：[%=sex.value%]</div>
         <div>下拉框：[%=degree.value%]</div>
 		<div>多选：[%=interest.value%]</div>
+        <dd>[%=live_province_id.value%] [%=live_city_id.value%] </dd>
         <input type="button" value="edit" id="edit" />
     </script>
     <script id="modeedit" type="html/hn-tmpl" >
@@ -20,14 +21,20 @@
             <input type="text" name="name" value="[%=name%]" />
             [%=HN.render.option('radio', sex.id, 'sex', tempData.sexs)%]
             [%=HN.render.option('select', degree.id, 'degree', tempData.degrees)%]
-			[%=HN.render.option('checkbox', interest.id, 'interest[]', tempData.interests,['<div>','','</div>'])%]
+			[%=HN.render.option('checkbox', interest.id, 'interest[]', tempData.interests, '', ['<div>','','</div>'])%]
+
+            <select id="live_province" name="live_province"><option>请选择</option></select>
+            <select id="live_city" name="live_city" class="select"><option>请选择</option></select>
+
             <input type="button" value="ok" id="ok" /><input type="button" value="Cancel" id="Cancel" />
         </form>
     </script>
 
     <script>
 		//初始数据
-		DATA = {name: 'i am dudu', degree: {id: 2, value: '本科'}, interest:{id:[1,2],value:'打球,泡MM'}, sex:{id:0,value:'男'}};
+        DATA = {name: 'i am dudu', degree: {id: 2, value: '本科'}, interest:{id:[1, 2],value:'打球, 看电影'}, sex:{id:0,value:'男'},
+        live_province_id: {id: "43", value: "湖南"}, live_city_id: {id: "4301", value: "长沙"}};
+            
 		
 		//选项数据源  ，注意变量名不能和上面DATA里的元素名相冲突 比如 sexs和sex 要区分开
 		var	tempData={};
@@ -38,27 +45,32 @@
 		
         
     </script>
-    
-    
-    
-
     <script>
-		
-		
        HN.openDevMode();
-        HN.go('jquery, template, ajax, render', function() {
+        HN.go('jquery, template, ajax, area, select, render', function() {
             
             HN.render({
                 'id': 'mode',
                 'data': DATA,
                 'bindShow': function($r) {
+                    
+                    $r.callback = function() {
+                        var defaultLiveCity = $r.defaultLiveCity || {id: "4301",pid: "43", name: ''};
+                        //HN.debug($r.defaultLiveCity || {id: "4301",pid: "43", name: ''});
+                        HN.selectTwo(AREA, defaultLiveCity, ['live_province', 'live_city']);
+                    }; 
                     $('#edit').click($r.edit);
+
                 },
                 'bindEdit': function($r) {
+                    $r.callback = function($data) {
+                        $r.defaultLiveCity = {id: $data.live_city_id.id, pid: $data.live_province_id.id, name: ''};
+                    };
                     $('#ok').click($r.post); 
                 }                   
             });
 			
+            /*
 			$('#Cancel').die('click').live('click',(function(){
 				HN.render({
 					'id': 'mode',
@@ -71,8 +83,8 @@
 					}                
 				});
 			}));
-			
-           
+            */
+
         });
     </script>
 </body>

@@ -12,7 +12,7 @@
  * http://noteslog.com/wnt
  * 7.28/2010 xydudu modified
  * cross domain ajax
- * */
+ * */ 
 
 window.HN && window.jQuery && (HN.ajax = function() {
      
@@ -22,7 +22,9 @@ window.HN && window.jQuery && (HN.ajax = function() {
     var 
     dataType = 'json',
     container = 'body',
-    isrc = "about:blank";
+    isrc = "about:blank",
+    times = 30000,
+    t;
 
     //tested in Opera 10
     if ($.browser.opera) {
@@ -86,6 +88,8 @@ window.HN && window.jQuery && (HN.ajax = function() {
                 if ($iframe.data('back')) {
                     var response = $.parseJSON($iframe[0].contentWindow.name);
                     if ($.isFunction($ok)) {
+                        clearTimeout(t);
+                        t = null;
                         var 
                         callback = +response.err? $fail: $ok;
                         callback(response.data);           
@@ -109,12 +113,17 @@ window.HN && window.jQuery && (HN.ajax = function() {
             data: $data,
             dataType: dataType,
             success: function($msg){
+                clearTimeout(t);
+                t = null;
                 HN.debug($msg);
                 callback = +$msg.err? $fail: $ok;
-                callback($msg.data || $msg.msg);
+                callback($msg.msg || $msg.data);
+                
             },
             error: function($a, $b, $c) {
-                $fail($b);
+                clearTimeout(t);
+                t = null;
+                $fail($b)
             }
         });
     }
@@ -127,6 +136,11 @@ window.HN && window.jQuery && (HN.ajax = function() {
                 HN.debug($msg); 
                 //handle error
             };
+            t = setTimeout(function() {
+                fail('请求超时！');    
+                clearTimeout(t);
+                t = null;
+            }, times);
             a($url, 'POST', $data, $ok, fail);
         },
         
@@ -136,6 +150,11 @@ window.HN && window.jQuery && (HN.ajax = function() {
                 HN.debug($msg); 
                 //handle error
             };
+            t = setTimeout(function() {
+                fail('请求超时！');    
+                clearTimeout(t);
+                t = null;
+            }, times);
             a($url, 'GET', $data, $ok, fail);
         },
         //cross domain post
@@ -145,6 +164,11 @@ window.HN && window.jQuery && (HN.ajax = function() {
                 HN.debug($msg); 
                 //handle error
             };
+            t = setTimeout(function() {
+                fail('请求超时！');    
+                clearTimeout(t);
+                t = null;
+            }, times);
             handle_request('POST', $url, $data || {}, $ok, fail);
         },
             
@@ -154,6 +178,11 @@ window.HN && window.jQuery && (HN.ajax = function() {
                 HN.debug($msg); 
                 //handle error
             };
+            t = setTimeout(function() {
+                fail('请求超时！');    
+                clearTimeout(t);
+                t = null;
+            }, times);
             handle_request('GET', $url, $data || {}, $ok, fail);
         }
 

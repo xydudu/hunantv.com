@@ -5,7 +5,7 @@
 window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
     
     var 
-    wrapper = head = body = foot = bg = bgiframe = 0,
+    wrapper = head = body = foot = bg = bgiframe = 0, 
     //初始设置
     options = {
         title: 'This is a dialog', //set a dialog title
@@ -34,8 +34,8 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
     box = [
         '<div class="f-all" id="{{id}}">',
         '<div class="f-top">',
-        '<div class="f-top-l" png="/ui/mangoq/2010v1/images/bg/f_a_0.png"></div>',
-        '<div class="f-top-r" png="/ui/mangoq/2010v1/images/bg/f_a_6.png"></div>',
+        '<div class="f-top-l" ></div>',
+        '<div class="f-top-r" ></div>',
         '<div class="f-top-m w-top-m"></div>',
         '</div>',
         '<div class="f-main">',
@@ -96,6 +96,7 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
             $(window).scroll(center);
             //改变大小时
             $(window).resize(function() {
+                if (HN.dialog.closed) return;
                 //改变窗体大小    
                 var view = viewHW();
                 bg &&
@@ -108,9 +109,14 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
     
     //make element in a cnter position
     function center() {
+        if (HN.dialog.closed) return;
+
         var scrollTop = $(window).scrollTop();
-        wrapper.css('top', scrollTop + ($(window).height() / 2));
-        bg &&
+        //if (!wrapper.posed) 
+            wrapper.css('top', +scrollTop + ($(window).height()  - wrapper.height())/ 2);
+
+        wrapper.posed = true;
+        ie6 && bg &&
             bg.css('top', scrollTop),
             bgiframe.css('top', scrollTop);
 
@@ -119,8 +125,8 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
 
     //更新层状态
     function updateBox() {
-        HN.debug(options);
-        HN.debug('IE6? ---------'+ ie6);
+        //HN.debug(options);
+        //HN.debug('IE6? ---------'+ ie6);
 
         if (!wrapper) return;
         
@@ -131,7 +137,8 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
         },
         view = viewHW();
 
-        ie6 && (attr.position = 'absolute');
+        //ie6 && (attr.position = 'absolute');
+        attr.position = 'absolute';
         wrapper.css(attr);
         
         //重新设定遮罩层大小
@@ -148,6 +155,8 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
                 bgiframe.css('position', 'absolute');
             }
         }
+
+        center();
         
         bindClose();
     }
@@ -198,15 +207,18 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
                 body.html(options.body);
                 foot.html(options.foot);
             }
+            HN.dialog.closed = false;
             bg && bg.show();     
             bgiframe && bgiframe.show();
             updateBox();
         },
 
         close: function() {
+            HN.dialog.closed = true;
             wrapper && wrapper.hide();     
             bg && bg.hide();     
             bgiframe && bgiframe.hide();
+            wrapper.posed = false;
             return false;
         },
 
@@ -267,17 +279,20 @@ window.HN && window.jQuery && (HN.dialog = function(window, undefined) {
 
 			if ($width > 0) {
 				wrapper.css('width', $width + 24);
-				left = ($width + 24) / 2;
+				//left = ($width + 24) / 2;
 				$('.w-top-m,.w-main-m,.w-buttom-m').css('width', $width);
-				wrapper.css('margin-left', -left);
+				//wrapper.css('margin-left', -left);
 			}
 			if ($height > 0) {
-				top=getTop($height+24);
-				if(top<0)top=10;
+				//top=getTop($height+24);
+				//if(top<0)top=10;
 				wrapper.css('height',$height+24+'px');
 				$('.w-main-l,.w-main-m,.w-main-r').css('height',$height+'px');
-				wrapper.css('top',top+'px');
+				//wrapper.css('top',top+'px');
 			}
+			$('#hn-dialog,#hn-dialog-bgframe,#hn-dialog-overlay').show(0);
+			//$('.hn-dialog-close').bind('click',(function(){HN.dialog.close();}));
+            center();
 		}
     };
     

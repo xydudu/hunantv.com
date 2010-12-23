@@ -7,7 +7,9 @@
 
 HN.config = {
     url: {
-        js: 'http://js.mangoq.com/honey/'    
+		www:'http://www.mangoq.com/',
+        js: 'http://js.mangoq.com/honey/',
+		css:'http://css.mangoq.com/'
     },
     /*
      *  存放文件，每个人添加文件后，请到此处“备案”。。。
@@ -133,8 +135,8 @@ HN.config = {
             '11/20/2010'
         ],
 
-        'IMdialog': [
-            'extend/im.dialog.min.js',
+        'dialog2': [
+            'mod/dialog2.min.js',
             'xydudu',
             '11/20/2010'
         ],
@@ -152,9 +154,37 @@ HN.config = {
         ],
 		
 		'tinput': [
-            'mod/tinput.source.js',
+            'mod/tInput.source.js',
             '729748',
             '11/21/2010'
+        ],
+		
+		'avatar': [
+            'extend/avatar.source.js',
+            '729748',
+            '12/03/2010'
+        ],
+
+        'ape.core': [
+            'lib/ape.core.min.js',
+            'xydudu',
+            '12/06/2010' 
+        ],
+
+        'ajax.action': [
+            'extend/ajax.action.min.js',
+            'xydudu',
+            '12/08/2010'
+        ],
+		'face': [
+            'extend/face.min.js',
+            'xydudu',
+            '12/08/2010'
+        ],
+		'dateSelect': [
+            'extend/dateSelect.min.js',
+            '729748',
+            '12/16/2010'
         ]
     }
 };

@@ -23,27 +23,21 @@ div {color:#000;}
 }
 </style>
 </head>
-<body style="padding:20px;">
-<div style="width:780px; float:left"><code>
-  <p>引入：&lt;script src=&quot;http://js.mangoq.com/honey/hn.source.js&quot;&gt;&lt;/script&gt;</p>
-  <code style="font-weight:bold">HN.autocomplete($('#input的ID'),'接口地址',{boxId:'<span class="ddd">这里写你的浮层ID</span>',liclass:'<span class="dsds">这里写列表项选中的样式</span>'});</code></code><br>
-  {boxId:'这里写你的浮层ID',liclass:'这里写列表项选中的样式'}  可不写，默认为：{boxId:'autocomplete-box',liclass:'liselected'} <br> 
-  接口Ajax 输出格式为：<br>
-  <code>{"data":["d","bbbb","cccc","dddd","eeeee","ffffffffffff","gggggggg","ffffffffffff","gggggggg","ffffffffffff","gggggggg"]}</code>
-<p>自定义 :<br>
-  <code>HN.go('jquery, ajax, autocomplete', function() {<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HN.autocomplete($('#InputId'),'apiUrl',{boxId:'<span class="ddd">MyBox</span>',liclass:'<span class="dsds">MyStyle</span>'});<br>
-  });</code></p>
-<p><code>默认:<br>
-  HN.go('jquery, ajax, autocomplete', function() {<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HN.autocomplete($('#InputId'),'apiUrl',{}); <br>
-  });</code></p>
+<body style="padding:20px; background:#333;">
+<div style="margin:0 0 0 50px; float:left;">
+  <p>
+    <input style="height:20px; padding:0px; border:1px solid #C60" id="test" type="text" />
+    </p>
+  <p>
+    <select name="select" id="select">
+    </select>
+    <select name="select2" id="select2">
+    </select>
+    <br>
+    HN.go('jquery, ajax, autocomplete', function() {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HN.autocomplete($('#test'),'test-mod-autoComplete.php'); <br>
+    });</p>
 </div>
-<div style="margin:0 0 0 50px; float:left;"><input style="height:20px; padding:0px; border:1px solid #C60" id="test" type="text" />
-  <br>
-  HN.go('jquery, ajax, autocomplete', function() {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HN.autocomplete($('#test'),'test-mod-autoComplete.php'); <br>
-});</div>
 <script>
 	HN.openDevMode();
 	HN.go('jquery, ajax, autocomplete', function() {

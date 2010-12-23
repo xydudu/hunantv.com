@@ -15,7 +15,7 @@
 *   <a href="#" class="hn-slide-prev">previous</a>
 *   <a href="#" class="hn-slide-next">next</a>
 * </div>
-*
+* 
 * */
 
 window.HN && window.jQuery && (HN.slide = function($slideId) {
@@ -26,8 +26,10 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
         itemNode: 'div',    //循环个体nodeName
         repeat: true,       //是否循环
         direction: 'X',     //方向 ，X轴和Y轴
-        times: 500,         //动画时间
-        scrollItems: 1      //滚动个数
+        times: 300,         //动画时间
+        scrollItems: 1,     //滚动个数
+        showItems: 1,
+        padding: 0
     };
 
     if (HN.isString($slideId)) {
@@ -46,41 +48,81 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
     items = box.children(options.itemNode),
     itemLen = items.length,
     itemW,
-    itemH;
-    options.width?itemW=options.width: itemW== $(items[0]).width() ;
-    options.heigth?itemH=options.heigth:itemH = $(items[0]).height() ;
+    itemH,
+    ie6 = HN.ie6();
+
+    itemW = options.width || $(items[0]).width(); 
+    itemH = options.heigth || $(items[0]).height(); 
+
+    //HN.debug($(items[0]).width());
+
     //如没有找到相关HTML，提示一下
     !s.length && HN.debug('没有找到id为"'+ options.slideId +'"的东东');
 
     //定义滚动个体的父容器宽度
     options.direction === 'X' && box.width((itemW/options.scrollItems) * itemLen);
+
     //自动
     //options.autoPlay && (t = setTimeout(goNext, 1000));
 
     //绑定事件
-    prev.length && prev.click(goPrev); 
-    next.length && next.click(goNext); 
+    //prev.length && prev.click(goPrev); 
+    //next.length && next.click(goNext); 
+    var _t;
+    if (next.length) { 
+        next.mousedown(function() {
+            goNext(); 
+            _t = setTimeout(arguments.callee, 300); 
+        });
+        next.mouseup(function() {
+            clearTimeout(_t);
+            _t = null;
+        });
+        next.mousemove(function() {
+            clearTimeout(_t);
+            _t = null;
+        });
+    }
+    if (prev.length) { 
+        prev.mousedown(function() {
+            goPrev(); 
+            _t = setTimeout(arguments.callee, 300); 
+        });
+        prev.mouseup(function() {
+            clearTimeout(_t);
+            _t = null;
+        });
+        prev.mousemove(function() {
+            clearTimeout(_t);
+            _t = null;
+        });
+    }
 
     function goNext($num) {
-        HN.debug(options);
+        //HN.debug(options);
         clearTimeout(t);
         t = null;
-		if($num){
-			itemW=itemW * options.scrollItems;
-		}else{
-		
-		}
+
+		if ($num) 
+		    itemW = itemW * options.scrollItems;
+
         var 
         WH = options.direction === 'X' ? itemW : itemH,
         start = scroll(),
         end = start + WH + 1,
-        i = Math.ceil(itemLen/options.scrollItems) - 1;
+        //end = start + WH,
+        //i = Math.ceil(itemLen/options.scrollItems) - 1;
+        i = itemLen - options.showItems;
 
         if (i === Math.ceil(start/WH)) {
             options.repeat && goTo(1); 
             return false;
         } 
-        anim(start, end);
+        options.padding = ie6 ? options.padding : 0;
+        //ie6 && (start - 1);
+        start == 0 ?
+            anim(start + options.padding, end + options.padding) :
+            anim(start, end);
 
         return false;
     }
@@ -101,20 +143,21 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
         var
         //start = con.scrollLeft(),
         start = scroll(),
-        end = ($pos-1) * (options.direction === 'X' ? itemW : itemH);
-
+        end = ($pos-1) * (options.direction === 'X' ? itemW : itemH) + 1;
+        ie6 && (end += options.padding); 
         anim(start, end);
-
     }
 
     function anim($start, $end) {
+        
+        
         $({w: $start}).animate({w: $end}, {
             duration: options.times,
             step: function() {
                 scroll(this.w);
             },
             complete: function() {
-                HN.debug(this);    
+                //HN.debug(this);    
             }
         });
     }
@@ -136,7 +179,6 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
         next: goNext,
         prev: goPrev,
         goTo: goTo
-
     };
     
 });

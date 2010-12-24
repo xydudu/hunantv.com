@@ -50,7 +50,7 @@ window.HN && HN.tmpl && (HN.render = function($options) {
             });
             
         }
-    }
+    };
 
     box.html(HN.tmpl(showTmpl, $options.data));  
     $options.bindShow(method);
@@ -92,6 +92,7 @@ HN.render && (HN.render.option = function($type, $default, $name, $list, $attr, 
 		    break;
 		
 		default:
+            break;
 	}
 
     return options.join('');

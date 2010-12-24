@@ -109,6 +109,7 @@ window.HN && window.APE && (HN.IM = (function() {
 
     client.onRaw('MGQ_CHATLEFT', function($data) {
         HN.cookie.remove('imopen', '', '/'); 
+        win = null;
     });
 
     //接收消息
@@ -577,17 +578,18 @@ window.HN && window.APE && (HN.IM = (function() {
             window.close(); 
         }
         HN.cookie.remove('imopen', '', '/'); 
+        win = null;
     } 
 
     $(window).bind('beforeunload',function(){
         HN.cookie.remove('imopen', '', '/'); 
+        win = null;
     });
     
 
     return {
         
         init: function($cuid, $fun) {
-            
             if ($('body').attr('id') != 'focused' && HN.cookie.get('imopen')) {
                 var  
                 i = 0,
@@ -624,7 +626,7 @@ window.HN && window.APE && (HN.IM = (function() {
 
             }, function() { 
                 
-                alert('取数据时出错！');
+                HN.debug('取数据时出错！');
                 //closeWindow();
                 
             });             
@@ -686,11 +688,11 @@ window.HN && window.APE && (HN.IM = (function() {
                 ape.request.send('MGQ_ADDCHAT', {uin: url.split('=')[1]}, true);
 
             } else {
-                //if (win) {
-                //    win.location = this.href;
-                //} else {
-                win = pop(url, this.target);
-                //}
+                try {
+                    win.location = this.href;
+                } catch($err) {
+                    win = pop(url, this.target);
+                }
                 window.focus && win.focus();
             }
             return false;

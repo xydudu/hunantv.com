@@ -9,20 +9,20 @@ window.HN && window.jQuery && ( HN.face = function($o,$taget){
 			offset = o.offset(),
 			facehtml = '';
 			for (i = 0; i <= 18; i++) {
-				facehtml += '<a href="javascript:" title="%face_' + i + '%"><img border="0" src="http:\/\/css.mangoq.com\/ui\/mangoq\/2010v1\/images\/ico\/face_' + i + '.jpg" \/><\/a> ';
+				facehtml += '<a href="javascript:" title="%face_' + i + '%"><img border="0" src="http:\/\/css.tazai.com\/ui\/mangoq\/2010v1\/images\/ico\/face_' + i + '.jpg" \/><\/a> ';
 			}
 			if(!$('#face-show-box').length){				
 				 $('body').append($(box));
 			}
 			$box=$('#face-show-box');
-			$box.css({left: offset.left,top: offset.top - 79});
+			$box.css({left: offset.left-10,top: offset.top - 79});
 			$box.find('#content_box_face').html(facehtml);
 			$box.show();
 			$box.find('a').unbind('click').bind('click',function() {
 				var c = $taget.val(),
 				fc = $(this).attr('title');
-				//$taget.val(c + fc);
-
+				$taget.val(c + fc);
+/*
 				var 
 				textarea = $taget[0], 
 				rangeData = getCursorPosition(textarea), 
@@ -47,7 +47,7 @@ window.HN && window.jQuery && ( HN.face = function($o,$taget){
 					sR.text = text;
 					sR.setEndPoint('StartToEnd', sR);
 					sR.select();
-				}
+				}*/
 
 				$taget.focus();
 				$box.hide();
@@ -132,7 +132,7 @@ window.HN && window.jQuery && ( HN.face = function($o,$taget){
 	
 	return {
 		faceTo:function($str){
-			$str=$str.replace(/\%face_([0-9]|1[0-8])\%/g, '<img onerror="this.src=\'http:\/\/css.mangoq.com\/ui\/mangoq\/2010v1\/images\/ico\/face_2.jpg\';" src="http:\/\/css.mangoq.com\/ui\/mangoq\/2010v1\/images\/ico\/face_$1.jpg"\/>');
+			$str=$str.replace(/\%face_([0-9]|1[0-8])\%/g, '<img onerror="this.src=\'http:\/\/css.tazai.com\/ui\/mangoq\/2010v1\/images\/ico\/face_2.jpg\';" src="http:\/\/css.tazai.com\/ui\/mangoq\/2010v1\/images\/ico\/face_$1.jpg"\/>');
 			return $str;
 		}
 	}

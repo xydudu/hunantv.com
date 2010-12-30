@@ -6,7 +6,7 @@ window.HN && window.APE && (HN.IM = (function() {
     
     APE.Config.baseUrl = HN.config.url.js +'APE_JSF';
     APE.Config.domain = 'auto';
-    APE.Config.server = 'push.mangoq.com:6969';   
+    APE.Config.server = 'push.tazai.com:6969';   
     APE.Config.scripts.push(HN.config.url.js +'lib/ape.core.min.js');
     
     var 
@@ -64,7 +64,7 @@ window.HN && window.APE && (HN.IM = (function() {
                 opacity: 0.5
             };
             box = $('<div />').attr('id', 'im-loading').appendTo('body');
-            img = $('<img />').attr({id: 'im-loading-img', src: 'http://css.mangoq.com/ui/mangoq/2010v1/images/ico/loading2.gif'}).appendTo('body');
+            img = $('<img />').attr({id: 'im-loading-img', src: CSSURL +'ui/mangoq/2010v1/images/ico/loading2.gif'}).appendTo('body');
             box.css(css).show();
         }
 
@@ -248,10 +248,10 @@ window.HN && window.APE && (HN.IM = (function() {
             var 
             that = $(this); 
             that.data('dot') &&
-            setAttr(that, 'chat-frame-users-default', that.data('dot'), '/ui/mangoq/2010v1/images/ico/action_del_default.gif'); 
+            setAttr(that, 'chat-frame-users-default', that.data('dot'), CSSURL +'ui/mangoq/2010v1/images/ico/action_del_default.gif'); 
         });
         
-        setAttr(box, 'chat-frame-users-active', '/ui/mangoq/2010v1/images/ico/y_white.gif', '/ui/mangoq/2010v1/images/ico/action_del_active.gif');
+        setAttr(box, 'chat-frame-users-active', CSSURL +'ui/mangoq/2010v1/images/ico/y_white.gif', CSSURL +'ui/mangoq/2010v1/images/ico/action_del_active.gif');
 
         //change
         CUID = $uid;
@@ -309,7 +309,7 @@ window.HN && window.APE && (HN.IM = (function() {
     function pullUserInfo($uid, $fun, $hideloading) {
         client.loading && client.loading.show(); 
         $hideloading && client.loading.close();
-        HN.ajax.get('http://www.mangoq.com/chat/chat/chat_msg', {cuid: $uid}, function($data) {
+        HN.ajax.get(BASEURL +'chat/chat/chat_msg', {cuid: $uid}, function($data) {
             client.loading && client.loading.close();    
             $fun($data); 
         }, function() {/* get info fial */});
@@ -356,7 +356,7 @@ window.HN && window.APE && (HN.IM = (function() {
         if (!facebox.length) {
             facebox = $('<span />').attr({id: 'im-face-box'}).css('marginRight', 10).insertBefore(that);
             while (i>0) {
-                facebox.append('<img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/face_'+ i +'.jpg" title="face_'+ i +'" border="0" />');
+                facebox.append('<img src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/face_'+ i +'.jpg" title="face_'+ i +'" border="0" />');
                 i --;
             }
         } else {
@@ -541,7 +541,7 @@ window.HN && window.APE && (HN.IM = (function() {
     }
 
     function parseMsg($str) {
-        $str=$str.replace(/\{face_([0-9]|1[0-8])\}/g, '<img onerror="this.src=\'http:\/\/css.mangoq.com\/ui\/mangoq\/2010v1\/images\/ico\/face_2.jpg\';" src="http:\/\/css.mangoq.com\/ui\/mangoq\/2010v1\/images\/ico\/face_$1.jpg"\/>');
+        $str=$str.replace(/\{face_([0-9]|1[0-8])\}/g, '<img onerror="this.src=\''+ CSSURL +'ui\/mangoq\/2010v1\/images\/ico\/face_2.jpg\';" src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/face_$1.jpg"/>');
         return $str;
     }
 
@@ -607,7 +607,7 @@ window.HN && window.APE && (HN.IM = (function() {
             self.focus();
 
             createInput($cuid);
-            HN.ajax.get('http://www.mangoq.com/chat/chat/pull', {uid: UID, cuid: $cuid}, function($data) {
+            HN.ajax.get(BASEURL +'chat/chat/pull', {uid: UID, cuid: $cuid}, function($data) {
                 //判断是否有头像
                 if (HN.isString($data.user.avatar_key) && $data.user.avatar_key != '') {
                     lists[$cuid] = $data.chat_user;
@@ -657,11 +657,12 @@ window.HN && window.APE && (HN.IM = (function() {
         },
 
         removeUser: function($cuid) {
-            
+             
             if (CUID == $cuid) {
                 //当前
                 $('div.chat-frame-users-default').length ?
-                    focusUser($('div.chat-frame-users-default').attr('id').split('-')[1]):
+                    window.location.hash = 'cuid='+ $('div.chat-frame-users-default').attr('id').split('-')[1]:
+                    //focusUser($('div.chat-frame-users-default').attr('id').split('-')[1]):
                     closeWindow();
             } 
             
@@ -696,7 +697,9 @@ window.HN && window.APE && (HN.IM = (function() {
                 window.focus && win.focus();
             }
             return false;
-        }
+        },
+
+        close: closeWindow
 
     };
 })());

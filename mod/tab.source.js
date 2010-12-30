@@ -24,7 +24,7 @@ window.HN && window.jQuery && (HN.tab = function($tabId) {
 	autoStart,
     t = $('#'+ options.tabId),
 	bar = t.find('div:first > ul > li'),
-	content = t.find('.content div'),
+	content = t.find('.content > div'),
 	n=options.index;
 	
 	//tab init
@@ -75,7 +75,7 @@ window.HN && window.jQuery && (HN.tab = function($tabId) {
 		if (options.ajax && !content.eq($i).hasClass('itgeted')) {
 			ajaxGet($i);
 		}
-		content.eq($i).fadeIn(1000);
+		content.eq($i).fadeIn(600);
 	}
 	
 	//ajax get Html for content box

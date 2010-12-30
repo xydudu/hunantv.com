@@ -1,13 +1,16 @@
 /** js loader Copyright	Tero Piirainen (tipiirai) */
 /* honey for hunantv 
- * xydudu 2010/12/22 
+ * xydudu 2010/12/30 last modified 
  * beta 1.0
  * */
 
-var JSURL = 'http://js.mangoq.com/honey/',
-    VERSION = '20101224',
+var BASEURL = 'http://www.tazai.com/',
+    JSURL = 'http://js.tazai.com/honey/',
+    COMBOURL = 'http://js.tazai.com/',
+    CSSURL = 'http://css.tazai.com/',
+    VERSION = '20101230',
     isDev = false,
-    COMBO = false;
+    COMBO = true;
 (function(doc) { 
 
 	var head = doc.documentElement,
@@ -60,14 +63,13 @@ var JSURL = 'http://js.mangoq.com/honey/',
     };
 
 	api.ready = function(key, fn) {
-        
 		var script = scripts[key];
 
 		if (script && script.state == 'loaded') {
 			fn.call();
 			return api;
 		}
-
+        
 		// shift arguments	
 		if (isFunc(key)) {
 			fn = key; 
@@ -88,12 +90,18 @@ var JSURL = 'http://js.mangoq.com/honey/',
 		return i != -1 ? name.substring(0, i) : name;				 
 	}
 
+    function getComboKey($key) {
+        var p = new RegExp($key);
+        for (var i = 0, l = comboMods.length; i < l; i ++) {
+            if (p.test(comboMods[i])) return 'combo'+ i;
+        }
+        return false;
+    }
 
 	/*** private functions ***/
 	function getScript(url) {
 
 		var script;
-
 		if (typeof url == 'object') {
 			for (var key in url) {
 				if (url[key]) {
@@ -197,6 +205,20 @@ var JSURL = 'http://js.mangoq.com/honey/',
 			each(handlers[script.name], function(fn) {
 				fn.call();		
 			});
+            
+            //for combo
+            if (COMBO && script.name.indexOf('combo') > -1) 
+                var 
+                mod,
+                mods = comboMods[+script.name.replace('combo', '')].split(',');
+                while (mods && mods.length) {
+                    mod = mods.shift(); 
+                    if(!handlers[mod] || !handlers[mod].length) continue;
+                    scripts[mod] = {name: mod, state: 'loaded'};
+                    each(handlers[mod], function(fn) {
+                        fn.call(); 
+                    });
+                }
 
 			// TODO: do not run until DOM is loaded			
 			var allLoaded = true;
@@ -218,7 +240,7 @@ var JSURL = 'http://js.mangoq.com/honey/',
 
 	// if callback == true --> preload
 	function scriptTag(src, callback)  {
-
+        
 		var elem = doc.createElement('script');		
 		elem.type = 'text/' + (src.type || 'javascript');
 		elem.src = src.src || src;  
@@ -271,45 +293,55 @@ var JSURL = 'http://js.mangoq.com/honey/',
                 srcname = HN.trim(srcs.shift());
                 if (srcname in configjs) {
                     file = configjs[srcname];
+                    file.js = {};
+                    file.js[srcname] = (JSURL + (isDev ? file[0].replace('.min.', '.source.') : file[0]) +'?'+ VERSION);
                     
-                    if (COMBO) {
-                        !file.loaded && combolists.push(file); 
-                        api.combojs();    
-                        //file.comboed = true;
-                    } else { 
-                        !file.loaded && api.js(JSURL + (isDev ? file[0].replace('.min.', '.source.') : file[0]) +'?'+ VERSION);
-                    }
+                    //!file.loaded && (COMBO ? combolists.push(file) : api.js(file.js));
+                    !file.loaded && (COMBO ? combolists.push(srcname) : api.js(file.js));
+                    
                     file.loaded = true;
-                } else api.debug(srcname +'is not finded!');    
+                } else api.debug(srcname +'is not finded!');
             }
+
+            COMBO && api.combojs(); 
             $fun && api.ready($fun);    
         }
     };
-
-    api.modReady = function() {
-        
-
-         
-    };
     
+    var 
+    comboNums = 0,
+    comboMods = [];
     api.combojs = function() {
         if (!combolists.length) return;
         var files = '',
-            i = 0,
-            cjs = {};
-        setTimeout(function() {
-            //var newlists = combolists.concat
-            if (!combolists.length) return;
-            var n = 1;
-            while (combolists.length) {
-                files += ','+ combolists.shift()[0].replace('.min.', '.source.'); 
-                n ++;
+            file = '',
+            mods = [],
+            cjs = {},
+            newarr = [];
+
+        if (combolists.length > 9) {
+            newarr = combolists.splice(0, 10);       
+            while (newarr.length) {
+                file = newarr.shift();
+                files += ','+ configjs[file][0];
+                mods.push(file);
             }
-            cjs['combo'+ i] = 'http://js.mangoq.com/min/?f='+ files.substr(1) +'&v='+ VERSION;
-            api.js(cjs);
-            api.combojs();
-            i ++;
-        }, 50);
+            
+        } else {
+            while (combolists.length) {
+                file = combolists.shift();
+                files += ','+ configjs[file][0];
+                mods.push(file);
+            }
+        }
+
+        cjs['combo'+ comboNums] = COMBOURL +'min/?f='+ files.substr(1) +'&v='+ VERSION;
+        //cjs['combo'+ comboNums].mods = mods;
+        comboNums ++;
+        comboMods.push(mods.join(','));
+        api.js(cjs);
+        api.combojs();
+    
     };
 
     api.debug = function($msg) {
@@ -355,7 +387,8 @@ var JSURL = 'http://js.mangoq.com/honey/',
     };
 
     api.openDevMode = function() {
-        isDev = 1; 
+        isDev = true; 
+        COMBO = false; 
     };
 
     api.trim = function($a) {
@@ -407,7 +440,7 @@ var JSURL = 'http://js.mangoq.com/honey/',
             $elem = window.document.getElementById($elem); 
 
         if ($elem.innerHTML) {
-            while ($elem != null) {
+            while ($elem !== null) {
                 X += $elem.offsetLeft;
                 Y += $elem.offsetTop;
                 $elem = $elem.offsetParent;

@@ -1,6 +1,6 @@
 //need HN, jQuery 
-window.HN && window.jQuery && (HN.tInput = function($options) {
-    
+;window.HN && window.jQuery && (HN.tInput = function($options) {
+
 	HN.debug('HN.tInput is init'); 
 
 	var options = {
@@ -63,6 +63,8 @@ window.HN && window.jQuery && (HN.tInput = function($options) {
 						}else if($data=='not-login'){
 							alert('没有登陆!');
 							HN.login().dialogLoginForm(1);
+						}else if($data=='sensitive-code'){
+							alert('内容不符合要求！!');
 						}
 						input.removeAttr('readonly');	
 						input.css('border','1px solid #f66')

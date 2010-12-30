@@ -49,7 +49,7 @@ window.HN && HN.ajax && (function() {
 
         'unfocus': {
             'ico': 'dot_x.gif',    
-            'text': '删除',
+            'text': '取消关注',
             'className': 'hn-action-unfocus' 
         },
 
@@ -61,7 +61,7 @@ window.HN && HN.ajax && (function() {
 
         'disblock': {
             'ico': 'dot_x.gif',
-            'text': '删除',
+            'text': '取消黑名单',
             'className': 'hn-action-disblock'
         },
 
@@ -89,7 +89,7 @@ window.HN && HN.ajax && (function() {
             var 
             that = $(this),
             cid = that.attr('className').split('-').pop(),
-            url = 'http://www.mangoq.com/relation/follow/add',
+            url = BASEURL +'relation/follow/add',
             activesrc = that.attr('over').replace('default', 'active');
 
             //loading ? need disgin
@@ -119,7 +119,7 @@ window.HN && HN.ajax && (function() {
             cid = data[1];
 
             var 
-            css = menuid.offset();
+            css = menuid.offset(),
             box = createBox(css, 228, 80),
             inbox = box.find('div.f-main-m');
             $('#menu-overlay').trigger('click');
@@ -128,8 +128,8 @@ window.HN && HN.ajax && (function() {
                 '<div class="chat-msg-del-content">是否确定取消关注该联系人<br>',
                 '<div class="bt-save">',
                 '<div class="l bt-save-l">',
-                '<img src="/ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-unfocus-loading" />',
-                '<input type="image" src="/ui/mangoq/2010v1/images/button/sumbit_65x25.jpg" class="hn-unfocus-submit">',
+                '<img src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-unfocus-loading" />',
+                '<input type="image" src="'+ CSSURL +'ui/mangoq/2010v1/images/button/sumbit_65x25.jpg" class="hn-unfocus-submit">',
                 '</div>',
                 '<div class="l bt-save-cancel"><a href="javascript:" class="hn-unfocus-close">取消</a></div>',
                 '</div></div>'].join(''));
@@ -141,7 +141,7 @@ window.HN && HN.ajax && (function() {
                     var l = $('#action-unfocus-loading');
                     
                     l.show();
-                    HN.ajax.get('http://www.mangoq.com/relation/follow/del', {oid: cid}, function() {
+                    HN.ajax.get(BASEURL +'relation/follow/del', {oid: cid}, function() {
 
                         inbox.html('操作成功！');
                         $('#useritem-'+ cid).fadeOut(500);
@@ -179,13 +179,13 @@ window.HN && HN.ajax && (function() {
             cid = data[1];
 
             var 
-            css = menuid.offset();
+            css = menuid.offset(),
             box = createBox(css, 228, 60),
             inbox = box.find('div.f-main-m');
             $('#menu-overlay').trigger('click');
             //loading ? need disgin
             inbox.html('loading...');
-            HN.ajax.get('http://www.mangoq.com/relation/follow/add', {oid: cid}, function() {
+            HN.ajax.get(BASEURL +'relation/follow/add', {oid: cid}, function() {
                 //$('#hn-im-dialogbox').length && HN.IM.updateUserInfo(cid);
                 inbox.html('操作成功！');
                 setTimeout(function() {
@@ -283,7 +283,7 @@ window.HN && HN.ajax && (function() {
             cid = data[1];
 
             var 
-            css = menuid.offset();
+            css = menuid.offset(),
             box = createBox(css, 228, 108),
             inbox = box.find('div.f-main-m');
 
@@ -296,13 +296,13 @@ window.HN && HN.ajax && (function() {
                 '<span>同时加入黑名单</span>',
                 '<div class="bt-save">',
                 '<div class="l bt-save-l">',
-                '<img src="/ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-del-loading" />',
-                '<input type="image" src="/ui/mangoq/2010v1/images/button/chat_frame_del.jpg" class="hn-del-submit">',
+                '<img src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-del-loading" />',
+                '<input type="image" src="'+ CSSURL +'ui/mangoq/2010v1/images/button/chat_frame_del.jpg" class="hn-del-submit">',
                 '</div>',
                 '<div class="l bt-save-cancel"><a href="javascript:" class="hn-del-close">取消</a></div>',
                 '</div>',
                 '</div>',
-                '<div class="chat-msg-del-r"><a href="javascript:"><img border="0" class="hn-del-close" src="/ui/mangoq/2010v1/images/ico/action_del_default3.jpg"></a></div>',
+                '<div class="chat-msg-del-r"><a href="javascript:"><img border="0" class="hn-del-close" src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/action_del_default3.jpg"></a></div>',
                 '</div>'
             ].join('')).show();
 
@@ -316,9 +316,9 @@ window.HN && HN.ajax && (function() {
                 '.hn-del-submit': function() {
                     var l = $('#action-del-loading');
                     l.show();
-                    HN.ajax.get('http://www.mangoq.com/chat/user/del', {cuid: cid}, function() {
+                    HN.ajax.get(BASEURL +'chat/user/del', {cuid: cid}, function() {
                         if (box.find('input:checked').length) {
-                            HN.ajax.get('http://www.mangoq.com/relation/black/add', {oid: cid}, function() {
+                            HN.ajax.get(BASEURL +'relation/black/add', {oid: cid}, function() {
                                 //黑名单后，要显示 #im-isblock-box
                                 showMsg('操作成功', 500); 
                                 //if ($('#im-isblock-box').length) {
@@ -363,7 +363,7 @@ window.HN && HN.ajax && (function() {
             cid = data[1];
 
             var 
-            css = menuid.offset();
+            css = menuid.offset(),
             box = createBox(css, 228, 80),
             inbox = box.find('div.f-main-m');
             $('#menu-overlay').trigger('click');
@@ -372,8 +372,8 @@ window.HN && HN.ajax && (function() {
                 '<div class="chat-msg-del-content">是否确定对该联系人隐身<br>',
                 '<div class="bt-save">',
                 '<div class="l bt-save-l">',
-                '<img src="/ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-unhidden-loading" />',
-                '<input type="image" src="/ui/mangoq/2010v1/images/button/sumbit_65x25.jpg" class="hn-unhidden-submit">',
+                '<img src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-unhidden-loading" />',
+                '<input type="image" src="'+ CSSURL +'ui/mangoq/2010v1/images/button/sumbit_65x25.jpg" class="hn-unhidden-submit">',
                 '</div>',
                 '<div class="l bt-save-cancel"><a href="javascript:" class="hn-unhidden-close">取消</a></div>',
                 '</div></div>'].join(''));
@@ -385,7 +385,7 @@ window.HN && HN.ajax && (function() {
                     var l = $('#action-unhidden-loading');
                     
                     l.show();
-                    HN.ajax.get('http://www.mangoq.com/relation/hidden/add', {oid: cid}, function() {
+                    HN.ajax.get(BASEURL +'relation/hidden/add', {oid: cid}, function() {
 
                         inbox.html('操作成功！');
                         setTimeout(function() {
@@ -431,13 +431,13 @@ window.HN && HN.ajax && (function() {
                 '<span>同时加入黑名单</span>',
                 '<div class="bt-save">',
                 '<div class="l bt-save-l">',
-                '<img src="/ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-del-loading" />',
-                '<input type="image" src="/ui/mangoq/2010v1/images/button/chat_frame_del.jpg" class="hn-del-submit">',
+                '<img src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-del-loading" />',
+                '<input type="image" src="'+ CSSURL +'ui/mangoq/2010v1/images/button/chat_frame_del.jpg" class="hn-del-submit">',
                 '</div>',
                 '<div class="l bt-save-cancel"><a href="javascript:" class="hn-del-close">取消</a></div>',
                 '</div>',
                 '</div>',
-                '<div class="chat-msg-del-r"><a href="javascript:"><img border="0" class="hn-del-close" src="/ui/mangoq/2010v1/images/ico/action_del_default3.jpg"></a></div>',
+                '<div class="chat-msg-del-r"><a href="javascript:"><img border="0" class="hn-del-close" src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/action_del_default3.jpg"></a></div>',
                 '</div>'
             ].join('')).show();
             
@@ -445,9 +445,9 @@ window.HN && HN.ajax && (function() {
                 '.hn-del-submit': function() {
                     var l = $('#action-del-loading');
                     l.show();
-                    HN.ajax.get('http://www.mangoq.com/chat/user/del', {cuid: cid}, function() {
+                    HN.ajax.get(BASEURL +'chat/user/del', {cuid: cid}, function() {
                         if (box.find('input:checked').length) {
-                            HN.ajax.get('http://www.mangoq.com/relation/black/add', {oid: cid}, function() {
+                            HN.ajax.get(BASEURL +'relation/black/add', {oid: cid}, function() {
                                 //黑名单后，要显示 #im-isblock-box
                                 showMsg('操作成功', 500); 
                                 //if ($('#im-isblock-box').length) {
@@ -473,7 +473,7 @@ window.HN && HN.ajax && (function() {
                     box.remove();
                     return false;
                 } 
-            }))
+            }));
 
             function showMsg($msg, $times) {
                 inbox.html('<div style="padding:20px 0; text-align: center">'+ $msg +'</div>');    
@@ -494,15 +494,15 @@ window.HN && HN.ajax && (function() {
             cid = data[1];
 
             var 
-            css = menuid.offset();
-            box = createBox(css, 228, 108),
-            inbox = box.find('div.f-main-m'),
+            css = menuid.offset(),
+            box = createBox(css, 228, 108);
+            inbox = box.find('div.f-main-m');
 
             $('#menu-overlay').trigger('click');
 
             inbox.html('loading...'); 
 
-            HN.ajax.get('http://www.mangoq.com/relation/black/add', {oid: cid}, function() {
+            HN.ajax.get(BASEURL +'relation/black/add', {oid: cid}, function() {
                 showMsg('操作成功', 1000); 
                 if ($('#im-isblock-box').length) HN.IM.blockUser(cid);        
                 menuid.find('a.hn-action-focus').html('已入黑名单').removeAttr('className');
@@ -526,7 +526,7 @@ window.HN && HN.ajax && (function() {
             cid = $(this).attr('className').split('-').pop();
 
             l.length && l.show(); 
-            HN.ajax.get('http://www.mangoq.com/relation/black/del', {oid: cid}, function() {
+            HN.ajax.get(BASEURL +'relation/black/del', {oid: cid}, function() {
                 l.length && l.hide(); 
                 if ($('#im-isblock-box').length) HN.IM.disblockUser(cid);        
             }, function() {
@@ -546,7 +546,7 @@ window.HN && HN.ajax && (function() {
             cid = data[1];
 
             var 
-            css = menuid.offset();
+            css = menuid.offset(),
             box = createBox(css, 228, 80),
             inbox = box.find('div.f-main-m');
             $('#menu-overlay').trigger('click');
@@ -555,8 +555,8 @@ window.HN && HN.ajax && (function() {
                 '<div class="chat-msg-del-content">确定把该联系人取消黑名单<br>',
                 '<div class="bt-save">',
                 '<div class="l bt-save-l">',
-                '<img src="/ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-disblock-loading" />',
-                '<input type="image" src="/ui/mangoq/2010v1/images/button/sumbit_65x25.jpg" class="hn-disblock-submit">',
+                '<img src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-disblock-loading" />',
+                '<input type="image" src="'+ CSSURL +'ui/mangoq/2010v1/images/button/sumbit_65x25.jpg" class="hn-disblock-submit">',
                 '</div>',
                 '<div class="l bt-save-cancel"><a href="javascript:" class="hn-disblock-close">取消</a></div>',
                 '</div></div>'].join(''));
@@ -568,7 +568,7 @@ window.HN && HN.ajax && (function() {
                     var l = $('#action-disblock-loading');
                     
                     l.show();
-                    HN.ajax.get('http://www.mangoq.com/relation/black/del', {oid: cid}, function() {
+                    HN.ajax.get(BASEURL +'relation/black/del', {oid: cid}, function() {
 
                         inbox.html('操作成功！');
                         $('#useritem-'+ cid).fadeOut(500);
@@ -607,9 +607,9 @@ window.HN && HN.ajax && (function() {
             cid = data[1];
 
             var 
-            css = menuid.offset();
+            css = menuid.offset(),
             box = createBox(css, 228, 188),
-            inbox = box.find('div.f-main-m'),
+            inbox = box.find('div.f-main-m');
 
             $('#menu-overlay').trigger('click');
 
@@ -627,13 +627,13 @@ window.HN && HN.ajax && (function() {
                 '<div class="c e-7"></div>',
                 '<div class="bt-save">',
                 '<div class="l bt-save-l">',
-                '<img src="/ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-report-loading" />',
-                '<input type="image" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/chat_frame_cb.jpg" class="hn-report-submit">',
+                '<img src="'+ CSSURL +'/ui/mangoq/2010v1/images/ico/loading.gif" style="display:none" id="action-report-loading" />',
+                '<input type="image" src="'+ CSSURL +'ui/mangoq/2010v1/images/button/chat_frame_cb.jpg" class="hn-report-submit">',
                 '</div>',
                 '<div class="l bt-save-cancel"><a href="javascript:" class="hn-report-close">取消</a></div>',
                 '</div>',
                 '</div>',
-                '<div class="chat-msg-del-r"><a href="#"><img border="0" class="hn-report-close" src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/action_del_default3.jpg"></a></div>',
+                '<div class="chat-msg-del-r"><a href="#"><img border="0" class="hn-report-close" src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/action_del_default3.jpg"></a></div>',
                 '</div>'
             ].join('')); 
 
@@ -664,7 +664,7 @@ window.HN && HN.ajax && (function() {
                     }
                     params.reason = vs.join(',');
                     l.show();
-                    HN.ajax.get('http://www.mangoq.com/relation/report/addreport', params, function() {
+                    HN.ajax.get(BASEURL +'relation/report/addreport', params, function() {
                         showMsg('操作成功', 1000); 
                     }, function() {
                         showMsg('操作出错', 1000); 
@@ -689,7 +689,7 @@ window.HN && HN.ajax && (function() {
         box = $('<div />').attr('className', 'type-action-float msg-frame-list'),
         actionTmpl = [
             '<div class="c">',
-            '<div class="l taf-img"><img border="0" src="/ui/mangoq/2010v1/images/ico/[%=ico%]"></div>',
+            '<div class="l taf-img"><img border="0" src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/[%=ico%]"></div>',
             '<div class="l"><a href="javascript:" class="[%=className%] '+ $menuid +'-'+ $cid +'">[%=text%]</a></div>',
             '</div>'
         ].join(''),

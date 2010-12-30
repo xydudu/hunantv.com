@@ -4,7 +4,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 		dialogUpload:function($uid,$tip,$album,$callback){
 			HN.debug('DialogUploadForm is init');
 			var data={uid:$uid,action:"upload"};
-			HN.ajax.post('http://www.mangoq.com/photo/album/list',data,function($data){
+			HN.ajax.post('http://www.tazai.com/photo/album/list',data,function($data){
 				var album_arr=$data['data'],
 				token=$data['token'];
 				if(!token){
@@ -33,7 +33,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 					  '</div>',
 					  '<div style="clear:both"></div>',
 					  '<div class="fp-y-buttom" style="margin-top:-70px">',
-						'<div class="fp-y-buttom-l" style="display:none"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/action_del_default.gif"></div>',
+						'<div class="fp-y-buttom-l" style="display:none"><img src="http://css.tazai.com/ui/mangoq/2010v1/images/ico/action_del_default.gif"></div>',
 						'<div class="l" style="display:none"><a id="clear_all_text" href="javascript:">清空列表</a> <span id="upload-file-total"></span></div>',
 						'<div class="fp-y-buttom-r"><span id="spanButtonPlaceholder"></span></div>',
 					  '</div>',
@@ -47,7 +47,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 						'</select>',
 					  '</div>',
 					  '<div class="r fp-selects-new">',
-						'<input name="" id="album_add_btn" type="image" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/album_add.jpg" />',
+						'<input name="" id="album_add_btn" type="image" src="http://css.tazai.com/ui/mangoq/2010v1/images/button/album_add.jpg" />',
 					  '</div>',
 					  '<div class="fp-selcts-child">',
 						'<div>',
@@ -59,7 +59,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 						'</div>',
 						'<div>',
 						  '<div class="l">',
-							'<img id="photo_album_creat" style="cursor:pointer;" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/album_save.gif" />',
+							'<img id="photo_album_creat" style="cursor:pointer;" src="http://css.tazai.com/ui/mangoq/2010v1/images/button/album_save.gif" />',
 						  '</div>',
 						  '<div class="l fp-selcts-more"><a href="javascript:" id="photo_album_cancel">取消</a></div>',
 						'</div>',
@@ -68,7 +68,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 					'<div class="c"></div>',
 					'<div class="c fp-save" id="save-button-box">',
 					  '<div class="fp-save-button">',
-						'<input name="" type="image" id="upload_start_btn" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/photo_upload.jpg" />',
+						'<input name="" type="image" id="upload_start_btn" src="http://css.tazai.com/ui/mangoq/2010v1/images/button/photo_upload.jpg" />',
 					  '</div>',
 					  '<div class="fp-save-more"><a href="javascript:" class="hn-dialog-close">取消</a></div>',
 					'</div>',
@@ -118,7 +118,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 								alert('相册名长度不能超过20');
 								btn.show();
 							} else {
-								HN.ajax.post('http://www.mangoq.com/photo/album/add',{album_name:v},function($data){
+								HN.ajax.post('http://www.tazai.com/photo/album/add',{album_name:v},function($data){
 									$('#photo_album_list').prepend('<option selected value="'+$data.album_id+'">'+$data.album_name+'</option>');
 									$('.fp-selcts-child').fadeOut();
 									$('#photo_album_list').show(0);
@@ -126,7 +126,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 								},
 								function($data){
 									HN.go('login,form',function(){
-										HN.loadCSS('http://css.mangoq.com/ui/mangoq/2010v1/css/reg.css');
+										HN.loadCSS('http://css.tazai.com/ui/mangoq/2010v1/css/reg.css');
 										HN.login().dialogLoginForm();
 									});
 								});
@@ -141,8 +141,8 @@ window.HN && window.jQuery && ( HN.upload = function(){
 							var up = window['upload'] = upload;
 							return {
 								file_post_name: "Filedata",
-								flash_url: HN.config.url.js + "swf/swfupload.swf",
-								upload_url: "http://imgupload.mangoq.com/upload_photo.php",
+								flash_url: "http://www.tazai.com/swfupload.swf",
+								upload_url: "http://imgupload.tazai.com/upload_photo.php",
 								//upload_url: HN.config.url.js + "demos/upload.php",
 								post_params: {
 									'channel': 'photo',
@@ -258,14 +258,14 @@ window.HN && window.jQuery && ( HN.upload = function(){
 								$('#upload-file-list').html('');
 								up.changeHtml=true;
 							}
-							$('#upload-file-list').append('<div class="fp-y-list" id="' + $file.id + '"><div class="fp-y-c1">' + $file.name + '</div><div class="fp-y-c3"><a href="javascript:" onclick="deleteOneFile(\'' + $file.id + '\')" class="m-ico-del" ><img class="del_img_ico" src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/action_del_default.gif"></a></div><div class="fp-y-c2">' + up.getSizeInKMG($file.size) + '</div></div>');
+							$('#upload-file-list').append('<div class="fp-y-list" id="' + $file.id + '"><div class="fp-y-c1">' + $file.name + '</div><div class="fp-y-c3"><a href="javascript:" onclick="deleteOneFile(\'' + $file.id + '\')" class="m-ico-del" ><img class="del_img_ico" src="http://css.tazai.com/ui/mangoq/2010v1/images/ico/action_del_default.gif"></a></div><div class="fp-y-c2">' + up.getSizeInKMG($file.size) + '</div></div>');
 					
 							$('.del_img_ico').hover(function() {
-								$(this).attr('src', 'http://css.mangoq.com/ui/mangoq/2010v1/images/ico/action_del_on.gif');
+								$(this).attr('src', 'http://css.tazai.com/ui/mangoq/2010v1/images/ico/action_del_on.gif');
 					
 							},
 							function() {
-								$(this).attr('src', 'http://css.mangoq.com/ui/mangoq/2010v1/images/ico/action_del_default.gif');
+								$(this).attr('src', 'http://css.tazai.com/ui/mangoq/2010v1/images/ico/action_del_default.gif');
 					
 							});
 							
@@ -357,7 +357,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 							position = up.fileCount - stats.files_queued + 1,
 							div = $('#' + $file.id);
 							if (div.length > 0) {div.css({
-								background: 'url(http://css.mangoq.com/ui/mangoq/2010v1/images/bg/load_over.png) -480px 50% no-repeat'
+								background: 'url(http://css.tazai.com/ui/mangoq/2010v1/images/bg/load_over.png) -480px 50% no-repeat'
 							});
 							}
 						},
@@ -420,15 +420,15 @@ window.HN && window.jQuery && ( HN.upload = function(){
 							album_id =$('#photo_album_list').val();
 							data = {album_id : album_id, field: getData};
 							//保存相册
-							HN.ajax.post('http://www.mangoq.com/photo/photo/add', data,function($data) {
-								$('#' + $file.id).find('img').unbind('mouseover mouseout').show().css('cursor', 'default').attr('src', 'http://css.mangoq.com/ui/mangoq/2010v1/images/ico/action_del_ok.gif');
+							HN.ajax.post('http://www.tazai.com/photo/photo/add', data,function($data) {
+								$('#' + $file.id).find('img').unbind('mouseover mouseout').show().css('cursor', 'default').attr('src', 'http://css.tazai.com/ui/mangoq/2010v1/images/ico/action_del_ok.gif');
 								upload.fileNameList.push($data);
 								upload.savePhoto(album_id);
 					
 							},
 							function() {
 								$('#' + $file.id).css('background-color', '#c9c');
-								$('#' + $file.id).find('img').unbind('mouseover mouseout').show().css('cursor', 'default').attr('src', 'http://css.mangoq.com/ui/mangoq/2010v1/images/ico/action_del_on.gif');					
+								$('#' + $file.id).find('img').unbind('mouseover mouseout').show().css('cursor', 'default').attr('src', 'http://css.tazai.com/ui/mangoq/2010v1/images/ico/action_del_on.gif');					
 							});
 					
 						},
@@ -452,7 +452,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 									  '<div class="c"></div>',
 									  '<div class="fp-save">',
 										'<div class="fp-save-button">',
-										  '<input type="image" class="hn-dialog-close" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/album_save2.jpg" name="">',
+										  '<input type="image" class="hn-dialog-close" src="http://css.tazai.com/ui/mangoq/2010v1/images/button/album_save2.jpg" name="">',
 										'</div>',
 									  '</div>',
 									'</div>'
@@ -463,7 +463,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 									$('#fp_pic_lists').css('height','455px').css('overflow-y','scroll');
 								}
 								for(i;i<len;i++){
-									$('#fp_pic_lists').append('<div name="74" class="fp-piclist" style="position: relative;"> <dl> <dt> <div class="fp-piclists-del"></div> <div class="c"><a href="javascript:"><img border="0" src="http://img.mangoq.com/photo/small/'+upload.fileNameList[i].key+'"></a></div> <div class="fp-piclists-del"><a href="javascript:"><img src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photo_setdefault2.jpg" is_cover="true" key="'+upload.fileNameList[i].key+'" class="set_cover_btn" name="'+upload.fileNameList[i].id+'"></a><a href="javascript:"><img border="0" title="删除相片" src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photo_del.gif" key="'+upload.fileNameList[i].key+'" name="'+upload.fileNameList[i].id+'" class="del_photo_btn"></a></div> <div class="fp-piclists-floattips1" style="position: absolute; top: 76px; left: 58px; display: none;">设封面</div> </dt> <dd> <div> <div class="fp-piclists-write"><a href="javascript:"><img height="12" width="12" border="0" src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/write.gif" title="编辑相片"></a></div> <div class="fp-piclists-title"><a alt="'+upload.fileNameList[i].id+'" href="javascript:">'+upload.fileNameList[i].des+'</a></div> </div> </dd> </dl> </div>');
+									$('#fp_pic_lists').append('<div name="74" class="fp-piclist" style="position: relative;"> <dl> <dt> <div class="fp-piclists-del"></div> <div class="c" style="height: 80px;"><a href="javascript:"><img border="0" src="http://img.tazai.com/photo/small/'+upload.fileNameList[i].key+'"></a></div> <div class="fp-piclists-del"><a href="javascript:"><img src="http://css.tazai.com/ui/mangoq/2010v1/images/ico/photo_setdefault2.jpg" is_cover="true" key="'+upload.fileNameList[i].key+'" class="set_cover_btn" name="'+upload.fileNameList[i].id+'"></a><a href="javascript:"><img border="0" title="删除相片" src="http://css.tazai.com/ui/mangoq/2010v1/images/ico/photo_del.gif" key="'+upload.fileNameList[i].key+'" name="'+upload.fileNameList[i].id+'" class="del_photo_btn"></a></div> <div class="fp-piclists-floattips1" style="position: absolute; top: 76px; left: 58px; display: none;">设封面</div> </dt> <dd> <div> <div class="fp-piclists-write"><a href="javascript:"><img height="12" width="12" border="0" src="http://css.tazai.com/ui/mangoq/2010v1/images/ico/write.gif" title="编辑相片"></a></div> <div class="fp-piclists-title"><a alt="'+upload.fileNameList[i].id+'" href="javascript:">'+upload.fileNameList[i].des+'</a></div> </div> </dd> </dl> </div>');
 								}
 								$('.hn-dialog-close').unbind('click').bind('click',function(){
 									if($tip==1){
@@ -489,7 +489,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 									delete_photo(obj,data);
 								});
 
-								var post_url = 'http://www.mangoq.com/photo/photo/setdes';HN.tInput( {
+								var post_url = 'http://www.tazai.com/photo/photo/setdes';HN.tInput( {
 									  target: '.fp-piclists-title a',
 									  url: post_url,
 									  id: 'photo_id',
@@ -506,7 +506,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 								}));
 
 								function delete_photo($obj, $data) {
-                                	HN.ajax.post('http://www.mangoq.com/photo/photo/delete', $data,function($data) {
+                                	HN.ajax.post('http://www.tazai.com/photo/photo/delete', $data,function($data) {
 										$obj.fadeOut(200,
 										function() {
 											obj.remove();
@@ -519,13 +519,13 @@ window.HN && window.jQuery && ( HN.upload = function(){
 								
 								$('#fp_pic_lists').find('.set_cover_btn').unbind('click').bind('click', function() {
 									  var o = $(this);
-									  HN.ajax.post('http://www.mangoq.com/photo/album/setcover', {
+									  HN.ajax.post('http://www.tazai.com/photo/album/setcover', {
 											album_id: $album_id,
 											photo_id: o.attr('name'),
 											key: o.attr('key')
 											}, function($data) {
-											$('#fp_pic_lists').find('.set_cover_btn').attr('src', 'http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photo_setdefault2.jpg');
-											o.attr('src', 'http://css.mangoq.com/ui/mangoq/2010v1/images/ico/photo_setdefault.jpg');
+											$('#fp_pic_lists').find('.set_cover_btn').attr('src', 'http://css.tazai.com/ui/mangoq/2010v1/images/ico/photo_setdefault2.jpg');
+											o.attr('src', 'http://css.tazai.com/ui/mangoq/2010v1/images/ico/photo_setdefault.jpg');
 											o.attr('is_cover', 'true');
 									  }, function() {
 											alert('设置失败');

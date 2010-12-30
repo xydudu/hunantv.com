@@ -4,28 +4,55 @@
 <head>
     <meta charset="utf-8">
     <title>New-loader</title>
-    <script src="http://js.mangoq.com/honey/honey.source.js"></script>
+    <script src="http://js.tazai.com/honey/honey.source.dev.js"></script>
 </head>
 <body>
      <script>
+        UID = 17;
+ 
+        //honey.openDevMode();
+        HN.ready('cookie', function() {
+            
+            console.log('what?');
         
-        HN.go('render, cookie, cookie, cookie, cookie', function() {
-            HN.debug('ok?');
-        });    
-        HN.go('jquery, ajax', function() {
-            HN.debug('jquery?');
-        });
-        HN.go('jquery, ajax', function() {
-            HN.debug('jquery 2?');
-        });
-        HN.go('jquery', function() {
-            HN.debug('jquery 3?');
-        });
-        HN.go('jquery', function() {
-            HN.debug('jquery 4?');
         });
     
+        //      
+        //HN.go('jquery, ajax, render, cookie, dialog, form, slide', function() {
+        //    HN.debug('ok cookie');
+        //});    
+        //HN.go('jquery, ajax, swfupload, swfupload.queue, tab, comment', function() {
+        //    HN.debug('jquery?');
+        //});
+        //HN.go('jquery, ajax, template, mootools, ape.client, notice, tooltip', function() {
+        //    HN.debug('jquery 2?');
+        //});
+        //HN.go('jquery, select, area, render, autocomplete, login', function() {
+        //    HN.debug('jquery 3?');
+        //});
+        //HN.go('jquery, upload, tinput, avatar, ape.core, ajax.action, face', function() {
+        //    HN.debug('jquery 4?');
+        //});
         
+
+        //HN.js('http://js.tazai.com/honey/mod/cookie.min.js', 'loadjs.php', function() {
+        //    HN.debug('ok?');
+        //})
+
+
+    //HN.go('jquery, area, select,dateSelect, ajax, template, render,swfupload, upload, avatar, form, autocomplete, tinput,dialog, login', function() {
+    //    
+    //    console.log('ok???');
+    //
+    //});
+
+    //HN.go('ajax, template, cookie, notice, ape.client, IM, ajax.action');
+
+    HN.go('jquery, cookie,upload, avatar, form, autocomplete, tinput, dialog, login, render, ajax, template', function() {
+        
+        console.log('ok');
+     
+    });
      </script>
 </body>
 </html>

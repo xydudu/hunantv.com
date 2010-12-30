@@ -4,11 +4,11 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 		upload:function($type){
 			var	utype=$type;
 			HN.debug('Dialog Avatar is init');  			
-			HN.ajax.get('http://www.mangoq.com/home/profile/get_token','',function($data){
+			HN.ajax.get('http://www.tazai.com/home/profile/get_token',{},function($data){ //http://js.tazai.com/honey/demos/get_token.php
 				var token=$data,
 				 html = ['<div class="f-e" style="padding-left:0px;">', '<div class="e-title">', '<div class="l" style="height:20px; line-height:20px;">上传头像</div>', '<div class="r"><a href="javascript:" id="cam_avatar">使用网络摄像头拍照</a></div>', '</div>', '<div class="c-line" style="clear:both"></div>', '<div id="swf_btn" style="heigth:40px; margin-top:8px;"><span id="spanButtonPlaceholder"></span></div>', '<div class="e-10"></div>', '<div id="avatar_list"><span>(提示：请选择jpg、gif格式，且文件不能大于2M)</span></div></div>', '</div>'].join(''),
 				html2 = ['<div class="f-e" style="padding:5px 0 0 0px;">', '<div class="e-title" style="height:20px;line-height:20px;">', '<div class="l"><span id="spanButtonPlaceholder"></span></div>', '<div class="r"><a href="javascript:" id="cam_avatar">使用网络摄像头拍照</a></div>', '</div>', '<div class="c-line"></div>', '<div id="swf_btn" style="heigth:40px; margin-top:8px;"></div>', '<div id="avatar_list"><div style="padding-top:12px; margin-left:72px; color:">(提示：请选择jpg、gif格式，且文件不能大于2M)</div><div style="margin:40px auto 0 190px;"><a style="cursor:pointer; color:#728F16" class="hn-dialog-close">取消</a></div></div></div>', '<div id="AvatarEditor"></div>', '</div>', ].join('');
-				//<img style="cursor:pointer;" class="hn-dialog-close" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/avatar_cancel.jpg"/>
+				//<img style="cursor:pointer;" class="hn-dialog-close" src="http://css.tazai.com/ui/mangoq/2010v1/images/button/avatar_cancel.jpg"/>
 				if (utype == 'dialog') {
 					HN.dialog.open({
 						'body': html2,
@@ -32,9 +32,9 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 						if (utype == 'dialog') {
 							HN.dialog.reSize(545, 592);
 							function change_value(key) {
-								HN.ajax.post('http://www.mangoq.com/home/avatar/save/', {avatar_key: key},function($data) {
-									$('#add_avatar_btn').before('<a href="javascript:"><img border="0" src="http://avatar.mangoq.com/47/' + key + '" name="' + $data.id + '/' + key + '"></a>');
-									$('#avatar_show').attr('src','http://avatar.mangoq.com/200/'+$data.avatar_key);
+								HN.ajax.post('http://www.tazai.com/home/avatar/save/', {avatar_key: key},function($data) {
+									$('#add_avatar_btn').before('<a href="javascript:"><img border="0" src="http://avatar.tazai.com/47/' + key + '" name="' + $data.id + '/' + key + '"></a>');
+									$('#avatar_show').attr('src','http://avatar.tazai.com/200/'+$data.avatar_key);
 									if ($("#avatar_small > a img[id!='add_avatar']").length >= 4) {
 										$('#add_avatar_btn').hide();
 									}
@@ -61,11 +61,11 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 												$('#avatar_del_control').fadeIn(300,function(){
 													var btn=$(this);
 													btn.find('.sumbit').unbind('click').click(function() {
-														HN.ajax.get('http://www.mangoq.com/home/profile/del_avatar/' + id, '', 
+														HN.ajax.get('http://www.tazai.com/home/profile/del_avatar/' + id, '', 
 														function($data) {
 															o.fadeOut(function() {
 																o.remove();
-																$('#avatar_show').attr('src', 'http://avatar.mangoq.com/200/' + $data);
+																$('#avatar_show').attr('src', 'http://avatar.tazai.com/200/' + $data);
 																$('#avatar_del_btn').hide(0);
 																if ($("#avatar_small > a img[id!='add_avatar']").length < 4) {
 																	$('#add_avatar_btn').show();	
@@ -90,30 +90,35 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 											},
 											10);
 									}).unbind('click').click(function() {				
+											$('#avatar_show').remove();
 											var
 											aimg = $(this),
-											set_img=aimg.attr('src').replace('/47/', '/200/'),
-											img=new Image();
-											img.src=set_img;
+											set_img = aimg.attr('src').replace('/47/', '/200/'),
+											bimg = new Image();
 											$('#avatar-loading').show();
-											img.onload=function(){
-												$('.w230-picframe-img').html($('#avatar-loading').hide());
-												$('.w230-picframe-img').append($(img));
-											};
-											if($(this).attr('rel')=='true') {$('#avatar_control').hide();return false;}
+											bimg.onload = function() {
+												$('.w230-picframe-img').html($('#avatar-loading').hide())
+												$('.w230-picframe-img').append($(bimg));
+												$(bimg).attr('id', "avatar_show");	
+											}
+											bimg.src = set_img;
+											if ($(this).attr('rel') == 'true') {
+												$('#avatar_control').hide();
+												return false;
+											}
 											$('#avatar_control').hide().fadeIn(function() {
-													var o = $(this);
-													o.find('.avatar_control_cancel').unbind('click').click(function() {
-															o.fadeOut(function(){
-																if($("#avatar_small > a img[rel='true']").length>0){
-																	$(img).attr('src', $("#avatar_small > a img[rel='true']").eq(0).attr('src').replace('/47/', '/200/'));
-																}else{
-																	$(img).attr('src', $("#avatar_small > a img[id!='add_avatar']").eq(0).attr('src').replace('/47/', '/200/'));
-																}
-															});
-													});
+												var o = $(this);
+												o.find('.avatar_control_cancel').unbind('click').click(function() {
+													o.fadeOut(function() {
+														if ($("#avatar_small > a img[rel='true']").length > 0) {
+															$(bimg).attr('src', $("#avatar_small > a img[rel='true']").eq(0).attr('src').replace('/47/', '/200/'));	
+														} else {
+															$(bimg).attr('src', $("#avatar_small > a img[id!='add_avatar']").eq(0).attr('src').replace('/47/', '/200/'));	
+														}	
+													});	
+												});
 													o.find('.sumbit').attr('name', aimg.attr('name')).unbind('click').click(function() {
-															HN.ajax.post('http://www.mangoq.com/home/profile/main_avatar/' + $(this).attr('name'), '',
+															HN.ajax.post('http://www.tazai.com/home/profile/main_avatar/' + $(this).attr('name'), '',
 															function() {
 																	$("#avatar_small > a img[id!='add_avatar']").attr('rel','avatar');
 																	aimg.attr('rel','true');
@@ -128,8 +133,8 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 								});
 							}
 							var settings = {
-								flash_url: "http://js.mangoq.com/honey/swf/avatareditor.swf",
-								post_url: "http://imgupload.mangoq.com/upload_avatar.php",
+								flash_url: "http://www.tazai.com/swfupload.swf",
+								post_url: "http://imgupload.tazai.com/upload_avatar.php",
 								flash_container: "AvatarEditor",
 								width: "545",
 								height: "550",
@@ -148,12 +153,12 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 							function change_values(key) {
 								 $('#avatar_key').val(key);
 								$('#AvatarEditor').remove();
-								$('#avatar_show').html('<img src="http://avatar.mangoq.com/200/' + key + '" />');
+								$('#avatar_show').html('<img src="http://avatar.tazai.com/200/' + key + '" />');
 								$('#isavatar').val(1);
 							}
 							var settings = {
-								flash_url: "http://js.mangoq.com/honey/swf/avatareditor.swf",
-								post_url: "http://imgupload.mangoq.com/upload_avatar.php",
+								flash_url: "http://js.tazai.com/honey/swf/avatareditor.swf",
+								post_url: "http://imgupload.tazai.com/upload_avatar.php",
 								flash_container: "AvatarEditor",
 								width: "545",
 								height: "550",
@@ -180,8 +185,8 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 						up.fileQueueError
 						return {
 							file_post_name: "Filedata",
-							flash_url: HN.config.url.js + "swf/swfupload.swf",
-							upload_url: "http://imgupload.mangoq.com/upload_avatar.php?action=upload",
+							flash_url: "http://www.tazai.com/swfupload.swf",
+							upload_url: "http://imgupload.tazai.com/upload_avatar.php?action=upload",
 							post_params: {
 								'channel': 'avatar',
 								'token': token
@@ -285,7 +290,7 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 						up = upload,
 						div = $('#' + $file.id);
 						if (div.length > 0)
-						 div.css({background: 'url(http://css.mangoq.com/ui/mangoq/2010v1/images/bg/load_over.png) -480px 50% no-repeat'});
+						 div.css({background: 'url(http://css.tazai.com/ui/mangoq/2010v1/images/bg/load_over.png) -480px 50% no-repeat'});
 					},
 					uploadProgress: function($file, $bytesLoaded, $totalBytes) {
 						var progressLen = 400,

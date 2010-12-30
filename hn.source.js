@@ -11,7 +11,7 @@ HN = function($win, undefined) {
     mods = [],
     jsLoaded = {},
     cssLoaded = {},
-    jsurl = 'http://js.mangoq.com/honey/' ,
+    jsurl = 'http://js.tazai.com/honey/' ,
     isDev = this.isDev = 0;
 
     return {

@@ -8,10 +8,10 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings)
     settings = {
         id: 'hn-comment',
         sid: 0,
-        url: 'http://www.mangoq.com/photo/comment/',
+        url: BASEURL +'photo/comment/',
         project: 'photo',
         theme: 'beta',
-        loading: 'http://css.mangoq.com/ui/mangoq/2010v1/images/ico/loading.gif'
+        loading: CSSURL +'ui/mangoq/2010v1/images/ico/loading.gif'
     },
     page = 1,
     currentSID = 0;

@@ -1,6 +1,6 @@
 // 弹出登陆
 window.HN && window.jQuery && ( HN.login = function(){
-	//HN.loadCSS('http://css.mangoq.com/ui/mangoq/2010v1/css/reg.css');
+	//HN.loadCSS('http://css.tazai.com/ui/mangoq/2010v1/css/reg.css');
 	return {
 		dialogLoginForm:function($type){
 			HN.debug('DialogLoginForm is init');  
@@ -9,12 +9,12 @@ window.HN && window.jQuery && ( HN.login = function(){
 				'<div class="login-frame">',
 				  '<div class="login-divtitle">',
 					'<div class="l">注册用户登录</div>',
-					'<div class="r"><img class="hn-dialog-close" style="cursor:pointer; padding:5px;" border="0" src="http://css.mangoq.com/ui/mangoq/2010v1/images/ico/action_del_default.gif"></div>',
+					'<div class="r"><img class="hn-dialog-close" style="cursor:pointer; padding:5px;" border="0" src="http://css.tazai.com/ui/mangoq/2010v1/images/ico/action_del_default.gif"></div>',
 				  '</div>',
 				  '<div class="c e-7"></div>',
 				  '<div class="c line-dfdfd2"></div>',
 				  '<div class="c e-10"></div>',
-				  '<form id="dialogLoginForm" method="post" action="http://www.mangoq.com/home/user/login">', //form it here
+				  '<form id="dialogLoginForm" method="post" action="http://www.tazai.com/home/user/login">', //form it here
 				  '<div class="c login-form">',
 					'<dl>',
 					  '<dt>邮箱地址：</dt>',
@@ -41,9 +41,9 @@ window.HN && window.jQuery && ( HN.login = function(){
 				  '</div>',
 				  '<div class="login-form-button">',
 					'<div class="l">',
-					  '<input type="image" src="http://css.mangoq.com/ui/mangoq/2010v1/images/button/login.jpg" name="">',
+					  '<input type="image" src="http://css.tazai.com/ui/mangoq/2010v1/images/button/login.jpg" name="">',
 				   '</div>',
-					'<div class="l"><a href="http://www.mangoq.com/home/user/find_passwd">忘记密码？</a></div>',
+					'<div class="l"><a href="http://www.tazai.com/home/user/find_passwd">忘记密码？</a></div>',
 				  '</div>',
 				  '</form>',
 				'</div>'
@@ -67,7 +67,7 @@ window.HN && window.jQuery && ( HN.login = function(){
 				
 				$('#dialogLoginForm').submit(function(){
 					if($('#dialogLoginForm').xForm({errBoxClass:'err',inputErrClass:'iw',delayTime:2000})){
-						HN.ajax.post('http://www.mangoq.com/home/user/ajax_login',{username:$('#username').val(),password:$('#password').val(),remember:$('#remember').val()},function($data){
+						HN.ajax.post('http://www.tazai.com/home/user/ajax_login',{username:$('#username').val(),password:$('#password').val(),remember:$('#remember').val()},function($data){
 							HN.dialog.close();
 							if(!login_uid){login_uid=+$data.msg;}
 						},function(){
@@ -81,7 +81,7 @@ window.HN && window.jQuery && ( HN.login = function(){
 		
 		isLogin:function($true,$false){
 			HN.go('ajax',function(){
-				HN.ajax.get('http://js.mangoq.com/honey/demos/getlogin.php','',function($data){
+				HN.ajax.get('http://js.tazai.com/honey/demos/getlogin.php','',function($data){
 					if($data.msg){
 						$true.call();
 					} else {

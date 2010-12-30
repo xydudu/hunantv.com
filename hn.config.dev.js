@@ -7,9 +7,9 @@
 
 HN.config = {
     url: {
-		www:'http://www.mangoq.com/',
-        js: 'http://js.mangoq.com/honey/',
-		css:'http://css.mangoq.com/'
+		www:'http://www.tazai.com/',
+        js: 'http://js.tazai.com/honey/',
+		css:'http://css.tazai.com/'
     },
     /*
      *  存放文件，每个人添加文件后，请到此处“备案”。。。
@@ -148,19 +148,19 @@ HN.config = {
         ],
 		
 		'upload': [
-            'extend/upload.source.js',
+            'extend/upload.min.js',
             '729748',
             '11/21/2010'
         ],
 		
 		'tinput': [
-            'mod/tInput.source.js',
+            'mod/tInput.min.js',
             '729748',
             '11/21/2010'
         ],
 		
 		'avatar': [
-            'extend/avatar.source.js',
+            'extend/avatar.min.js',
             '729748',
             '12/03/2010'
         ],

@@ -135,6 +135,7 @@ window.HN && window.jQuery && (HN.ajax = function() {
             var fail = $fail || function($msg) {
                 HN.debug($msg); 
                 //handle error
+
             };
             t = setTimeout(function() {
                 fail('请求超时！');    

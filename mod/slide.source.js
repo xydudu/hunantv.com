@@ -18,7 +18,9 @@
 * 
 * */
 
-window.HN && window.jQuery && (HN.slide = function($slideId) {
+//window.HN && window.jQuery && (
+
+HN.slide = function($slideId) {
      
     var options = {
         autoPlay: false,
@@ -181,4 +183,5 @@ window.HN && window.jQuery && (HN.slide = function($slideId) {
         goTo: goTo
     };
     
-});
+};
+//);

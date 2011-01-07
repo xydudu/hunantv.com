@@ -7,7 +7,7 @@ AvatarEditor.movieCount = 0;
 AvatarEditor.prototype.initAvatarEditor = function (settings) {
     try {
         this.settings = settings;
-        this.movieName = "AvatarEditor_" + AvatarEditor.movieCount++;
+        this.movieName = "AvatarEditor_" + (AvatarEditor.movieCount++);
         this.movieElement = null;
         AvatarEditor.instances[this.movieName] = this;
         this.initSettings();
@@ -44,12 +44,12 @@ AvatarEditor.prototype.initCameraMode = function () {
 
 AvatarEditor.prototype.upload = function () {
     alert('回调JS的“上传”函数');
-}
+};
 
 AvatarEditor.prototype.cancel = function () {
     alert('回调JS的“取消”函数');
     document.getElementById(this.settings.flash_container).innerHTML = '';
-}
+};
 
 AvatarEditor.prototype.loadFlash = function () {
     document.getElementById(this.settings.flash_container).innerHTML = this.getFlashHTML();

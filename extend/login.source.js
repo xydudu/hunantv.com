@@ -1,6 +1,13 @@
 // 弹出登陆
-window.HN && window.jQuery && ( HN.login = function(){
+// 问题：
+// * 如果没必要，就不要用return一个对象来定义一个方法。
+// * 域名请用全局变量
+// * 获取的DOM用变量缓存起来，如 $('#dialogLoginForm') 出现了多次
+// * 一行不要写太长，应该分行写就分行写，便于查看
+//window.HN && window.jQuery && ( 
+;HN.login = function() {
 	//HN.loadCSS('http://css.tazai.com/ui/mangoq/2010v1/css/reg.css');
+    var loc = window.location;
 	return {
 		dialogLoginForm:function($type){
 			HN.debug('DialogLoginForm is init');  
@@ -36,6 +43,7 @@ window.HN && window.jQuery && ( HN.login = function(){
 				  '<div class="login-form-checkbox">',
 					'<div class="l">',
 					  '<input type="checkbox" value="" name="remember" id="remember">',
+					  '<input type="hidden" value="" name="ref" id="ref">',
 					'</div>',
 					'<div class="l">在此电脑上记住我</div>',
 				  '</div>',
@@ -58,18 +66,21 @@ window.HN && window.jQuery && ( HN.login = function(){
 				'width': 378
 			});
 			HN.dialog.reSize(354,240);
-			
+			$('#ref').val(loc);
+			var dialogform=$('#dialogLoginForm');
 			//加点点效果
 			$('#hn-dialog').hide().fadeIn(200);
-			$('#dialogLoginForm').vForm({errBoxClass:'err',inputErrClass:'iw',delayTime:2000},function(){});
+			//绑定表单检测
+			dialogform.vForm({errBoxClass:'err',inputErrClass:'iw',delayTime:2000},function(){});
 			
-			if($type){
-				
-				$('#dialogLoginForm').submit(function(){
-					if($('#dialogLoginForm').xForm({errBoxClass:'err',inputErrClass:'iw',delayTime:2000})){
-						HN.ajax.post('http://www.tazai.com/home/user/ajax_login',{username:$('#username').val(),password:$('#password').val(),remember:$('#remember').val()},function($data){
+			if($type){				
+				dialogform.submit(function(){
+					if(dialogform.xForm({errBoxClass:'err',inputErrClass:'iw',delayTime:2000})){
+						var data={username:$('#username').val(),password:$('#password').val(),remember:$('#remember').val()};
+						HN.ajax.post('http://www.tazai.com/home/user/ajax_login',data,function($data){
 							HN.dialog.close();
 							if(!login_uid){login_uid=+$data.msg;}
+                            window.location = loc;
 						},function(){
 							alert('登陆失败,请检查用户名和密码!');
 						});
@@ -77,7 +88,7 @@ window.HN && window.jQuery && ( HN.login = function(){
 					return false;
 				});
 			}
-		},
+		}/*,
 		
 		isLogin:function($true,$false){
 			HN.go('ajax',function(){
@@ -89,6 +100,7 @@ window.HN && window.jQuery && ( HN.login = function(){
 					}
 				});
 			});
-		}
-	}
-});
+		}*/
+    };
+};
+//);

@@ -6,8 +6,8 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 			HN.debug('Dialog Avatar is init');  			
 			HN.ajax.get('http://www.tazai.com/home/profile/get_token',{},function($data){ //http://js.tazai.com/honey/demos/get_token.php
 				var token=$data,
-				 html = ['<div class="f-e" style="padding-left:0px;">', '<div class="e-title">', '<div class="l" style="height:20px; line-height:20px;">上传头像</div>', '<div class="r"><a href="javascript:" id="cam_avatar">使用网络摄像头拍照</a></div>', '</div>', '<div class="c-line" style="clear:both"></div>', '<div id="swf_btn" style="heigth:40px; margin-top:8px;"><span id="spanButtonPlaceholder"></span></div>', '<div class="e-10"></div>', '<div id="avatar_list"><span>(提示：请选择jpg、gif格式，且文件不能大于2M)</span></div></div>', '</div>'].join(''),
-				html2 = ['<div class="f-e" style="padding:5px 0 0 0px;">', '<div class="e-title" style="height:20px;line-height:20px;">', '<div class="l"><span id="spanButtonPlaceholder"></span></div>', '<div class="r"><a href="javascript:" id="cam_avatar">使用网络摄像头拍照</a></div>', '</div>', '<div class="c-line"></div>', '<div id="swf_btn" style="heigth:40px; margin-top:8px;"></div>', '<div id="avatar_list"><div style="padding-top:12px; margin-left:72px; color:">(提示：请选择jpg、gif格式，且文件不能大于2M)</div><div style="margin:40px auto 0 190px;"><a style="cursor:pointer; color:#728F16" class="hn-dialog-close">取消</a></div></div></div>', '<div id="AvatarEditor"></div>', '</div>', ].join('');
+				 html = ['<div class="f-e" style="padding-left:0px;">', '<div class="e-title">', '<div class="l" style="height:20px; line-height:20px;">上传头像</div>', '<div class="r"><a href="javascript:" id="cam_avatar">使用网络摄像头拍照</a></div>', '</div>', '<div class="c-line" style="clear:both"></div>', '<div id="swf_btn" style="heigth:40px; margin-top:8px;"><span id="spanButtonPlaceholder"></span></div>', '<div class="e-10"></div>', '<div id="avatar_list"><span style=" color:#685E55;">(提示：请选择jpg、gif格式，且文件不能大于2M)</span></div></div>', '</div>'].join(''),
+				html2 = ['<div class="f-e" style="padding:5px 0 0 0px;">', '<div class="e-title" style="height:20px;line-height:20px;">', '<div class="l"><span id="spanButtonPlaceholder"></span></div>', '<div class="r"><a href="javascript:" id="cam_avatar">使用网络摄像头拍照</a></div>', '</div>', '<div class="c-line"></div>', '<div id="swf_btn" style="heigth:40px; margin-top:8px;"></div>', '<div id="avatar_list"><div style="padding-top:12px; margin-left:72px; color:#685E55;">(提示：请选择jpg、gif格式，且文件不能大于2M)</div><div style="margin:40px auto 0 190px;"><a style="cursor:pointer; color:#728F16" class="hn-dialog-close">取消</a></div></div></div>', '<div id="AvatarEditor"></div>', '</div>', ].join('');
 				//<img style="cursor:pointer;" class="hn-dialog-close" src="http://css.tazai.com/ui/mangoq/2010v1/images/button/avatar_cancel.jpg"/>
 				if (utype == 'dialog') {
 					HN.dialog.open({
@@ -56,12 +56,13 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 											});
 											//删除头像
 											$('#avatar_del_btn').unbind('click').click(function() {
+												var vo=$(this).attr('name');
 												var id = $(this).attr('name').split('/')[0];
 												$('#avatar_control').hide();
 												$('#avatar_del_control').fadeIn(300,function(){
 													var btn=$(this);
 													btn.find('.sumbit').unbind('click').click(function() {
-														HN.ajax.get('http://www.tazai.com/home/profile/del_avatar/' + id, '', 
+														HN.ajax.get('http://www.tazai.com/home/profile/del_avatar/' + vo, '', 
 														function($data) {
 															o.fadeOut(function() {
 																o.remove();
@@ -80,7 +81,7 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 													
 												});	
 											});	
-										})	
+                                        });	
 									},
 									function() {
 											t=setTimeout(function() {
@@ -97,10 +98,10 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 											bimg = new Image();
 											$('#avatar-loading').show();
 											bimg.onload = function() {
-												$('.w230-picframe-img').html($('#avatar-loading').hide())
+                                                $('.w230-picframe-img').html($('#avatar-loading').hide());
 												$('.w230-picframe-img').append($(bimg));
 												$(bimg).attr('id', "avatar_show");	
-											}
+                                            };
 											bimg.src = set_img;
 											if ($(this).attr('rel') == 'true') {
 												$('#avatar_control').hide();
@@ -133,7 +134,7 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 								});
 							}
 							var settings = {
-								flash_url: "http://www.tazai.com/swfupload.swf",
+								flash_url: "http://js.tazai.com/honey/swf/avatareditor.swf",
 								post_url: "http://imgupload.tazai.com/upload_avatar.php",
 								flash_container: "AvatarEditor",
 								width: "545",
@@ -182,7 +183,7 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 					utype: utype,
 					options: function() {
 						var up = window['upload'] = upload;
-						up.fileQueueError
+                        up.fileQueueError;
 						return {
 							file_post_name: "Filedata",
 							flash_url: "http://www.tazai.com/swfupload.swf",
@@ -192,7 +193,7 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 								'token': token
 							},
 							file_size_limit: "2 MB",
-							file_types: "*.jpg;*.jpeg;*.gif",
+							file_types: "*.jpg;*.jpeg;*.gif;*.png",
 							file_types_description: "jpg,gif",
 							file_upload_limit: 20,
 							file_queue_limit: 0,
@@ -327,5 +328,5 @@ window.HN && window.jQuery && ( HN.avatar = function(){
 					HN.login().dialogLoginForm();
 			});		
 		}
-	}
+    };
 });

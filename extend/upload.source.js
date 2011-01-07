@@ -1,10 +1,12 @@
 // 弹出登陆
-window.HN && window.jQuery && ( HN.upload = function(){
+//window.HN && window.jQuery && ( 
+;HN.upload = function(){
 	return {
 		dialogUpload:function($uid,$tip,$album,$callback){
 			HN.debug('DialogUploadForm is init');
 			var data={uid:$uid,action:"upload"};
 			HN.ajax.post('http://www.tazai.com/photo/album/list',data,function($data){
+			//HN.ajax.post('http://js.tazai.com/honey/demos/get_album_list.php',data,function($data){
 				var album_arr=$data['data'],
 				token=$data['token'];
 				if(!token){
@@ -28,35 +30,34 @@ window.HN && window.jQuery && ( HN.upload = function(){
 						'<div class="fp-y-c3" id="title_state">删除</div>',
 						'<div class="fp-y-c2">大小</div>',
 					  '</div>',
-					  '<div class="fp-y-lists" id="upload-file-list" style="height:75px; ">',
-					  '<div class="l fp-whitebox-w270" style="padding:10px;">提示：请选择jpg/gif格式，单张照片不能大于5M，按Ctrl或Shift键可最多批量上传20张照片！</div>',
+					  '<div class="fp-y-lists" id="upload-file-list" style="height:75px;">',
+					  '<div class="l fp-whitebox-w270" style="padding:10px; color:#685E55; float:right;" ><div style="float:left;">提示：</div><div>请选择jpg/gif格式，单张照片不能大于5M，按Ctrl或Shift键可最多批量上传20张照片！</div></div>',
 					  '</div>',
 					  '<div style="clear:both"></div>',
 					  '<div class="fp-y-buttom" style="margin-top:-70px">',
 						'<div class="fp-y-buttom-l" style="display:none"><img src="http://css.tazai.com/ui/mangoq/2010v1/images/ico/action_del_default.gif"></div>',
 						'<div class="l" style="display:none"><a id="clear_all_text" href="javascript:">清空列表</a> <span id="upload-file-total"></span></div>',
-						'<div class="fp-y-buttom-r"><span id="spanButtonPlaceholder"></span></div>',
+						'<div class="fp-y-buttom-r" style="float:left; padding:10px 6px 0 10px;"><span id="spanButtonPlaceholder"></span></div>',
 					  '</div>',
 					'</div>',
 	
-					'<div class="e-20" style="height:12px;"></div>',
-					'<div class="c fp-selcts" id="photo_album_list_box">',
-					  '<div class="l fp-fontbasic">上传至相册：</div>',
+					'<div class="c e-20" style="height:12px;"></div>',
+					'<div class="c fp-selcts" id="photo_album_list_box" style="margin-bottom:8px;">',
+					  '<div class="l fp-fontbasic" style="padding-top:3px;">上传至相册：</div>',
 					  '<div class="l fp-selectbox">',
 						'<select id="photo_album_list">',
 						'</select>',
 					  '</div>',
 					  '<div class="r fp-selects-new">',
-						'<input name="" id="album_add_btn" type="image" src="http://css.tazai.com/ui/mangoq/2010v1/images/button/album_add.jpg" />',
+						'<a id="album_add_btn" href="javascript:">新建相册</a>',
 					  '</div>',
 					  '<div class="fp-selcts-child">',
 						'<div>',
 						  '<div class="l">相册名称：</div>',
 						  '<div class="r"><span>(最多20个字符)</span></div>',
-						'</div>',
-						'<div class="c fp-selcts-input">',
+						'<span class="c fp-selcts-input">',
 						  '<input type="text" name="album_name" id="photo_album_creat_name" value="" />',
-						'</div>',
+						'</span>',
 						'<div>',
 						  '<div class="l">',
 							'<img id="photo_album_creat" style="cursor:pointer;" src="http://css.tazai.com/ui/mangoq/2010v1/images/button/album_save.gif" />',
@@ -66,9 +67,9 @@ window.HN && window.jQuery && ( HN.upload = function(){
 					  '</div>',
 					'</div>',
 					'<div class="c"></div>',
-					'<div class="c fp-save" id="save-button-box">',
+					'<div class="c fp-save" id="save-button-box" style="margin-top:8px;">',
 					  '<div class="fp-save-button">',
-						'<input name="" type="image" id="upload_start_btn" src="http://css.tazai.com/ui/mangoq/2010v1/images/button/photo_upload.jpg" />',
+						'<input name="" type="image" id="upload_start_btn" src="http://css.tazai.com/ui/mangoq/2010v1/images/button/photo_upload_a.jpg" />',
 					  '</div>',
 					  '<div class="fp-save-more"><a href="javascript:" class="hn-dialog-close">取消</a></div>',
 					'</div>',
@@ -149,7 +150,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 									'token': token
 								},
 								file_size_limit: "5 MB",
-								file_types: "*.jpg;*.jpeg;*.png;*.gif",
+								file_types: "*.jpg;*.jpeg;*.gif;*.png",
 								file_types_description: "All Image Files",
 								file_upload_limit: 20,
 								file_queue_limit: 0,
@@ -254,7 +255,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 								$('.fp-y-buttom div').show();
 								$('.fp-yellowbox .fp-y-title').show();
 								$('.fp-yellowbox').css('height','245px');
-								$('.fp-y-buttom-r').css('padding-top','5px');
+								$('.fp-y-buttom-r').css({"paddingTop":'5px',"float":'right'});
 								$('#upload-file-list').html('');
 								up.changeHtml=true;
 							}
@@ -277,7 +278,7 @@ window.HN && window.jQuery && ( HN.upload = function(){
 							}
 					
 							$('#clear_all_text').bind('click', cancelAll);
-							$('#upload_start_btn').bind('click', startUp);
+							$('#upload_start_btn').attr('src','http://css.tazai.com/ui/mangoq/2010v1/images/button/photo_upload.jpg').bind('click', startUp);
 							up.fileIds.push($file.id);
 							up.updateTotal($file.size);
 					
@@ -575,5 +576,6 @@ window.HN && window.jQuery && ( HN.upload = function(){
 			});
 						
 		}
-	}
-});
+    };
+};
+//);

@@ -2,7 +2,8 @@
 //comment for everywhere
 //need jquery, ajax
 
-window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings) {
+//window.HN && window.jQuery && HN.ajax && (
+HN.comment = function($uid, $settings) {
         
     var 
     settings = {
@@ -88,7 +89,12 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings)
                 HN.debug('回复内容不能为空');
                 rinput.shakeElem(); 
                 return false;
-            }
+            }else if(HN.trim(cv).length>=140){
+				rinput.val(cv.substring(0,128));
+				alert('超出140个字符的长度限制，系统已默认截取!');
+				rinput.shakeElem();
+				return false;
+			}
             
             HN.ajax.post(settings.url+ 'reply', {photo_id: settings.sid, comment_id: cid, content: cv}, function($data) {
                 var ritem = HN.tmpl(replytmplbox.html(), $data);
@@ -234,7 +240,12 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings)
             //内容为空的处理
             contentbox.shakeElem(); 
             return false;
-        }
+        }else if(HN.trim(content).length>140){
+			contentbox.val(content.substring(0,140));
+			alert('超出140个字符的长度限制!');
+			contentbox.shakeElem();
+			return false;
+		}
         
         loadingbox.show();
         HN.ajax.post(settings.url +'create', data, function($data) {
@@ -255,6 +266,7 @@ window.HN && window.jQuery && HN.ajax && (HN.comment = function($uid, $settings)
         
     }
     
-});
+};
+//);
 
 

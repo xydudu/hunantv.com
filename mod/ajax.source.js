@@ -14,7 +14,9 @@
  * cross domain ajax
  * */ 
 
-window.HN && window.jQuery && (HN.ajax = function() {
+//window.HN && window.jQuery && (
+
+HN.ajax = function() {
      
     HN.debug('HN.ajax is init');    
     
@@ -27,11 +29,11 @@ window.HN && window.jQuery && (HN.ajax = function() {
     t;
 
     //tested in Opera 10
-    if ($.browser.opera) {
-        isrc = "javascript:''";                   //this only works if opera's js debugger is active
-        isrc = "http://localhost/wnt/blank.html"; //this only works the first time after a refresh
-        isrc = "javascript:<html></html>;".replace(/</g, "&lt;"); //this works
-    }
+    //if ($.browser.opera) {
+    //    isrc = "javascript:''";                   //this only works if opera's js debugger is active
+    //    isrc = "http://localhost/wnt/blank.html"; //this only works the first time after a refresh
+    //    isrc = "javascript:<html></html>;".replace(/</g, "&lt;"); //this works
+    //}
 
     function parseParams(url) {
         var result = [];
@@ -88,8 +90,8 @@ window.HN && window.jQuery && (HN.ajax = function() {
                 if ($iframe.data('back')) {
                     var response = $.parseJSON($iframe[0].contentWindow.name);
                     if ($.isFunction($ok)) {
-                        clearTimeout(t);
-                        t = null;
+                        //clearTimeout(t);
+                        //t = null;
                         var 
                         callback = +response.err? $fail: $ok;
                         callback(response.data);           
@@ -111,19 +113,20 @@ window.HN && window.jQuery && (HN.ajax = function() {
             type: $type,
             url: $url,
             data: $data,
+            cache: false,
             dataType: dataType,
             success: function($msg){
-                clearTimeout(t);
-                t = null;
+                //clearTimeout(t);
+                //t = null;
                 HN.debug($msg);
                 callback = +$msg.err? $fail: $ok;
                 callback($msg.msg || $msg.data);
                 
             },
             error: function($a, $b, $c) {
-                clearTimeout(t);
+                //clearTimeout(t);
                 t = null;
-                $fail($b)
+                $fail($b);
             }
         });
     }
@@ -137,11 +140,11 @@ window.HN && window.jQuery && (HN.ajax = function() {
                 //handle error
 
             };
-            t = setTimeout(function() {
-                fail('请求超时！');    
-                clearTimeout(t);
-                t = null;
-            }, times);
+            //t = setTimeout(function() {
+            //    fail('请求超时！');    
+            //    clearTimeout(t);
+            //    t = null;
+            //}, times);
             a($url, 'POST', $data, $ok, fail);
         },
         
@@ -151,11 +154,11 @@ window.HN && window.jQuery && (HN.ajax = function() {
                 HN.debug($msg); 
                 //handle error
             };
-            t = setTimeout(function() {
-                fail('请求超时！');    
-                clearTimeout(t);
-                t = null;
-            }, times);
+            //t = setTimeout(function() {
+            //    fail('请求超时！');    
+            //    clearTimeout(t);
+            //    t = null;
+            //}, times);
             a($url, 'GET', $data, $ok, fail);
         },
         //cross domain post
@@ -165,11 +168,11 @@ window.HN && window.jQuery && (HN.ajax = function() {
                 HN.debug($msg); 
                 //handle error
             };
-            t = setTimeout(function() {
-                fail('请求超时！');    
-                clearTimeout(t);
-                t = null;
-            }, times);
+            //t = setTimeout(function() {
+            //    fail('请求超时！');    
+            //    clearTimeout(t);
+            //    t = null;
+            //}, times);
             handle_request('POST', $url, $data || {}, $ok, fail);
         },
             
@@ -179,13 +182,14 @@ window.HN && window.jQuery && (HN.ajax = function() {
                 HN.debug($msg); 
                 //handle error
             };
-            t = setTimeout(function() {
-                fail('请求超时！');    
-                clearTimeout(t);
-                t = null;
-            }, times);
+            //t = setTimeout(function() {
+            //    fail('请求超时！');    
+            //    clearTimeout(t);
+            //    t = null;
+            //}, times);
             handle_request('GET', $url, $data || {}, $ok, fail);
         }
 
     };
-}());
+}();
+//);

@@ -1,13 +1,15 @@
+﻿
 //xydudu 9.19/2010 CTU
 //about the IM
 //need APE
+//2011 1.7 beta 1.0
 
 window.HN && window.APE && (HN.IM = (function() {
     
     APE.Config.baseUrl = HN.config.url.js +'APE_JSF';
     APE.Config.domain = 'auto';
     APE.Config.server = 'push.tazai.com:6969';   
-    APE.Config.scripts.push(HN.config.url.js +'lib/ape.core.min.js');
+    APE.Config.scripts.push(JSURL +'lib/ape.core.min.js');
     
     var 
     client = new APE.Client(),
@@ -28,7 +30,7 @@ window.HN && window.APE && (HN.IM = (function() {
             //连接登录
             if (!window.UID) {
                 HN.debug('where is the uid? baby');    
-                alert('此页没有设定UID, APE不能登录，请做此页面的人改改！');
+                displayErr('找不到用户ID');
                 ape.inDialog && closeWindow();
                 return;
             }
@@ -98,8 +100,10 @@ window.HN && window.APE && (HN.IM = (function() {
 
     //出错
     client.onRaw('ERR', function($data) {
-        HN.debug('err');        
-        HN.debug($data);        
+        HN.debug($data);
+        displayErr('APE报错！', $data.data);
+        //ape = null;
+        //alert('聊天系统登录失败，请刷新后重试！');
     });
 
     client.onRaw('MGQ_ADDCHAT', function($data) {
@@ -350,13 +354,13 @@ window.HN && window.APE && (HN.IM = (function() {
     function showFace() {
         var 
         that = $(this),
-        i = 18,
+        i = 17,
         facebox = $('#im-face-box');
         
         if (!facebox.length) {
             facebox = $('<span />').attr({id: 'im-face-box'}).css('marginRight', 10).insertBefore(that);
-            while (i>0) {
-                facebox.append('<img src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/face_'+ i +'.jpg" title="face_'+ i +'" border="0" />');
+            while (i>=0) {
+                facebox.append('<img src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/face_'+ i +'.png" title="face_'+ i +'" border="0" />');
                 i --;
             }
         } else {
@@ -531,7 +535,7 @@ window.HN && window.APE && (HN.IM = (function() {
         inbox = showUserMsgBox($cuid);
         
         $.each(msgs, function($k, $v) {
-            $v.cls = ($cuid == $v.cuid) ? 'a' : 'b';
+            $v.cls = (UID == $v.uid) ? 'a' : 'b';
             $v.msg = parseMsg(decodeURIComponent($v.msg));
             $v.who = (UID == $v.uid) ? '我' : getName($v.uid);
             inbox.append(HN.tmpl(msgtmpl, $v));
@@ -541,8 +545,7 @@ window.HN && window.APE && (HN.IM = (function() {
     }
 
     function parseMsg($str) {
-        $str=$str.replace(/\{face_([0-9]|1[0-8])\}/g, '<img onerror="this.src=\''+ CSSURL +'ui\/mangoq\/2010v1\/images\/ico\/face_2.jpg\';" src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/face_$1.jpg"/>');
-        return $str;
+        return $str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\{face_([0-9]|1[0-8])\}/g, '<img onerror="this.src=\''+ CSSURL +'ui\/mangoq\/2010v1\/images\/ico\/face_2.jpg\';" src="'+ CSSURL +'ui/mangoq/2010v1/images/ico/face_$1.png"/>');
     }
 
     function showUserMsgBox($cuid) {
@@ -580,16 +583,40 @@ window.HN && window.APE && (HN.IM = (function() {
         HN.cookie.remove('imopen', '', '/'); 
         win = null;
     } 
-
+    
     $(window).bind('beforeunload',function(){
         HN.cookie.remove('imopen', '', '/'); 
         win = null;
     });
-    
+     
+    function displayErr($des, $err) {
+        if (!isDev) return ; 
+        var ua = navigator.userAgent,
+            ecode = $err ? $err.code : '',
+            evalue = $err ? $err.value : '',
+            samuser = HN.cookie.get('samuser'),
+            samkey = HN.cookie.get('samkey'),
+            apecookie = HN.cookie.get('APE_Cookie'),
+            sessid = ape ? ape.getSessid() : '';
+
+            alert(
+                'sorry, baby! \n'+
+                'ua: '+ ua +'\n'+
+                'err_code: '+ ecode +'\n'+
+                'err_value: '+ evalue +'\n'+
+                'samuser: '+ samuser +'\n'+
+                'samkey: '+ samkey +'\n'+
+                'apecookie: '+ apecookie +'\n'+
+                'sessid: '+ sessid +'\n'+
+                $des
+            );
+        
+    }
 
     return {
         
         init: function($cuid, $fun) {
+            
             if ($('body').attr('id') != 'focused' && HN.cookie.get('imopen')) {
                 var  
                 i = 0,
@@ -619,6 +646,8 @@ window.HN && window.APE && (HN.IM = (function() {
                 } else {
                     //no avatar 
                     HN.debug('没头像');
+                    displayErr('没有头像')
+                     
                 }
                 
                 client.connected && client.loading && client.loading.close();
@@ -627,6 +656,7 @@ window.HN && window.APE && (HN.IM = (function() {
             }, function() { 
                 
                 HN.debug('取数据时出错！');
+                displayErr('取聊天列表出错！')
                 //closeWindow();
                 
             });             
@@ -674,7 +704,7 @@ window.HN && window.APE && (HN.IM = (function() {
         open: function() {
 
             if (!ape) {
-                alert('你还没登录到聊天系统中，请稍等！！！');    
+                displayErr('你还没登录到聊天系统中，请稍等！！！');    
                 return false;
             }
             var 
@@ -703,4 +733,3 @@ window.HN && window.APE && (HN.IM = (function() {
 
     };
 })());
-

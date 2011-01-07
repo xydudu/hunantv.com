@@ -1,5 +1,6 @@
 // dateSelect
-window.HN && window.jQuery && ( HN.dateSelect = function($options){
+//window.HN && window.jQuery && ( 
+;HN.dateSelect = function($options){
 	HN.debug('dateSelect is init!'); 
 
     var options = {
@@ -61,7 +62,7 @@ window.HN && window.jQuery && ( HN.dateSelect = function($options){
 	
 	//判断是否闰年
 	function IsPinYear(year){
-		return(0 == year%4 && (year%100 !=0 || year%400 == 0))
+        return(0 == year%4 && (year%100 !=0 || year%400 == 0));
 	}
 		
 	return {
@@ -73,6 +74,7 @@ window.HN && window.jQuery && ( HN.dateSelect = function($options){
 			M.find('option[value="'+$m+'"]').attr('selected','selected');
 			D.find('option[value="'+$d+'"]').attr('selected','selected');			
 		}
-	}
+    };
 	
-});
+};
+//);

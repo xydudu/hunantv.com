@@ -1,7 +1,8 @@
 //11.19/2010 xydudu
 //修改模块 
 //
-window.HN && HN.tmpl && (HN.render = function($options) {
+//window.HN && HN.tmpl && (
+HN.render = function($options) {
     
     var 
     box = $('#'+ $options.id),
@@ -56,7 +57,8 @@ window.HN && HN.tmpl && (HN.render = function($options) {
     $options.bindShow(method);
   
 
-});
+};
+//);
 
 HN.render && (HN.render.option = function($type, $default, $name, $list, $attr,  $box) {
     var 

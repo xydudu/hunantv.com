@@ -1,4 +1,6 @@
-window.HN && window.jQuery && HN.ajax && (HN.autocomplete = function($target, $url, $option) {
+//window.HN && window.jQuery && HN.ajax && (
+
+;HN.autocomplete = function($target, $url, $option) {
 
     HN.debug('autocomplete is init!'); 
 
@@ -12,11 +14,9 @@ window.HN && window.jQuery && HN.ajax && (HN.autocomplete = function($target, $u
 	liclass=options.liclass;
 
     $target.bind('keyup',(function(event) {
-        var keycode = event.keyCode, offset = '', width = '', height = '', o = $(this);
+        var keycode = event.keyCode, offset = '', o = $(this);
 
         offset == '' ? offset = $target.offset() : '';
-        width == '' ? width = $target.width() : '';
-        height == '' ? height = $target.height() : '';
 
         if (keycode == 40) {
             selected(++current);
@@ -52,8 +52,8 @@ window.HN && window.jQuery && HN.ajax && (HN.autocomplete = function($target, $u
 
         function selected($current) {
             if ($current < 0) {
-                current = 0
-            };
+                current = 0;
+            }
             if ($current >= count) {
                 current = (count - 1);
             }
@@ -64,6 +64,9 @@ window.HN && window.jQuery && HN.ajax && (HN.autocomplete = function($target, $u
         }
         //show data list
         function showlist($data) {
+			var width='',height='';
+			width == '' ? width = $target.width() : '';
+			height == '' ? height = $target.height() : '';
             var bgIframe,div,html = '';
             for (var i = 0; i < $data.length; i++) {
                 html += '<li>' + $data[i] + '</li>';
@@ -130,4 +133,5 @@ window.HN && window.jQuery && HN.ajax && (HN.autocomplete = function($target, $u
     }));
 
 
-});
+};
+//);

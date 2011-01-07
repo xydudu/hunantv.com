@@ -8,8 +8,8 @@ window.HN && window.jQuery && ( HN.face = function($o,$taget){
 			$box,
 			offset = o.offset(),
 			facehtml = '';
-			for (i = 0; i <= 18; i++) {
-				facehtml += '<a href="javascript:" title="%face_' + i + '%"><img border="0" src="http:\/\/css.tazai.com\/ui\/mangoq\/2010v1\/images\/ico\/face_' + i + '.jpg" \/><\/a> ';
+			for (i = 0; i < 18; i++) {
+				facehtml += '<a href="javascript:" title="%face_' + i + '%"><img border="0" src="http:\/\/css.tazai.com\/ui\/mangoq\/2010v1\/images\/ico\/face_' + i + '.png" \/><\/a> ';
 			}
 			if(!$('#face-show-box').length){				
 				 $('body').append($(box));
@@ -132,7 +132,7 @@ window.HN && window.jQuery && ( HN.face = function($o,$taget){
 	
 	return {
 		faceTo:function($str){
-			$str=$str.replace(/\%face_([0-9]|1[0-8])\%/g, '<img onerror="this.src=\'http:\/\/css.tazai.com\/ui\/mangoq\/2010v1\/images\/ico\/face_2.jpg\';" src="http:\/\/css.tazai.com\/ui\/mangoq\/2010v1\/images\/ico\/face_$1.jpg"\/>');
+			$str=$str.replace(/\%face_([0-9]|1[0-8])\%/g, '<img onerror="this.src=\'http:\/\/css.tazai.com\/ui\/mangoq\/2010v1\/images\/ico\/face_2.png\';" src="http:\/\/css.tazai.com\/ui\/mangoq\/2010v1\/images\/ico\/face_$1.png"\/>');
 			return $str;
 		}
 	}

@@ -4,55 +4,54 @@
 <head>
     <meta charset="utf-8">
     <title>New-loader</title>
-    <script src="http://js.tazai.com/honey/honey.source.dev.js"></script>
+    <script src="http://js.tazai.com/honey/honey.source.js"></script>
 </head>
 <body>
      <script>
         UID = 17;
- 
-        //honey.openDevMode();
-        HN.ready('cookie', function() {
+   
+        function show($msg) {
             
-            console.log('what?');
+            var p = document.createElement('p');
+            p.innerHTML = $msg;
+            document.body.appendChild(p);
         
+        }
+HN.ready('ajax', function() {
+    //if (!window.jQuery) {
+    //    show('no jquery');
+    //    setTimout(arguments.callee, 100);
+    //    return;
+    //}
+    HN.ajax.get('loadjs.php', show, show);
+    show('ajax in');
+});
+        
+        HN.go('jquery, ajax, dialog, template, render, form, autocomplete, tinput, login, swfupload, upload, avatar, area, select, dateSelect', function(){
+            show('ok ----1'); 
         });
-    
-        //      
-        //HN.go('jquery, ajax, render, cookie, dialog, form, slide', function() {
-        //    HN.debug('ok cookie');
-        //});    
-        //HN.go('jquery, ajax, swfupload, swfupload.queue, tab, comment', function() {
-        //    HN.debug('jquery?');
-        //});
-        //HN.go('jquery, ajax, template, mootools, ape.client, notice, tooltip', function() {
-        //    HN.debug('jquery 2?');
-        //});
-        //HN.go('jquery, select, area, render, autocomplete, login', function() {
-        //    HN.debug('jquery 3?');
-        //});
-        //HN.go('jquery, upload, tinput, avatar, ape.core, ajax.action, face', function() {
-        //    HN.debug('jquery 4?');
-        //});
         
+//HN.go('jquery, ajax, dialog, login, render');
+//HN.go('ajax', function() {
+//            HN.ajax.get('loadjs.php', show, show);
+//        });
+//HN.go('cookie', function() { show('cookie');});
+//HN.go('upload', function() { show('upload');});
+//HN.go('avatar', function() { show('avatar');});
+//HN.go('form', function() { show('form');});
+//HN.go('autocomplete', function() { show('autocomplete');});
+//HN.go('tinput', function() { show('tinput');});
+//HN.go('dialog', function() { show('dialog');});
+//HN.go('login', function() { show('login');});
+//HN.go('render', function() { show('render');});
+//HN.go('ajax', function() { show('ajax');});
+//HN.go('template', function() { show('template');});
+//HN.go('select', function() { show('select');});
+//HN.go('area', function() { show('area');});
+//HN.go('dateSelect', function() { show('dateSelect');});
+//HN.go('swfupload', function() { show('swfupload');});
 
-        //HN.js('http://js.tazai.com/honey/mod/cookie.min.js', 'loadjs.php', function() {
-        //    HN.debug('ok?');
-        //})
-
-
-    //HN.go('jquery, area, select,dateSelect, ajax, template, render,swfupload, upload, avatar, form, autocomplete, tinput,dialog, login', function() {
-    //    
-    //    console.log('ok???');
-    //
-    //});
-
-    //HN.go('ajax, template, cookie, notice, ape.client, IM, ajax.action');
-
-    HN.go('jquery, cookie,upload, avatar, form, autocomplete, tinput, dialog, login, render, ajax, template', function() {
-        
-        console.log('ok');
-     
-    });
++UID && HN.go('ajax, template, cookie, notice, ape.client');
      </script>
 </body>
 </html>

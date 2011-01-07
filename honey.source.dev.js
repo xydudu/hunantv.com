@@ -8,8 +8,8 @@ var BASEURL = 'http://www.tazai.com/',
     JSURL = 'http://js.tazai.com/honey/',
     COMBOURL = 'http://js.tazai.com/',
     CSSURL = 'http://css.tazai.com/',
-    VERSION = '20101230',
-    isDev = false,
+    VERSION = '20110105',
+    isDev = true,
     COMBO = true;
 (function(doc) { 
 
@@ -207,6 +207,7 @@ var BASEURL = 'http://www.tazai.com/',
 			});
             
             //for combo
+            HN.debug(script.name +'-----');
             if (COMBO && script.name.indexOf('combo') > -1) 
                 var 
                 mod,

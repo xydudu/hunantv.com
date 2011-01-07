@@ -1,5 +1,6 @@
 //need HN, jQuery 
-;window.HN && window.jQuery && (HN.tInput = function($options) {
+//;window.HN && window.jQuery && (
+;HN.tInput = function($options) {
 
 	HN.debug('HN.tInput is init'); 
 
@@ -32,11 +33,11 @@
 		html=o.html(),
 		input,
 		w=+o.width()+8;
-		if(options.width){w=options.width}
+        if(options.width){w=options.width;}
 		o.hide();
 		o.after('<input type="text" name="'+o.attr('alt')+'" style="width:'+w+'px;" value="'+html+'" />');
 		input=o.next('input').eq(0);
-		input.focus();
+		input.select();
 		input.bind('blur',(function(){
 			var 
 			v=input.val(),
@@ -54,7 +55,7 @@
 						input.remove();
 						o.html(v).show();
 						if(options.callback){
-							options.callback.call()
+                            options.callback.call();
 						}
 					},
 					function($data){
@@ -67,7 +68,7 @@
 							alert('内容不符合要求！!');
 						}
 						input.removeAttr('readonly');	
-						input.css('border','1px solid #f66')
+                        input.css('border','1px solid #f66');
 					});
 				}else{
 					input.remove();
@@ -79,5 +80,6 @@
 	
 	}
 	
-});
+};
+//);
 
